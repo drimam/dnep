@@ -1,1 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PiP Video Example</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: lightgrey;
+        }
 
+        .text-container {
+            width: 146.25px; /* Same width as video container */
+            position: fixed;
+            bottom: 240px; /* Adjusted to be above the video container */
+            left: -156px; /* Start off-screen */
+            text-align: center;
+            font-size: 18px;
+            color: black;
+            background-color: white;
+            padding: 10px;
+            border-radius: 9.75px; /* Match the video container */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: left 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 1; /* Initially visible */
+            z-index: 1000; /* Ensure it's above other content */
+        }
+
+        .text-container.hide {
+            opacity: 0; /* Hide text container */
+        }
+
+        .text-container.show {
+            left: 11px; /* Slide in to view */
+        }
+
+        .video-container {
+            width: 146.25px; /* 35% reduction from 225px */
+            height: 146.25px; /* 35% reduction from 225px */
+            position: fixed;
+            bottom: 80px; /* Adjust as needed */
+            left: -156px; /* Start off-screen */
+            transition: left 0.5s ease-in-out;
+            border-radius: 9.75px; /* Adjusted for proportional reduction */
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 999; /* Ensure it's above other content */
+        }
+
+        .video-container.show {
+            left: 20px; /* Slide in to view */
+        }
+
+        .video-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        iframe {
+            width: 100%; /* Fill the iframe within its container */
+            height: 100%; /* Fill the iframe within its container */
+            border: none;
+            border-radius: 9.75px; /* Adjusted for proportional reduction */
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #fff;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1; /* Ensure button is above the video */
+        }
+    </style>
+</head>
+<body>
+    <div class="text-container" id="textContainer">
+        How It Works
+    </div>
+    <div class="video-container" id="videoContainer">
+        <button class="close-button" id="closeButton">×</button>
+        <div class="video-wrapper">
+            <iframe id="video" src="https://www.youtube.com/embed/Zp2BzevAG3U?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const textContainer = document.getElementById('textContainer');
+                const videoContainer = document.getElementById('videoContainer');
+                textContainer.classList.add('show'); // Show text container
+                videoContainer.classList.add('show'); // Show video container
+
+                setTimeout(() => {
+                    textContainer.classList.add('hide'); // Hide text container after 5 seconds
+                }, 5000); // 5 seconds delay
+            }, 1000); // 1 second delay
+        });
+
+        document.getElementById('closeButton').addEventListener('click', () => {
+            const videoContainer = document.getElementById('videoContainer');
+            videoContainer.classList.remove('show');
+            const video = document.getElementById('video');
+            if (document.pictureInPictureElement === video) {
+                document.exitPictureInPicture();
+            }
+        });
+
+        document.getElementById('video').addEventListener('enterpictureinpicture', () => {
+            const videoContainer = document.getElementById('videoContainer');
+            videoContainer.style.display = 'none';
+        });
+
+        document.getElementById('video').addEventListener('leavepictureinpicture', () => {
+            const videoContainer = document.getElementById('videoContainer');
+            videoContainer.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
