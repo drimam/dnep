@@ -17,20 +17,21 @@
         }
 
         .text-container {
-            width: 146.25px; /* Same width as video container */
+            width: 120px; /* Adjusted width */
+            padding: 5px; /* Reduced padding */
             position: fixed;
             bottom: 240px; /* Adjusted to be above the video container */
-            left: -156px; /* Start off-screen */
+            left: -130px; /* Start off-screen */
             text-align: center;
             font-size: 18px;
             color: black;
             background-color: white;
-            padding: 10px;
             border-radius: 9.75px; /* Match the video container */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: left 0.5s ease-in-out, opacity 0.5s ease-in-out;
             opacity: 1; /* Initially visible */
             z-index: 1000; /* Ensure it's above other content */
+            line-height: 1.2; /* Adjust line-height to remove extra space */
         }
 
         .text-container::after {
@@ -51,7 +52,7 @@
         }
 
         .text-container.show {
-            left: 11px; /* Slide in to view */
+            left: 29px; /* Slide in to view */
         }
 
         .video-container {
