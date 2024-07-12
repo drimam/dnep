@@ -133,8 +133,11 @@
 
         document.getElementById('closeButton').addEventListener('click', () => {
             const videoContainer = document.getElementById('videoContainer');
-            videoContainer.classList.remove('show');
             const video = document.getElementById('video');
+
+            video.src = video.src; // Reset the video src to stop playback
+            videoContainer.classList.remove('show'); // Hide video container
+
             if (document.pictureInPictureElement === video) {
                 document.exitPictureInPicture();
             }
