@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,13 +17,13 @@
         }
 
         .video-container {
-            width: 300px;
-            height: 300px;
+            width: 225px; /* 25% reduction from 300px */
+            height: 225px; /* 25% reduction from 300px */
             position: fixed;
             bottom: 20px;
-            left: -320px; /* Start off-screen */
+            left: -240px; /* Start off-screen */
             transition: left 0.5s ease-in-out;
-            border-radius: 20px;
+            border-radius: 15px; /* Adjusted for proportional reduction */
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
@@ -41,13 +40,10 @@
         }
 
         iframe {
-            width: 150%; /* Increased zoom level */
-            height: 150%; /* Increased zoom level */
-            position: absolute;
-            top: -25%; /* Center the video vertically */
-            left: -25%; /* Center the video horizontally */
+            width: 100%;
+            height: 100%;
             border: none;
-            border-radius: 20px;
+            border-radius: 15px; /* Adjusted for proportional reduction */
         }
 
         .close-button {
