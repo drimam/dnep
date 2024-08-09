@@ -3,159 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PiP Video Example</title>
+    <title>PIP Square Box</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
-            background-color: lightgrey;
+            height: 100vh;
+            position: relative;
+            overflow: hidden; /* Prevent scrolling while dragging */
         }
 
-        .text-container {
-            width: 120px; /* Adjusted width */
-            padding: 5px; /* Reduced padding */
+        .pip-container {
             position: fixed;
-            bottom: 240px; /* Adjusted to be above the video container */
-            left: -130px; /* Start off-screen */
-            text-align: center;
-            font-size: 18px;
-            color: black;
+            bottom: 80px; /* Increased bottom margin */
+            left: 20px;
+            width: 150px;
+            height: 150px;
+            padding: 10px;
             background-color: white;
-            border-radius: 9.75px; /* Match the video container */
+            border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: left 0.5s ease-in-out, opacity 0.5s ease-in-out;
-            opacity: 1; /* Initially visible */
-            z-index: 1000; /* Ensure it's above other content */
-            line-height: 1.2; /* Adjust line-height to remove extra space */
+            transform: translateY(100%);
+            animation: slideIn 1s ease-out forwards;
+            cursor: grab; /* Change cursor to indicate draggable */
         }
 
-        .text-container::after {
-            content: "";
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 10px solid white;
-            position: absolute;
-            left: 50%;
-            bottom: -10px; /* Adjust to position the arrow below the container */
-            transform: translateX(-50%);
-        }
-
-        .text-container.hide {
-            opacity: 0; /* Hide text container */
-        }
-
-        .text-container.show {
-            left: 29px; /* Slide in to view */
-        }
-
-        .video-container {
-            width: 146.25px; /* 35% reduction from 225px */
-            height: 146.25px; /* 35% reduction from 225px */
-            position: fixed;
-            bottom: 80px; /* Adjust as needed */
-            left: -156px; /* Start off-screen */
-            transition: left 0.5s ease-in-out;
-            border-radius: 9.75px; /* Adjusted for proportional reduction */
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 999; /* Ensure it's above other content */
-        }
-
-        .video-container.show {
-            left: 20px; /* Slide in to view */
-        }
-
-        .video-wrapper {
+        .pip-container img {
             width: 100%;
             height: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-
-        iframe {
-            width: 100%; /* Fill the iframe within its container */
-            height: 100%; /* Fill the iframe within its container */
-            border: none;
-            border-radius: 9.75px; /* Adjusted for proportional reduction */
-        }
-
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #fff;
-            border: none;
-            font-size: 24px;
+            border-radius: 15px;
+            object-fit: cover;
             cursor: pointer;
-            color: #000;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background-color: #ff5c5c;
+            color: white;
+            border: none;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            z-index: 1; /* Ensure button is above the video */
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 20px;
+            text-align: center;
+            padding: 0;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="text-container" id="textContainer">
-        How It Works
-    </div>
-    <div class="video-container" id="videoContainer">
-        <button class="close-button" id="closeButton">×</button>
-        <div class="video-wrapper">
-            <iframe id="video" src="https://www.youtube.com/embed/Zp2BzevAG3U?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+
+    <div class="pip-container" id="pipContainer">
+        <button class="close-btn" onclick="closePIP()">×</button>
+        <a href="https://youtube.com/shorts/aDYHcwYAOCU?si=4rjHakG7D_XuE_tc" target="_blank" rel="noopener noreferrer">
+            <img src="https://iili.io/dlJk8du.gif" alt="PIP Image">
+        </a>
     </div>
 
     <script>
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const textContainer = document.getElementById('textContainer');
-                const videoContainer = document.getElementById('videoContainer');
-                textContainer.classList.add('show'); // Show text container
-                videoContainer.classList.add('show'); // Show video container
+        const pipContainer = document.getElementById('pipContainer');
+        let isDragging = false;
+        let offsetX, offsetY;
 
-                setTimeout(() => {
-                    textContainer.classList.add('hide'); // Hide text container after 5 seconds
-                }, 5000); // 5 seconds delay
-
-                setTimeout(() => {
-                    videoContainer.classList.remove('show'); // Hide video container after 30 seconds
-                }, 30000); // 30 seconds delay
-            }, 1000); // 1 second delay
+        pipContainer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - pipContainer.getBoundingClientRect().left;
+            offsetY = e.clientY - pipContainer.getBoundingClientRect().top;
+            pipContainer.style.cursor = 'grabbing'; // Change cursor while dragging
         });
 
-        document.getElementById('closeButton').addEventListener('click', () => {
-            const videoContainer = document.getElementById('videoContainer');
-            const video = document.getElementById('video');
-
-            video.src = video.src; // Reset the video src to stop playback
-            videoContainer.classList.remove('show'); // Hide video container
-
-            if (document.pictureInPictureElement === video) {
-                document.exitPictureInPicture();
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const x = e.clientX - offsetX;
+                const y = e.clientY - offsetY;
+                pipContainer.style.left = `${x}px`;
+                pipContainer.style.top = `${y}px`;
             }
         });
 
-        document.getElementById('video').addEventListener('enterpictureinpicture', () => {
-            const videoContainer = document.getElementById('videoContainer');
-            videoContainer.style.display = 'none';
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            pipContainer.style.cursor = 'grab'; // Reset cursor when not dragging
         });
 
-        document.getElementById('video').addEventListener('leavepictureinpicture', () => {
-            const videoContainer = document.getElementById('videoContainer');
-            videoContainer.style.display = 'block';
+        // For touch devices
+        pipContainer.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            const touch = e.touches[0];
+            offsetX = touch.clientX - pipContainer.getBoundingClientRect().left;
+            offsetY = touch.clientY - pipContainer.getBoundingClientRect().top;
+            pipContainer.style.cursor = 'grabbing'; // Change cursor while dragging
         });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                const touch = e.touches[0];
+                const x = touch.clientX - offsetX;
+                const y = touch.clientY - offsetY;
+                pipContainer.style.left = `${x}px`;
+                pipContainer.style.top = `${y}px`;
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            isDragging = false;
+            pipContainer.style.cursor = 'grab'; // Reset cursor when not dragging
+        });
+
+        function closePIP() {
+            pipContainer.style.transform = 'translateX(-200%)'; // Slide out to the left
+            setTimeout(() => {
+                pipContainer.style.display = 'none';
+            }, 1000); // Hide the element after the animation completes
+        }
+
+        // Auto close the PIP container after 30 seconds
+        setTimeout(closePIP, 30000);
     </script>
+
 </body>
 </html>
