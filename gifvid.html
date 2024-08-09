@@ -24,9 +24,18 @@
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transform: translateY(100%);
-            animation: slideIn 1s ease-out forwards;
             cursor: grab; /* Change cursor to indicate draggable */
             overflow: hidden; /* Hide any overflow */
+            transition: transform 1s ease-out, opacity 1s ease-out;
+            opacity: 0; /* Initially hidden */
+        }
+
+        .visible {
+            opacity: 1; /* Make visible */
+        }
+
+        .slide-in {
+            transform: translateY(0);
         }
 
         .pip-container img {
@@ -53,15 +62,6 @@
             line-height: 14px;
             text-align: center;
             padding: 0;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(100%);
-            }
-            to {
-                transform: translateY(0);
-            }
         }
     </style>
 </head>
@@ -130,6 +130,11 @@
                 pipContainer.style.display = 'none';
             }, 1000); // Hide the element after the animation completes
         }
+
+        // Delay the visibility and slide-in animation by 3 seconds
+        setTimeout(() => {
+            pipContainer.classList.add('visible', 'slide-in');
+        }, 3000);
 
         // Auto close the PIP container after 30 seconds
         setTimeout(closePIP, 30000);
