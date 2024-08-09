@@ -18,15 +18,15 @@
             position: fixed;
             bottom: 80px; /* Increased bottom margin */
             left: 20px;
-            width: 105px; /* Reduced width by 30% */
-            height: 105px; /* Reduced height by 30% */
-            padding: 7px; /* Reduced padding by 30% */
+            width: 150px;
+            height: 150px;
             background-color: white;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transform: translateY(100%);
             animation: slideIn 1s ease-out forwards;
             cursor: grab; /* Change cursor to indicate draggable */
+            overflow: hidden; /* Hide any overflow */
         }
 
         .pip-container img {
@@ -34,22 +34,23 @@
             height: 100%;
             border-radius: 15px;
             object-fit: cover;
-            cursor: pointer;
+            margin: 0; /* Remove default margin */
+            display: block; /* Remove default inline spacing */
         }
 
         .close-btn {
             position: absolute;
             top: 5px;
             right: 5px;
-            width: 15px; /* Adjusted button size */
-            height: 15px; /* Adjusted button size */
+            width: 20px;
+            height: 20px;
             background-color: #ff5c5c;
             color: white;
             border: none;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 12px; /* Adjusted font size */
-            line-height: 15px; /* Adjusted line height */
+            font-size: 16px;
+            line-height: 20px;
             text-align: center;
             padding: 0;
         }
@@ -69,7 +70,7 @@
     <div class="pip-container" id="pipContainer">
         <button class="close-btn" onclick="closePIP()">×</button>
         <a href="https://youtube.com/shorts/aDYHcwYAOCU?si=4rjHakG7D_XuE_tc" target="_blank" rel="noopener noreferrer">
-            <img src="https://iili.io/dlJk8du.gif" alt="PIP Image">
+            <img src="https://iili.io/dl3MSBn.gif" alt="PIP Image">
         </a>
     </div>
 
