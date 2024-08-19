@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notice Board</title>
+<style>
+  .notice-board {
+    background: rgba(255, 253, 208, 0.35); /* Increased cream color by 10% */
+    border: 2px solid transparent; /* Make the border color transparent */
+    border-image: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); /* Gradient border color */
+    border-image-slice: 1; /* Ensure the gradient covers the border */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 0px; /* Set border radius to 0px */
+    padding: 20px;
+    width: fit-content;
+    margin: 50px auto 0; /* Added top margin of 50px */
+    font-family: Arial, sans-serif;
+    text-align: center; /* Center align the text */
+    position: relative; /* Needed for absolute positioning of the button */
+  }
+
+  .notice-content {
+    color: #000000;
+    font-weight: Bold; /* Bold text */
+    font-size: 0.72em; /* Increased font size by an additional 15% */
+  }
+  
+  .Btn {
+    width: 200px;
+    height: 40px;
+    border: none;
+    border-radius: 15px; /* Different border radius for the button */
+    background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.8em;
+    color: rgb(121, 103, 3);
+    font-weight: 600;
+    cursor: pointer;
+    position: absolute;
+    bottom: -20px; /* Adjust based on your padding */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    transition: background-position 3s, box-shadow 0.3s;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.144);
+    background-size: 200% 200%;
+  }
+
+  .logoIcon {
+    border-radius: 30px; /* Match the border radius of the button */
+  }
+
+  .logoIcon path {
+    fill: rgb(121, 103, 3);
+  }
+
+  .Btn:hover {
+    background-position: right;
+    animation: gradient 5s ease infinite;
+  }
+
+  .lottie-container {
+    position: absolute;
+    top: -40px; /* Adjust this value based on your layout */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75px; /* Reduced width to 25% of 300px */
+    height: 75px; /* Reduced height to 25% of 300px */
+    z-index: 1; /* Ensure it is above other content but below the button */
+  }
+</style>
+</head>
+<body>
+
+<div class="notice-board">
+  <div class="lottie-container">
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+    <dotlottie-player src="https://lottie.host/d1147691-fb23-4455-ac17-ce180292314e/fGYhQql6Yu.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
+  </div>
+  <p class="notice-content">
+    Upgrade to Premium Plan for Full Cash on Delivery and Free Home Delivery in Nepal.<br>
+    Currently, it's 25% Advance and 75% COD.
+  </p>
+  <button class="Btn">
+    <svg viewBox="0 0 576 512" height="1em" class="logoIcon">
+      <path d="M309 106c11.4-7 19-19.7 19-34c0-22.1-17.9-40-40-40s-40 17.9-40 40c0 14.4 7.6 27 19 34L209.7 220.6c-9.1 18.2-32.7 23.4-48.6 10.7L72 160c5-6.7 8-15 8-24c0-22.1-17.9-40-40-40S0 113.9 0 136s17.9 40 40 40c.2 0 .5 0 .7 0L86.4 427.4c5.5 30.4 32 52.6 63 52.6H426.6c30.9 0 57.4-22.1 63-52.6L535.3 176c.2 0 .5 0 .7 0c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40c0 9 3 17.3 8 24l-89.1 71.3c-15.9 12.7-39.5 7.5-48.6-10.7L309 106z"></path>
+    </svg>
+    GO PREMIUM
+  </button>
+</div>
+
+</body>
+</html>
