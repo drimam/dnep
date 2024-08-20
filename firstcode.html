@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Coupon Code Web Design</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .coupon-card {
+            background: linear-gradient(135deg, #7158fe, #9d4de6);
+            color: #fff;
+            text-align: center;
+            padding: 40px 80px;
+            border-radius: 15px;
+            box-shadow: 0 10px 10px 0 rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .logo {
+            width: 80px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .coupon-card h3 {
+            font-size: 26px;
+            font-weight: bold;
+            line-height: 40px;
+        }
+
+        #mobileNumber {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #000;
+        }
+
+        .coupon-row {
+            display: flex;
+            align-items: center;
+            margin: 25px auto;
+            width: fit-content;
+        }
+
+        #cpnCode {
+            border: 1px dashed #fff;
+            padding: 8px 13px;
+            border-right: 0;
+        }
+
+        #cpnBtn {
+            border: 1px solid #fff;
+            background: #fff;
+            padding: 10px 20px;
+            color: #800000;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .popup {
+            position: fixed; /* Changed from absolute to fixed */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.1); /* Initial scaling */
+            visibility: hidden;
+            transition: transform 0.6s, visibility 0.2s; /* Added visibility transition */
+        }
+
+        .popup img {
+            width: 100px;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup h2 {
+            font-size: 38px;
+            font-weight: 500;
+            margin: 30px 0 10px;
+        }
+
+        .popup button {
+            width: 100%;
+            margin-top: 50px;
+            padding: 10px 0;
+            background: #6fd649;
+            color: #fff;
+            border: 0;
+            outline: none;
+            font-size: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup .btn:hover {
+            background: #e22535;
+        }
+
+        .circle1, .circle2 {
+            background: #f0fff3;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .circle1 {
+            left: -25px;
+        }
+
+        .circle2 {
+            right: -25px;
+        }
+
+        .open-popup {
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1); /* Scale to original size */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="coupon-card">
+            <img src="https://i.postimg.cc/rmcy2Y2S/footer.png" class="logo">
+            <h3>50% Discount on International Shipping Fees, For the First Order.<br>Grab Your Coupon Code Now!</h3>
+            <input type="text" id="mobileNumber" placeholder="Enter your 10-digit mobile number" maxlength="10">
+            <div class="coupon-row">
+                <span id="cpnCode">FIRST ORDER DISCOUNT</span>
+                <a href="https://wa.me/9779845925880?text=Namaste%2C%20Merowish%20%F0%9F%99%8F%F0%9F%8F%BB%0AI'm%20New%20User%20at%20your%20website%2C%20want%20to%20place%20my%20order%20can%20you%20please%20send%20me%20the%20First%20Order%20Discount%20Coupon%20Code%20!%0A%0AThank%20You!" id="cpnBtn" target="_blank">GET COUPON CODE</a>
+            </div>
+            <div class="popup" id="popup">
+                <div class="ticketContainer">
+                    <div class="ticket">
+                        <img src="https://i.postimg.cc/rmcy2Y2S/footer.png">
+                        <div class="ticketTitle">Merowish</div>
+                    </div>
+                </div>
+            </div>
+            <div class="circle1"></div>
+            <div class="circle2"></div>
+        </div>
+    </div>
+
+    <script>
+        let popup = document.getElementById("popup");
+
+        function openPopup() {
+            popup.classList.add("open-popup");
+        }
+
+        function closePopup() {
+            popup.classList.remove("open-popup");
+        }
+
+        function addCountryCode() {
+            let mobileInput = document.getElementById('mobileNumber');
+            if (mobileInput.value.length === 10 && !mobileInput.value.startsWith('+977')) {
+                mobileInput.value = "+977" + mobileInput.value;
+            } else if (mobileInput.value.length < 10 && mobileInput.value.startsWith('+977')) {
+                mobileInput.value = "+977";
+            }
+        }
+
+        document.getElementById('mobileNumber').addEventListener('input', addCountryCode);
+
+        // Show popup after 60 seconds
+        setTimeout(openPopup, 60000); // 60000 milliseconds = 60 seconds
+    </script>
+</body>
+</html>
