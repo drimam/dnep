@@ -20,28 +20,38 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 15px;
+            background: none; /* Removed background color */
         }
 
         .coupon-card {
             background: linear-gradient(135deg, #7158fe, #9d4de6);
             color: #fff;
             text-align: center;
-            padding: 40px 80px;
+            padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 10px 10px 0 rgba(0,0,0,0.15);
-            position: relative;
+            box-shadow: 0 10px 10px rgba(0,0,0,0.15);
+            position: absolute; /* Positioning the card */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            width: 400px;
+            display: none; /* Hidden initially */
+            z-index: 1000; /* Ensure it's on top */
         }
 
         .logo {
-            width: 80px;
+            width: 60px;
             border-radius: 8px;
             margin-bottom: 20px;
         }
 
         .coupon-card h3 {
-            font-size: 26px;
+            font-size: 20px;
             font-weight: bold;
-            line-height: 40px;
+            line-height: 1.4;
+            margin-bottom: 20px;
         }
 
         #mobileNumber {
@@ -56,15 +66,16 @@
 
         .coupon-row {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            margin: 25px auto;
-            width: fit-content;
+            margin-top: 20px;
         }
 
         #cpnCode {
             border: 1px dashed #fff;
-            padding: 8px 13px;
-            border-right: 0;
+            padding: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
         }
 
         #cpnBtn {
@@ -74,51 +85,14 @@
             color: #800000;
             cursor: pointer;
             text-decoration: none;
-        }
-
-        .popup {
-            position: fixed; /* Changed from absolute to fixed */
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.1); /* Initial scaling */
-            visibility: hidden;
-            transition: transform 0.6s, visibility 0.2s; /* Added visibility transition */
-        }
-
-        .popup img {
-            width: 100px;
-            border-radius: 50%;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .popup h2 {
-            font-size: 38px;
-            font-weight: 500;
-            margin: 30px 0 10px;
-        }
-
-        .popup button {
-            width: 100%;
-            margin-top: 50px;
-            padding: 10px 0;
-            background: #6fd649;
-            color: #fff;
-            border: 0;
-            outline: none;
-            font-size: 18px;
-            border-radius: 4px;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .popup .btn:hover {
-            background: #e22535;
+            border-radius: 5px;
+            font-size: 16px;
         }
 
         .circle1, .circle2 {
-            background: #f0fff3;
-            width: 50px;
-            height: 50px;
+            background: #fff;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             position: absolute;
             top: 50%;
@@ -126,66 +100,88 @@
         }
 
         .circle1 {
-            left: -25px;
+            left: -15px;
         }
 
         .circle2 {
-            right: -25px;
+            right: -15px;
         }
 
-        .open-popup {
-            visibility: visible;
-            transform: translate(-50%, -50%) scale(1); /* Scale to original size */
+        /* Background overlay for popup */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none; /* Hidden initially */
+            z-index: 999; /* Ensure it's below the popup */
+        }
+
+        /* Close button style */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            color: #800000;
+            border: none;
+            border-radius: 50%;
+            font-size: 16px;
+            line-height: 20px;
+            text-align: center;
+            cursor: pointer;
+            z-index: 1100; /* Ensure it's above the popup */
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="coupon-card">
-            <img src="https://i.postimg.cc/rmcy2Y2S/footer.png" class="logo">
-            <h3>50% Discount on International Shipping Fees, For the First Order.<br>Grab Your Coupon Code Now!</h3>
-            <input type="text" id="mobileNumber" placeholder="Enter your 10-digit mobile number" maxlength="10">
-            <div class="coupon-row">
-                <span id="cpnCode">FIRST ORDER DISCOUNT</span>
-                <a href="https://wa.me/9779845925880?text=Namaste%2C%20Merowish%20%F0%9F%99%8F%F0%9F%8F%BB%0AI'm%20New%20User%20at%20your%20website%2C%20want%20to%20place%20my%20order%20can%20you%20please%20send%20me%20the%20First%20Order%20Discount%20Coupon%20Code%20!%0A%0AThank%20You!" id="cpnBtn" target="_blank">GET COUPON CODE</a>
-            </div>
-            <div class="popup" id="popup">
-                <div class="ticketContainer">
-                    <div class="ticket">
-                        <img src="https://i.postimg.cc/rmcy2Y2S/footer.png">
-                        <div class="ticketTitle">Merowish</div>
-                    </div>
-                </div>
-            </div>
-            <div class="circle1"></div>
-            <div class="circle2"></div>
+    <div class="overlay" id="overlay"></div>
+    <div class="coupon-card" id="couponCard">
+        <button class="close-btn" id="closePopup">×</button>
+        <img src="https://i.postimg.cc/rmcy2Y2S/footer.png" class="logo">
+        <h3>50% Discount on International Shipping Fees, For the First Order.<br>Grab Your Coupon Code Now!</h3>
+        <input type="text" id="mobileNumber" placeholder="Enter your 10-digit mobile number" maxlength="13" pattern="\d*">
+        <div class="coupon-row">
+            <span id="cpnCode">FIRST ORDER DISCOUNT</span>
+            <a href="https://wa.me/9779845925880?text=Namaste%2C%20Merowish%20%F0%9F%99%8F%F0%9F%8F%BB%0AI'm%20New%20User%20at%20your%20website%2C%20want%20to%20place%20my%20order%20can%20you%20please%20send%20me%20the%20First%20Order%20Discount%20Coupon%20Code%20!%0A%0AThank%20You!" id="cpnBtn" target="_blank">GET COUPON CODE</a>
         </div>
+        <div class="circle1"></div>
+        <div class="circle2"></div>
     </div>
 
     <script>
-        let popup = document.getElementById("popup");
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('overlay').style.display = 'block';
+                document.getElementById('couponCard').style.display = 'block';
+            }, 60000); // 60 seconds delay
+        });
 
-        function openPopup() {
-            popup.classList.add("open-popup");
-        }
-
-        function closePopup() {
-            popup.classList.remove("open-popup");
-        }
+        document.getElementById('closePopup').addEventListener('click', function() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('couponCard').style.display = 'none';
+        });
 
         function addCountryCode() {
             let mobileInput = document.getElementById('mobileNumber');
-            if (mobileInput.value.length === 10 && !mobileInput.value.startsWith('+977')) {
-                mobileInput.value = "+977" + mobileInput.value;
-            } else if (mobileInput.value.length < 10 && mobileInput.value.startsWith('+977')) {
-                mobileInput.value = "+977";
+            let value = mobileInput.value.replace(/\D/g, ''); // Remove non-numeric characters
+
+            if (value.length > 10) {
+                value = value.slice(0, 10); // Limit to 10 digits
+            }
+
+            if (value.length === 10 && !value.startsWith('977')) {
+                mobileInput.value = "+977" + value;
+            } else {
+                mobileInput.value = value;
             }
         }
 
         document.getElementById('mobileNumber').addEventListener('input', addCountryCode);
-
-        // Show popup after 60 seconds
-        setTimeout(openPopup, 60000); // 60000 milliseconds = 60 seconds
     </script>
 </body>
 </html>
