@@ -21,7 +21,7 @@
             align-items: center;
             justify-content: center;
             padding: 15px;
-            background: none; /* Removed background color */
+            background: none; /* No background color */
         }
 
         .coupon-card {
@@ -39,6 +39,19 @@
             width: 400px;
             display: none; /* Hidden initially */
             z-index: 1000; /* Ensure it's on top */
+            opacity: 0; /* Start with transparent */
+            animation: popIn 0.5s forwards; /* Apply pop-in animation */
+        }
+
+        @keyframes popIn {
+            from {
+                transform: translate(-50%, -50%) scale(0.5); /* Start scaled down */
+                opacity: 0; /* Start with transparent */
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1); /* End at normal scale */
+                opacity: 1; /* End with opaque */
+            }
         }
 
         .logo {
@@ -101,22 +114,12 @@
 
         .circle1 {
             left: -15px;
+            clip-path: inset(0 0 0 15px); /* Clip the left half */
         }
 
         .circle2 {
             right: -15px;
-        }
-
-        /* Background overlay for popup */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none; /* Hidden initially */
-            z-index: 999; /* Ensure it's below the popup */
+            clip-path: inset(0 15px 0 0); /* Clip the right half */
         }
 
         /* Close button style */
@@ -139,7 +142,6 @@
     </style>
 </head>
 <body>
-    <div class="overlay" id="overlay"></div>
     <div class="coupon-card" id="couponCard">
         <button class="close-btn" id="closePopup">×</button>
         <img src="https://i.postimg.cc/rmcy2Y2S/footer.png" class="logo">
@@ -156,13 +158,11 @@
     <script>
         window.addEventListener('load', function() {
             setTimeout(function() {
-                document.getElementById('overlay').style.display = 'block';
                 document.getElementById('couponCard').style.display = 'block';
-            }, 60000); // 60 seconds delay
+            }, 40000); // 40 seconds delay
         });
 
         document.getElementById('closePopup').addEventListener('click', function() {
-            document.getElementById('overlay').style.display = 'none';
             document.getElementById('couponCard').style.display = 'none';
         });
 
