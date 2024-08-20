@@ -100,6 +100,7 @@
             text-decoration: none;
             border-radius: 5px;
             font-size: 16px;
+            display: none; /* Hidden initially */
         }
 
         .circle1, .circle2 {
@@ -139,6 +140,19 @@
             cursor: pointer;
             z-index: 1100; /* Ensure it's above the popup */
         }
+
+        #confirmBtn {
+            margin: 20px auto 0;
+            padding: 8px 16px; /* Reduced padding */
+            font-size: 12.8px; /* Reduced font size */
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+        }
+
     </style>
 </head>
 <body>
@@ -147,6 +161,7 @@
         <img src="https://i.postimg.cc/rmcy2Y2S/footer.png" class="logo">
         <h3>50% Discount on International Shipping Fees, For the First Order.<br>Grab Your Coupon Code Now!</h3>
         <input type="text" id="mobileNumber" placeholder="Enter your 10-digit mobile number" maxlength="13" pattern="\d*">
+        <button id="confirmBtn" style="display:none;">Yes, My Number is Correct</button>
         <div class="coupon-row">
             <span id="cpnCode">FIRST ORDER DISCOUNT</span>
             <a href="https://wa.me/9779845925880?text=Namaste%2C%20Merowish%20%F0%9F%99%8F%F0%9F%8F%BB%0AI'm%20New%20User%20at%20your%20website%2C%20want%20to%20place%20my%20order%20can%20you%20please%20send%20me%20the%20First%20Order%20Discount%20Coupon%20Code%20!%0A%0AThank%20You!" id="cpnBtn" target="_blank">GET COUPON CODE</a>
@@ -176,12 +191,18 @@
 
             if (value.length === 10 && !value.startsWith('977')) {
                 mobileInput.value = "+977" + value;
+                document.getElementById('confirmBtn').style.display = 'block'; // Show confirm button
             } else {
                 mobileInput.value = value;
+                document.getElementById('confirmBtn').style.display = 'none'; // Hide confirm button
             }
         }
 
         document.getElementById('mobileNumber').addEventListener('input', addCountryCode);
+        document.getElementById('confirmBtn').addEventListener('click', function() {
+            // Show the GET COUPON CODE button after confirming the number
+            document.getElementById('cpnBtn').style.display = 'block';
+        });
     </script>
 </body>
 </html>
