@@ -27,14 +27,25 @@
         .small-text {
             font-size: 0.5rem; /* Half the default font size */
         }
+
+        /* Custom text sizes reduced by 20% */
+        .custom-text-lg {
+            font-size: 0.9rem; /* 20% reduction from 1.125rem (18px) */
+        }
+
+        .custom-text-xl {
+            font-size: 1rem; /* 20% reduction from 1.25rem (20px) */
+        }
     </style>
 </head>
 
 <body class="gradient-bg min-h-screen text-gray-800">
     <!-- Hero Section -->
-    <section class="text-center py-20">
+    <section class="text-center py-5">
         <h1 class="text-3xl md:text-5xl font-bold text-white mb-4">Collaborate with Us and Unlock Exclusive Perks</h1>
-        <p class="text-lg md:text-xl text-white mb-8">Join our brand community and enjoy a 5% platform fee waiver for one year, 30 days of free home delivery for each video post featuring our brand, and monthly rewards for additional content.</p>
+        <p class="custom-text-lg md:custom-text-xl text-white mb-8" style="padding-left: 1rem; padding-right: 1rem;">
+            Join our brand community and enjoy a 5% platform fee waiver for one year, 30 days of free home delivery for each video post featuring our brand, and monthly rewards for additional content.
+        </p>
         <div class="space-x-4">
             <a href="#" class="bg-pink-500 text-white px-6 py-3 rounded-full hover:bg-pink-600">Join Now</a>
             <a href="#" class="bg-white text-pink-500 px-6 py-3 rounded-full hover:bg-gray-100">Learn More</a>
