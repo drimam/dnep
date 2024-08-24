@@ -51,6 +51,16 @@
             white-space: nowrap; /* Prevent text from wrapping */
             overflow: hidden; /* Hide any overflow */
             text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+            opacity: 0; /* Initially hidden */
+            animation: fadeIn 1s ease-in-out 0.5s forwards; /* Apply the fade-in animation with delay */
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
     </style>
 </head>
