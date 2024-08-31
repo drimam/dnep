@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merowish Page Loader (25% Increased Size)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .animate-spin {
+            animation: spin 2s linear infinite;
+        }
+        .animate-heartbeat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="relative w-10 h-10">
+        <!-- Logo with heartbeat effect -->
+        <div class="absolute inset-2 z-10 animate-heartbeat">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20240831_235435_0000-ByZP1IAZABBLrdG0Qw5MaqMCpeiYqj.png" alt="Logo" class="w-full h-full object-contain">
+        </div>
+        
+        <!-- Half circle loader with padding -->
+        <div class="absolute inset-0 w-full h-full">
+            <svg class="animate-spin" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="40" fill="none" stroke="#FF1493" stroke-width="3" stroke-linecap="round" stroke-dasharray="72 200"/>
+            </svg>
+        </div>
+    </div>
+</body>
+</html>
