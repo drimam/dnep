@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Logo Loader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spinner {
+            width: 86px;
+            height: 86px;
+            border: 3px solid transparent;
+            border-top: 3px solid #000000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        .logo-container {
+            width: 54px;
+            height: 54px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo {
+            width: 31.68px;
+            height: 31.68px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="relative">
+        <div class="spinner"></div>
+        <div class="logo-container absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/refreshsitespinner-1DuuNx1puyGqBhvyeKj8vSrlXdX9SU.gif" alt="Logo" class="logo">
+        </div>
+    </div>
+</body>
+</html>
