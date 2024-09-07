@@ -7,11 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
         .cursive { font-family: 'Dancing Script', cursive; }
         .gradient-bg {
             background: linear-gradient(to bottom, ivory, orange);
-            padding: 0.25rem; /* Adjusted padding for better mobile view */
+            padding: 0.5rem; 
             position: relative;
             overflow: hidden;
         }
@@ -24,59 +24,58 @@
             border: none;
             z-index: 10;
         }
-        .text-lg { font-size: 1.125rem; } /* Base text size */
-        .text-3xl { font-size: 2.5rem; } /* Base text size for large headings */
+        .text-lg { font-size: 1.125rem; }
+        .text-3xl { font-size: 2.5rem; }
         .button-base {
-            transition: all 0.3s ease;
+            transition: all 0.1s ease;
         }
         .button-base:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        /* Responsive Styles */
         img {
-            width: 100%; /* Ensure images scale with their container */
-            height: auto; /* Maintain aspect ratio */
+            width: 100%; 
+            height: auto;
         }
         h2 {
-            font-size: 1.5rem; /* Default font size for large headings */
-            line-height: 1.2; /* Adjust line-height for better readability */
+            font-size: 1rem; 
+            line-height: 1.2;
+            margin: 0;
+            padding: 0;
         }
-
-        /* Responsive text and button sizes */
         @media (max-width: 640px) {
-            .text-3xl { font-size: 1.875rem; } /* Adjusted for smaller screens */
-            .text-lg { font-size: 1rem; } /* Adjusted for smaller screens */
+            .text-3xl { font-size: 1.2rem; }
+            .text-lg { font-size: 0.6rem; }
             h2 {
-                font-size: 1.75rem; /* Further adjusted for medium screens */
-                text-align: center; /* Center text on smaller screens */
+                font-size: 1rem;
+                text-align: center;
             }
             .button-base {
-                padding: 0.75rem 1.5rem; /* Adjust button padding for smaller screens */
-                font-size: 0.875rem; /* Adjust button text size */
+                padding: 0.75rem 1.5rem;
+                font-size: 0.875rem;
             }
             .confetti {
-                height: 50%; /* Adjust height for mobile */
+                height: 50%;
             }
             .card-img {
-                max-height: 6rem; /* Set a maximum height for images */
+                max-height: 6rem;
             }
         }
 
         @media (max-width: 480px) {
-            .text-3xl { font-size: 1.5rem; } /* Further adjust text size for very small screens */
-            .text-lg { font-size: 0.875rem; } /* Further adjust text size for very small screens */
+            .text-3xl { font-size: 1.5rem; }
+            .text-lg { font-size: 0.875rem; }
             h2 {
-                font-size: 1.25rem; /* Further adjust heading size for very small screens */
-                text-align: center; /* Ensure text is centered */
-                line-height: 1.3; /* Adjust line-height for very small screens */
+                font-size: 1.25rem;
+                text-align: center;
+                line-height: 1.3;
             }
             .button-base {
-                padding: 0.5rem 1rem; /* Further adjust button padding */
-                font-size: 0.75rem; /* Further adjust button text size */
+                padding: 0.5rem 1rem;
+                font-size: 0.75rem;
             }
             .card-img {
-                max-height: 4rem; /* Further adjust maximum height for very small screens */
+                max-height: 4rem;
             }
         }
     </style>
@@ -85,32 +84,32 @@
     <div class="gradient-bg rounded-lg mb-4">
         <iframe class="confetti" src="https://lottie.host/embed/1c183a57-5e0f-4af9-9a44-dc18ec83aead/rOCc3ogZg0.json"></iframe>
         <div class="flex flex-row items-center justify-between mb-4 relative z-20">
-            <img src="https://picsum.photos/200?random=1" alt="Ganesh" class="w-1/3 object-cover rounded-lg mb-4">
-            <h2 class="text-3xl font-bold text-orange-700 text-center cursive mb-4 w-1/2">Wishing You<br>Happy Father's Day</h2>
-            <img src="https://picsum.photos/200?random=2" alt="Modak" class="w-1/3 object-cover rounded-lg mb-4">
+            <img src="https://picsum.photos/200?random=1" alt="Father" class="w-1/3 object-cover rounded-lg">
+            <h2 class="text-2xl font-bold text-orange-700 text-center cursive w-1/2">Wishing You<br>Happy Father's Day</h2>
+            <img src="https://picsum.photos/200?random=2" alt="Day" class="w-1/3 object-cover rounded-lg">
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 relative z-20">
             <div class="bg-orange-200 p-4 rounded-lg text-center">
-                <img src="https://picsum.photos/200?random=3" alt="Ganesha Idols" class="card-img object-cover rounded mb-2">
+                <img src="https://picsum.photos/200?random=3" alt="Clothings" class="card-img object-cover rounded mb-2">
                 <button class="bg-white text-orange-800 text-xs font-semibold py-2 px-4 rounded button-base">Clothings</button>
             </div>
             <div class="bg-orange-200 p-4 rounded-lg text-center">
-                <img src="https://picsum.photos/200?random=4" alt="Festive Decor" class="card-img object-cover rounded mb-2">
+                <img src="https://picsum.photos/200?random=4" alt="shoes" class="card-img object-cover rounded mb-2">
                 <button class="bg-white text-orange-800 text-xs font-semibold py-2 px-4 rounded button-base">Shoes</button>
             </div>
             <div class="bg-orange-200 p-4 rounded-lg text-center">
-                <img src="https://picsum.photos/200?random=5" alt="Ethnic Wear" class="card-img object-cover rounded mb-2">
+                <img src="https://picsum.photos/200?random=5" alt="Accessories" class="card-img object-cover rounded mb-2">
                 <button class="bg-white text-orange-800 text-xs font-semibold py-2 px-4 rounded button-base">Accessories</button>
             </div>
             <div class="bg-orange-200 p-4 rounded-lg text-center">
-                <img src="https://picsum.photos/200?random=6" alt="Laddoos & More" class="card-img object-cover rounded mb-2">
+                <img src="https://picsum.photos/200?random=6" alt="Gifts" class="card-img object-cover rounded mb-2">
                 <button class="bg-white text-orange-800 text-xs font-semibold py-2 px-4 rounded button-base">Gifts</button>
             </div>
         </div>
     </div>
 
     <button class="w-full bg-orange-500 text-white py-3 rounded-lg font-bold text-lg hover:bg-orange-600 transition-colors duration-300 button-base">
-        Explore Festive Offers
+        Explore More Offers
     </button>
 </body>
 </html>
