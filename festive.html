@@ -11,9 +11,9 @@
         .cursive { font-family: 'Dancing Script', cursive; }
         .gradient-bg {
             background: linear-gradient(to bottom, ivory, orange);
-            padding: 2rem;
-            position: relative; /* Make this container a relative positioned container */
-            overflow: hidden; /* Ensure no content spills out */
+            padding: 1rem; 
+            position: relative;
+            overflow: hidden;
         }
         .confetti {
             position: absolute;
@@ -22,10 +22,10 @@
             width: 100%;
             height: 100%;
             border: none;
-            z-index: 10; /* Place above the gradient background but below other content */
+            z-index: 10;
         }
-        .text-lg { font-size: 1.25rem; } 
-        .text-3xl { font-size: 6.75rem; }
+        .text-lg { font-size: 1.125rem; } 
+        .text-3xl { font-size: 4.5rem; } 
         .button-base {
             transition: all 0.3s ease;
         }
@@ -33,31 +33,44 @@
             transform: scale(1.05);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+       
+        @media (max-width: 640px) {
+            .text-3xl { font-size: 2.5rem; }
+            .confetti {
+                height: 50%; 
+            }
+            .grid-cols-4 {
+                grid-template-columns: repeat(2, 1fr); 
+            }
+            .card-img {
+                height: 6rem;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100 p-4">
     <div class="gradient-bg rounded-lg mb-4">
         <iframe class="confetti" src="https://lottie.host/embed/1c183a57-5e0f-4af9-9a44-dc18ec83aead/rOCc3ogZg0.json"></iframe>
-        <div class="flex justify-between items-center mb-4 relative z-20"> <!-- Adjust z-index to ensure content is above confetti -->
-            <img src="https://picsum.photos/200?random=1" alt="Ganesh" class="w-1/4 h-auto rounded-lg">
-            <h2 class="text-3xl font-bold text-orange-700 text-center cursive">Wishing You<br>Happy Ganesh Chaturthi</h2>
-            <img src="https://picsum.photos/200?random=2" alt="Modak" class="w-1/4 h-auto rounded-lg">
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-4 relative z-20">
+            <img src="https://picsum.photos/200?random=1" alt="Ganesh" class="w-full sm:w-1/4 h-auto rounded-lg mb-4 sm:mb-0">
+            <h2 class="text-3xl font-bold text-orange-700 text-center cursive mb-4 sm:mb-0">Wishing You<br>Happy Ganesh Chaturthi</h2>
+            <img src="https://picsum.photos/200?random=2" alt="Modak" class="w-full sm:w-1/4 h-auto rounded-lg mb-4 sm:mb-0">
         </div>
-        <div class="grid grid-cols-4 gap-4 relative z-20"> <!-- Adjust z-index to ensure content is above confetti -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 relative z-20">
             <div class="bg-orange-200 p-4 rounded-lg text-center">
-                <img src="https://picsum.photos/200?random=3" alt="Ganesha Idols" class="w-full h-24 object-cover rounded mb-2">
+                <img src="https://picsum.photos/200?random=3" alt="Ganesha Idols" class="w-full card-img object-cover rounded mb-2">
                 <button class="bg-white text-orange-800 text-xs font-semibold py-2 px-4 rounded button-base">Ganesha Idols</button>
             </div>
             <div class="bg-orange-200 p-4 rounded-lg text-center">
-                <img src="https://picsum.photos/200?random=4" alt="Festive Decor" class="w-full h-24 object-cover rounded mb-2">
+                <img src="https://picsum.photos/200?random=4" alt="Festive Decor" class="w-full card-img object-cover rounded mb-2">
                 <button class="bg-white text-orange-800 text-xs font-semibold py-2 px-4 rounded button-base">Festive Decor</button>
             </div>
             <div class="bg-orange-200 p-4 rounded-lg text-center">
-                <img src="https://picsum.photos/200?random=5" alt="Ethnic Wear" class="w-full h-24 object-cover rounded mb-2">
+                <img src="https://picsum.photos/200?random=5" alt="Ethnic Wear" class="w-full card-img object-cover rounded mb-2">
                 <button class="bg-white text-orange-800 text-xs font-semibold py-2 px-4 rounded button-base">Ethnic Wear</button>
             </div>
             <div class="bg-orange-200 p-4 rounded-lg text-center">
-                <img src="https://picsum.photos/200?random=6" alt="Laddoos & More" class="w-full h-24 object-cover rounded mb-2">
+                <img src="https://picsum.photos/200?random=6" alt="Laddoos & More" class="w-full card-img object-cover rounded mb-2">
                 <button class="bg-white text-orange-800 text-xs font-semibold py-2 px-4 rounded button-base">Laddoos & More</button>
             </div>
         </div>
