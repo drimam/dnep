@@ -5,6 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Bar with Animated Placeholder</title>
     <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center; /* Center all content in the body */
+        }
+
+        .heading-wrapper {
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 12px; /* Adjusted gap to 30% of the original space */
+        }
+
+        .heading {
+            display: inline-block;
+            font-size: 1.25em;
+            font-weight: bold;
+            color: #B51B75; /* Updated color */
+            background: linear-gradient(90deg, #B51B75, #F0F0F0, #B51B75); /* Gradient for shine */
+            background-size: 200% 100%;
+            color: transparent; /* Hide the actual text color */
+            -webkit-background-clip: text; /* Clip gradient to text */
+            background-clip: text; /* Clip gradient to text */
+            animation: shine 15s infinite; /* Shine animation */
+        }
+
+        @keyframes shine {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
         .InputContainer {
             height: 40px;
             display: flex;
@@ -16,6 +51,7 @@
             cursor: pointer;
             padding-left: 15px;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.075);
+            margin: 0 auto;
         }
 
         .input {
@@ -72,6 +108,9 @@
     </style>
 </head>
 <body>
+    <div class="heading-wrapper">
+        <h4 class="heading">Get Access Over 100+ Crores Products</h4>
+    </div>
     <div class="InputContainer">
         <input type="text" name="text" class="input" id="input" placeholder="Search">
         <label for="input" class="labelforsearch">
