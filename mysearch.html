@@ -6,38 +6,30 @@
     <title>Search Bar with Animated Placeholder</title>
     <style>
         body {
-            margin: 0;
+            margin: 0.1em;
             font-family: Arial, sans-serif;
-            text-align: center; /* Center all content in the body */
-        }
-
-        .heading-wrapper {
-            display: inline-block;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 12px; /* Adjusted gap to 30% of the original space */
-        }
-
-        .heading {
-            display: inline-block;
-            font-size: 1.25em;
-            font-weight: bold;
-            color: #B51B75; /* Updated color */
-            background: linear-gradient(90deg, #B51B75, #F0F0F0, #B51B75); /* Gradient for shine */
-            background-size: 200% 100%;
-            color: transparent; /* Hide the actual text color */
-            -webkit-background-clip: text; /* Clip gradient to text */
-            background-clip: text; /* Clip gradient to text */
-            animation: shine 15s infinite; /* Shine animation */
         }
 
         @keyframes shine {
             0% {
-                background-position: -200% 0;
+                background-position: -200%;
             }
             100% {
-                background-position: 200% 0;
+                background-position: 200%;
             }
+        }
+
+        .heading {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 1em;
+            font-weight: bold;
+            color: #850F8D;
+            background: linear-gradient(70deg, #850F8D, #fff, #850F8D);
+            background-size: 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
         }
 
         .InputContainer {
@@ -108,9 +100,7 @@
     </style>
 </head>
 <body>
-    <div class="heading-wrapper">
-        <h4 class="heading">Get Access Over 100+ Crores Products</h4>
-    </div>
+    <h4 class="heading">Get Access Over 100+ Crores Products 🛒</h4>
     <div class="InputContainer">
         <input type="text" name="text" class="input" id="input" placeholder="Search">
         <label for="input" class="labelforsearch">
