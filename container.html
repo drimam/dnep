@@ -13,6 +13,10 @@
                         'custom': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
                         'custom-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
                     },
+                    fontSize: {
+                        'xxs': '0.5rem', // Small font size
+                        'xs': '0.625rem', // Slightly larger than xxs
+                    },
                 }
             }
         }
@@ -22,27 +26,28 @@
             background: linear-gradient(to right, #8B5CF6, #EC4899);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            /* Removed the white-space, overflow, and text-overflow properties */
         }
     </style>
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto py-8">
         <div class="flex flex-wrap justify-center items-center gap-4">
-            <div class="w-32 h-32 bg-white rounded-lg shadow-custom p-2 flex flex-col items-center justify-between transition-all duration-300 ease-in-out hover:shadow-custom-hover hover:-translate-y-1">
-                <iframe class="w-20 h-20" src="" frameborder="0"></iframe>
-                <p class="text-center text-xs font-semibold leading-tight gradient-text">100% Money Back Guarantee</p>
-            </div>
-            <div class="w-32 h-32 bg-white rounded-lg shadow-custom p-2 flex flex-col items-center justify-between transition-all duration-300 ease-in-out hover:shadow-custom-hover hover:-translate-y-1">
-                <iframe class="w-20 h-20" src="" frameborder="0"></iframe>
-                <p class="text-center text-xs font-semibold leading-tight gradient-text">Lowest Overall Order Cost</p>
-            </div>
-            <div class="w-32 h-32 bg-white rounded-lg shadow-custom p-2 flex flex-col items-center justify-between transition-all duration-300 ease-in-out hover:shadow-custom-hover hover:-translate-y-1">
-                <iframe class="w-20 h-20" src="" frameborder="0"></iframe>
+            <div class="w-20 h-20 bg-white rounded-lg shadow-custom p-2 flex flex-col items-center justify-between transition-all duration-300 ease-in-out hover:shadow-custom-hover hover:-translate-y-1">
+                <iframe class="w-8 h-8" src="" frameborder="0"></iframe>
                 <p class="text-center text-xs font-semibold leading-tight gradient-text">All Over Nepal Shipping</p>
             </div>
-            <div class="w-32 h-32 bg-white rounded-lg shadow-custom p-2 flex flex-col items-center justify-between transition-all duration-300 ease-in-out hover:shadow-custom-hover hover:-translate-y-1">
-                <iframe class="w-20 h-20" src="" frameborder="0"></iframe>
-                <p class="text-center text-xs font-semibold leading-tight gradient-text">300M+ International Products Access</p>
+            <div class="w-20 h-20 bg-white rounded-lg shadow-custom p-2 flex flex-col items-center justify-between transition-all duration-300 ease-in-out hover:shadow-custom-hover hover:-translate-y-1">
+                <iframe class="w-8 h-8" src="" frameborder="0"></iframe>
+                <p class="text-center text-xs font-semibold leading-tight gradient-text">Lowest Overall Order Cost</p>
+            </div>
+            <div class="w-20 h-20 bg-white rounded-lg shadow-custom p-2 flex flex-col items-center justify-between transition-all duration-300 ease-in-out hover:shadow-custom-hover hover:-translate-y-1">
+                <iframe class="w-8 h-8" src="" frameborder="0"></iframe>
+                <p class="text-center text-xs font-semibold leading-tight gradient-text">Partial & Full Cash on Delivery</p>
+            </div>
+            <div class="w-20 h-20 bg-white rounded-lg shadow-custom p-2 flex flex-col items-center justify-between transition-all duration-300 ease-in-out hover:shadow-custom-hover hover:-translate-y-1">
+                <iframe class="w-8 h-8" src="" frameborder="0"></iframe>
+                <p class="text-center text-xs font-semibold leading-tight gradient-text">100+ Crores Products Access</p>
             </div>
         </div>
     </div>
