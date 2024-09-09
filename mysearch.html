@@ -22,10 +22,10 @@
         .heading {
             text-align: center;
             margin: 10px 0;
-            font-size: 1em;
+            font-size: 1.2em;
             font-weight: bold;
             color: #850F8D;
-            background: linear-gradient(70deg, #850F8D, #fff, #850F8D);
+            background: linear-gradient(70deg, #850F8D, #ED3EF7, #850F8D);
             background-size: 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -44,17 +44,19 @@
             padding-left: 15px;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.075);
             margin: 0 auto;
+            max-width: 600px; /* Limit the width of the container */
+            width: 100%; /* Allow the container to take the full width on mobile */
         }
 
         .input {
-            width: 520px;
+            width: 100%; /* Adjust the input width to take full available space */
             height: 100%;
             border: none;
             outline: none;
             font-size: 0.9em;
             caret-color: rgb(255, 81, 0);
-            text-align: left; /* Aligns the placeholder text to the left */
-            padding-left: 5px; /* Adds some padding to avoid text touching the border */
+            text-align: left;
+            padding-left: 5px;
         }
 
         .labelforsearch {
@@ -97,10 +99,22 @@
             background-color: rgb(255, 230, 230);
             transition-duration: .3s;
         }
+
+        /* Media query for screens wider than 600px */
+        @media (min-width: 600px) {
+            .InputContainer {
+                width: 600px; /* Set width to 600px for desktop */
+            }
+
+            .input {
+                width: calc(100% - 100px); /* Adjust input width considering icon/button space */
+            }
+        }
+
     </style>
 </head>
 <body>
-    <h4 class="heading">Get Access Over 100+ Crores Products 🛒</h4>
+    <h4 class="heading">Get Access Over 100+ Crores International Products 🛒</h4>
     <div class="InputContainer">
         <input type="text" name="text" class="input" id="input" placeholder="Search">
         <label for="input" class="labelforsearch">
@@ -128,6 +142,7 @@
             "Search for kid's clothing at Firstcry",
             "Search for clothes at Ajio",
             "Search for clothes at Zara",
+            "Search for clothes at H&M",
         ];
 
         let placeholderIndex = 0;
