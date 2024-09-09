@@ -29,6 +29,7 @@
             font-size: 1.75rem;
             margin-bottom: 0.7rem;
             line-height: 1.2;
+            white-space: nowrap; /* Prevent line breaks in desktop view */
         }
         p {
             font-size: 1.1rem;
@@ -53,12 +54,27 @@
                 background-position: -200% center;
             }
         }
+        
+        /* Mobile-specific styles */
+        @media (max-width: 767px) {
+            .container {
+                transform: scale(0.9); /* Adjust scale for better visibility on mobile */
+                width: 90%; /* Adjust width for mobile */
+            }
+            h3 {
+                font-size: 1.2rem; /* Smaller font size for mobile */
+                white-space: normal; /* Allow line breaks on mobile */
+            }
+            .mobile-break {
+                display: none; /* Hide the <br> tag on mobile */
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="content">
-            <h3>Merowish Delivering Cross-Border Orders <br>Since <span class="highlight">2020</span></h3>
+            <h3>Merowish Delivering Cross-Border Orders Since <span class="highlight">2020</span></h3>
             <p>A Successful International Shipping <br>Platform in <span class="nepal">Nepal</span> For The Past <span class="years">4 Years</span></p>
         </div>
     </div>
