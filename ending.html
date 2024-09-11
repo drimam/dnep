@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merowish Offer Countdown</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            overflow-x: auto;
+            max-width: 600px;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        p {
+            font-size: 1.2rem;
+            color: #333;
+            margin-right: 10px;
+            font-weight: normal;
+            flex-shrink: 0;
+        }
+        .countdown {
+            display: flex;
+            align-items: center;
+        }
+        .time-block {
+            background-color: #fff1f0;
+            border-radius: 4px;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            margin: 0 2px;
+        }
+        .time {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff4d4f;
+        }
+        .label {
+            font-size: 0.8rem;
+            color: #ff4d4f;
+            text-transform: lowercase;
+            margin-left: 2px;
+        }
+        .separator {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin: 0 2px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                font-size: 0.9rem;
+                justify-content: center;
+            }
+            p {
+                font-size: 0.9rem;
+                margin-right: 5px;
+            }
+            .time-block {
+                padding: 2px 4px;
+            }
+            .time {
+                font-size: 1rem;
+            }
+            .label {
+                font-size: 0.6rem;
+            }
+            .separator {
+                font-size: 1rem;
+                margin: 0 1px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>Big Billion Days Offer Ending Soon</p>
+        <div class="countdown">
+            <div class="time-block">
+                <div id="hours" class="time">23</div>
+                <div class="label">h</div>
+            </div>
+            <div class="separator">:</div>
+            <div class="time-block">
+                <div id="minutes" class="time">27</div>
+                <div class="label">m</div>
+            </div>
+            <div class="separator">:</div>
+            <div class="time-block">
+                <div id="seconds" class="time">53</div>
+                <div class="label">s</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            const hoursElement = document.getElementById('hours');
+            const minutesElement = document.getElementById('minutes');
+            const secondsElement = document.getElementById('seconds');
+
+            let hours = parseInt(hoursElement.textContent);
+            let minutes = parseInt(minutesElement.textContent);
+            let seconds = parseInt(secondsElement.textContent);
+
+            if (hours === 0 && minutes === 0 && seconds === 0) {
+                clearInterval(timerInterval);
+                return;
+            }
+
+            seconds--;
+
+            if (seconds < 0) {
+                seconds = 59;
+                minutes--;
+
+                if (minutes < 0) {
+                    minutes = 59;
+                    hours--;
+                }
+            }
+
+            hoursElement.textContent = hours.toString().padStart(2, '0');
+            minutesElement.textContent = minutes.toString().padStart(2, '0');
+            secondsElement.textContent = seconds.toString().padStart(2, '0');
+        }
+
+        const timerInterval = setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
