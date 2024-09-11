@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <!-- Google Font for Nerko One -->
+    <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
+    <style>
+      /* Shine effect applied to entire text block */
+      .shine-wrapper {
+        display: inline-block;
+        background: linear-gradient(to right, #002f6c 20%, #fff 40%, #002f6c 60%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: shine 3s infinite linear;
+      }
+
+      /* Keyframes for Shine Animation */
+      @keyframes shine {
+        0% {
+          background-position: -200% center;
+        }
+        100% {
+          background-position: 200% center;
+        }
+      }
+
+      /* WOW! text using Nerko One, increased by 20% */
+      .wow-text {
+        font-family: 'Nerko One', cursive;
+        font-size: 1.2rem; /* Increased font size by 20% */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex items-center space-x-2 font-medium">
+      <!-- Apply shine to all text at once by wrapping it -->
+      <div class="shine-wrapper flex items-center space-x-2">
+        <!-- WOW! text with Nerko One font, 20% bigger -->
+        <div class="flex items-center border border-[#002f6c] rounded-full px-2 py-1">
+          <span class="text-xs font-bold wow-text">WOW!</span>
+        </div>
+
+        <!-- Rs.1925 text -->
+        <span class="text-xl font-semibold">Rs.1925</span>
+
+        <!-- "with top offers" text -->
+        <span>with top offers</span>
+
+        <!-- Arrow icon -->
+        <i class="fas fa-chevron-right"></i>
+      </div>
+    </div>
+  </body>
+</html>
