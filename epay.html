@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="bg-white rounded-lg shadow-md w-full max-w-md">
+        <div class="text-center p-6 bg-gray-50 rounded-t-lg">
+            <h1 class="text-xl text-gray-600 mb-2">Amount to pay</h1>
+            <p class="text-5xl font-bold">NPR 499.00</p>
+        </div>
+        
+        <div class="p-6 space-y-4">
+            <button class="payment-option w-full p-4 rounded-full bg-white border border-gray-300 flex items-center justify-between hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500">
+                <div class="flex items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/ESewa_logo.png/800px-ESewa_logo.png" alt="eSewa" class="w-12 h-12 rounded-full mr-4 object-cover">
+                    <span class="text-xl">eSewa</span>
+                </div>
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+            
+            <button class="payment-option w-full p-4 rounded-full bg-white border border-gray-300 flex items-center justify-between hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <div class="flex items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Khalti_Logo.png" alt="Khalti" class="w-12 h-12 rounded-full mr-4 object-cover">
+                    <div>
+                        <span class="text-xl">Khalti ID</span>
+                        <p class="text-sm text-gray-500">9845925880</p>
+                    </div>
+                </div>
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.payment-option').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove focus from all buttons
+                document.querySelectorAll('.payment-option').forEach(btn => {
+                    btn.classList.remove('ring-2');
+                });
+                
+                // Add focus to clicked button
+                button.classList.add('ring-2');
+                
+                // Here you would typically handle the payment method selection
+                console.log('Selected payment method:', button.querySelector('span').textContent);
+            });
+        });
+    </script>
+</body>
+</html>

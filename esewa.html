@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSewa Payment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10">
+        <div class="p-4 flex items-center">
+            <button class="mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+            </button>
+            <img src="https://esewa.com.np/common/images/esewa_logo.png" alt="eSewa" class="h-8">
+        </div>
+        
+        <div class="px-4 py-2 text-center">
+            <h2 class="text-gray-500 text-lg">Amount to pay</h2>
+            <h1 class="text-4xl font-bold mb-4">NPR <span id="amount">499.00</span></h1>
+        </div>
+        
+        <div class="bg-gray-50 p-4 rounded-lg mx-4 mb-4">
+            <div class="flex items-center mb-4">
+                <div class="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center mr-4">1</div>
+                <h3 class="text-xl font-semibold">Scan QR code to make payment</h3>
+            </div>
+            <div id="qrcode" class="flex justify-center mb-4"></div>
+            <div class="grid grid-cols-2 gap-4 text-sm">
+                <div class="text-gray-500">Merchant Name</div>
+                <div class="flex items-center">
+                    <span id="merchantName">Merowish Int'l Logistic</span>
+                    <button onclick="copyToClipboard('merchantName')" class="ml-2 text-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                            <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="text-gray-500">Phone number</div>
+                <div class="flex items-center">
+                    <span id="phoneNumber">9845925880</span>
+                    <button onclick="copyToClipboard('phoneNumber')" class="ml-2 text-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                            <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="text-gray-500">Reference</div>
+                <div class="flex items-center">
+                    <span id="reference">7</span>
+                    <button onclick="copyToClipboard('reference')" class="ml-2 text-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                            <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="px-4 pb-4">
+            <div class="flex items-center mb-4">
+                <div class="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center mr-4">2</div>
+                <h3 class="text-xl font-semibold">Did you pay?</h3>
+            </div>
+            <button class="bg-gray-800 text-white w-full py-3 rounded-lg mb-2">I have paid</button>
+            <a href="#" class="text-center block text-blue-600">Contact us before payment</a>
+        </div>
+    </div>
+
+    <script>
+        // Function to generate QR code
+        function generateQRCode(data) {
+            var qr = qrcode(0, 'M');
+            qr.addData(data);
+            qr.make();
+            document.getElementById('qrcode').innerHTML = qr.createImgTag(5);
+        }
+
+        // Function to update payment details
+        function updatePaymentDetails(amount, merchantName, phoneNumber, reference) {
+            document.getElementById('amount').textContent = amount.toFixed(2);
+            document.getElementById('merchantName').textContent = merchantName;
+            document.getElementById('phoneNumber').textContent = phoneNumber;
+            document.getElementById('reference').textContent = reference;
+
+            // Generate QR code with payment details
+            const qrData = `Amount:${amount},Merchant:${merchantName},Phone:${phoneNumber},Ref:${reference}`;
+            generateQRCode(qrData);
+        }
+
+        // Function to copy text to clipboard
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard: ' + text);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // Initial call with default values
+        updatePaymentDetails(499.00, "Merowish Int'l Logistic", "9845925880", "7");
+
+        // You can call updatePaymentDetails() with new values when needed
+        // For example: updatePaymentDetails(599.00, "New Merchant", "1234567890", "8");
+    </script>
+</body>
+</html>
