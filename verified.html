@@ -8,32 +8,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .feature-icon {
-            color: #4A90E2;
             background-color: #E6F0FF;
             padding: 12px;
             border-radius: 50%;
+            width: 60px; 
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
 <body class="flex justify-center items-center min-h-screen bg-gray-100">
-    <div class="flex items-center justify-center space-x-8">
+    <div class="flex items-center justify-center space-x-4">
         <div class="flex flex-col items-center">
-            <i class="fas fa-certificate feature-icon text-4xl mb-4"></i>
-            <span class="text-lg font-semibold">Original</span>
-            <span class="text-lg font-semibold">Product</span>
+            <img src="https://img.icons8.com/?size=100&id=IFyb9G1c6yAC&format=png&color=000000" alt="Original Product" class="feature-icon mb-2" />
+            <span class="text-sm font-semibold">Original Product</span>
         </div>
-        <div class="h-16 w-px bg-gray-300"></div>
+        <div class="h-10 w-px bg-gray-300"></div>
         <div class="flex flex-col items-center">
-            <i class="fas fa-award feature-icon text-4xl mb-4"></i>
-            <span class="text-lg font-semibold">Quality</span>
-            <span class="text-lg font-semibold">Assured</span>
+            <img src="https://img.icons8.com/?size=100&id=3KqnS78ZB6Ew&format=png&color=000000" alt="Quality Assured" class="feature-icon mb-2" />
+            <span class="text-sm font-semibold">Quality Assured</span>
         </div>
-        <div class="h-16 w-px bg-gray-300"></div>
+        <div class="h-10 w-px bg-gray-300"></div>
         <div class="flex flex-col items-center">
-            <i class="fas fa-store feature-icon text-4xl mb-4"></i>
-            <span class="text-lg font-semibold">Verified</span>
-            <span class="text-lg font-semibold">Seller</span>
+            <img src="https://img.icons8.com/?size=100&id=XrEFnp33pJYw&format=png&color=000000" alt="Verified Seller" class="feature-icon mb-2" />
+            <span class="text-sm font-semibold">Verified Seller</span>
         </div>
     </div>
+
+    <style>
+        @media (max-width: 768px) {
+            .feature-icon {
+                width: 36px; 
+                height: 36px;
+                padding: 8px;
+            }
+            .text-sm {
+                font-size: 8px;
+            }
+        }
+    </style>
 </body>
 </html>
