@@ -3,93 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merowish Delivering Cross-Border Orders</title>
+    <title>Merowish - Modern Card Design</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 80vh;
             margin: 0;
         }
-        .container {
-            transform: scale(0.7); /* Reduce size by 30% */
-        }
-        .content {
+        .card {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            color: white;
+            padding: 0.25rem;
             text-align: center;
-        }
-        h3, p {
-            background: #536493;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            max-width: 400px;
+            width: 100%;
         }
         h3 {
             font-size: 1.75rem;
-            margin-bottom: 0.7rem;
-            line-height: 1.2;
-            white-space: nowrap; /* Prevent line breaks in desktop view */
+            margin-bottom: 0.25rem;
+        }
+        h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
         }
         p {
             font-size: 1.1rem;
-            line-height: 1.5;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
         }
-        .highlight, .years, .nepal {
-            background: linear-gradient(45deg, #3498db, #e74c3c);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: shine 3s linear infinite;
-            background-size: 200% 100%;
-        }
-        .nepal, .years {
+        .highlight {
+            color: #ffd700;
             font-weight: bold;
         }
-        @keyframes shine {
-            0% {
-                background-position: 200% center;
-            }
-            100% {
-                background-position: -200% center;
-            }
-        }
-        
-        /* Mobile-specific styles */
-        @media (max-width: 767px) {
-            .container {
-                transform: scale(0.9); /* Adjust scale for better visibility on mobile */
-                width: 90%; /* Adjust width for mobile */
+        @media (max-width: 480px) {
+            .card {
+                margin: 0.25rem;
+                padding: 0.5rem;
             }
             h3 {
-                font-size: 1.2rem; /* Smaller font size for mobile */
-                white-space: normal; /* Allow line breaks on mobile */
+                font-size: 1.25rem;
             }
-            .mobile-break {
-                display: none; /* Hide the <br> tag on mobile */
+            h4 {
+                font-size: 0.75rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="content">
-            <h3>Merowish Delivering Cross-Border Orders Since <span class="highlight">2020 AD.</span></h3>
-            <p>A Successful International Shipping <br>Platform in <span class="nepal">Nepal</span> For The Past <span class="years">4 Years</span></p>
-        </div>
+    <div class="card">
+        <h3>Merowish Int'l Logistic</h3>
+        <h4>Delivering Cross-Border Orders Since <span class="highlight">2020</span></h4>
+        <p>A Successful International Shipping Platform in <span class="highlight">Nepal</span> For The Past <span id="years" class="highlight"></span></p>
     </div>
 
     <script>
-        // JavaScript to update the years dynamically
         function updateYears() {
             const startYear = 2020;
             const currentYear = new Date().getFullYear();
-            const yearsElement = document.querySelector('.years');
+            const yearsElement = document.getElementById('years');
             const years = currentYear - startYear;
             yearsElement.textContent = years + ' Years';
         }
-
-        // Call the function when the page loads
         window.onload = updateYears;
     </script>
 </body>
