@@ -12,8 +12,10 @@
             align-items: center;
             height: 80vh;
             margin: 0;
+            background-color: #f0f0f0; /* Add a background color for contrast */
         }
         .card {
+            position: relative;
             background: linear-gradient(135deg, #6e8efb, #a777e3);
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
@@ -22,6 +24,32 @@
             text-align: center;
             max-width: 400px;
             width: 100%;
+            overflow: hidden;
+        }
+        .shine {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: rotate(-30deg);
+            filter: blur(30px); /* Apply blur to the shine */
+            animation: shine 2s infinite;
+        }
+        @keyframes shine {
+            0% {
+                left: -200%;
+                opacity: 0;
+            }
+            50% {
+                left: 100%;
+                opacity: 1;
+            }
+            100% {
+                left: 200%;
+                opacity: 0;
+            }
         }
         h3 {
             font-size: 1.75rem;
@@ -56,6 +84,7 @@
 </head>
 <body>
     <div class="card">
+        <div class="shine"></div>
         <h3>Merowish Int'l Logistic</h3>
         <h4>Delivering Cross-Border Orders Since <span class="highlight">2020</span></h4>
         <p>A Successful International Shipping Platform in <span class="highlight">Nepal</span> For The Past <span id="years" class="highlight"></span></p>
