@@ -193,7 +193,7 @@ products.forEach(product => {
 
         function buyNow(productId) {
             const product = products.find(p => p.id === productId);
-            const message = encodeURIComponent(`I'm interested in buying ${product.name} for $${product.price}. Can you provide more information?`);
+            const message = encodeURIComponent(`I'm interested in buying ${product.name} for रु. ${product.price}. Can you provide more information?`);
             window.open(`https://wa.me/9779855022008?text=${message}`, '_blank');
         }
     </script>
