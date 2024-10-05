@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compact Mobile Order Cancellation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'custom-orange': '#FF9800',
+                        'custom-gray': '#F5F5F5'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100 p-2">
+    <div class="bg-white shadow-md rounded-lg max-w-[240px] w-full overflow-hidden">
+        <div class="bg-custom-orange p-2">
+            <h2 class="text-white text-xs font-semibold">Order Cancellation Validity</h2>
+        </div>
+        <div class="p-2 flex items-start justify-between">
+            <div class="flex items-start space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-custom-orange flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11l2 2 2-2m-2 2v4" />
+                </svg>
+                <div>
+                    <p class="text-gray-800 text-[10px] leading-tight">You can cancel till</p>
+                    <p class="text-custom-orange font-semibold text-[11px] mt-0.5">Oct 07, 7:00 PM</p>
+                </div>
+            </div>
+            <button class="bg-custom-orange text-white text-[10px] py-1 px-2 rounded hover:bg-orange-600 transition duration-300 ease-in-out whitespace-nowrap">
+                Cancel Order
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript can be added here if needed in the future
+    </script>
+</body>
+</html>
