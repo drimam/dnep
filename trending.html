@@ -68,7 +68,7 @@
         ];
 
         function createProductCard(product, index) {
-            const isVertical = index % 5 === 0 || index % 5 === 3;
+            const isVertical = index % 2 === 0 || index % 2 === 3;
             const card = document.createElement('div');
             card.className = `bg-white rounded-lg shadow-md overflow-hidden flex flex-col ${isVertical ? 'row-span-2' : ''} transition-transform duration-300 hover:scale-105 hover:shadow-xl`;
             card.innerHTML = `
