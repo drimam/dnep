@@ -45,7 +45,7 @@
     </style>
 </head>
 <body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto max-w-[900px] px-4 py-8">
         <h4 class="text-2xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-gradient-start to-gradient-end animate-gradient-x relative overflow-hidden whitespace-nowrap">
             <span class="inline-block">Trending Products</span>
             <span class="absolute inset-0 shine-effect animate-shine"></span>
@@ -57,14 +57,14 @@
 
     <script>
         const products = [
-            { id: 1, name: "Smart Watch", startPrice: 1999, mrp: 2499, image: "https://picsum.photos/seed/watch/400" },
-            { id: 2, name: "Wireless Earbuds", startPrice: 2999, mrp: 3499, image: "https://picsum.photos/seed/earbuds/400" },
-            { id: 3, name: "Smart Home Hub", startPrice: 4999, mrp: 5999, image: "https://picsum.photos/seed/smarthome/400" },
-            { id: 4, name: "Fitness Tracker", startPrice: 1499, mrp: 1999, image: "https://picsum.photos/seed/fitness/400" },
-            { id: 5, name: "Portable Charger", startPrice: 999, mrp: 1299, image: "https://picsum.photos/seed/charger/400" },
-            { id: 6, name: "Bluetooth Speaker", startPrice: 2499, mrp: 2999, image: "https://picsum.photos/seed/speaker/400" },
-            { id: 7, name: "Noise-Cancelling Headphones", startPrice: 5999, mrp: 7499, image: "https://picsum.photos/seed/headphones/400" },
-            { id: 8, name: "4K Action Camera", startPrice: 8999, mrp: 10999, image: "https://picsum.photos/seed/camera/400" },
+            { id: 1, name: "Smart Watch", startPrice: 1999, mrp: 2499, image: "https://picsum.photos/seed/watch/400", link: "https://dl.flipkart.com/s/nD0yG9NNNN1" },
+            { id: 2, name: "Wireless Earbuds", startPrice: 2999, mrp: 3499, image: "https://picsum.photos/seed/earbuds/400", link: "https://dl.flipkart.com/s/nD0yG9NNNN2" },
+            { id: 3, name: "Smart Home Hub", startPrice: 4999, mrp: 5999, image: "https://picsum.photos/seed/smarthome/400", link: "https://dl.flipkart.com/s/nD0yG9NNNN3" },
+            { id: 4, name: "Fitness Tracker", startPrice: 1499, mrp: 1999, image: "https://picsum.photos/seed/fitness/400", link: "https://dl.flipkart.com/s/nD0yG9NNNN4" },
+            { id: 5, name: "Portable Charger", startPrice: 999, mrp: 1299, image: "https://picsum.photos/seed/charger/400", link: "https://dl.flipkart.com/s/nD0yG9NNNN5" },
+            { id: 6, name: "Bluetooth Speaker", startPrice: 2499, mrp: 2999, image: "https://picsum.photos/seed/speaker/400", link: "https://dl.flipkart.com/s/nD0yG9NNNN6" },
+            { id: 7, name: "Noise-Cancelling Headphones", startPrice: 5999, mrp: 7499, image: "https://picsum.photos/seed/headphones/400", link: "https://dl.flipkart.com/s/nD0yG9NNNN7" },
+            { id: 8, name: "4K Action Camera", startPrice: 8999, mrp: 10999, image: "https://picsum.photos/seed/camera/400", link: "https://dl.flipkart.com/s/nD0yG9NNNN8" },
         ];
 
         function createProductCard(product, index) {
@@ -90,7 +90,7 @@
                             </p>
                         </div>
                         <p class="text-xs text-red-500 font-semibold mt-1 text-center">Offer Ending Soon: <span class="countdown-${product.id}"></span></p>
-                        <a href="/product/${product.id}" class="block w-full bg-gradient-to-r from-gradient-start to-gradient-end hover:from-gradient-end hover:to-gradient-start text-white text-center py-1.5 rounded-full text-sm transition duration-300 mt-1">
+                        <a href="${product.link}" class="block w-full bg-gradient-to-r from-gradient-start to-gradient-end hover:from-gradient-end hover:to-gradient-start text-white text-center py-1.5 rounded-full text-sm transition duration-300 mt-1">
                             View Offers
                         </a>
                     </div>
