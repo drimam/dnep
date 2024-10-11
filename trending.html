@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gradient-start': '#8B5CF6',
+                        'gradient-end': '#EC4899',
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 5s ease infinite',
+                        'shine': 'shine 2s linear infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            }
+                        },
+                        'shine': {
+                            '0%': { 'background-position': '-100% 0' },
+                            '100%': { 'background-position': '200% 0' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .shine-effect {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background-size: 200% 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h2 class="text-4xl font-bold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-gradient-start to-gradient-end animate-gradient-x relative overflow-hidden">
+            Trending Products
+            <span class="absolute inset-0 shine-effect animate-shine"></span>
+        </h2>
+        <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <!-- Products will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: "Smart Watch", startPrice: 1999, mrp: 2499, image: "https://picsum.photos/seed/watch/400" },
+            { id: 2, name: "Wireless Earbuds", startPrice: 2999, mrp: 3499, image: "https://picsum.photos/seed/earbuds/400" },
+            { id: 3, name: "Smart Home Hub", startPrice: 4999, mrp: 5999, image: "https://picsum.photos/seed/smarthome/400" },
+            { id: 4, name: "Fitness Tracker", startPrice: 1499, mrp: 1999, image: "https://picsum.photos/seed/fitness/400" },
+            { id: 5, name: "Portable Charger", startPrice: 999, mrp: 1299, image: "https://picsum.photos/seed/charger/400" },
+            { id: 6, name: "Bluetooth Speaker", startPrice: 2499, mrp: 2999, image: "https://picsum.photos/seed/speaker/400" },
+            { id: 7, name: "Noise-Cancelling Headphones", startPrice: 5999, mrp: 7499, image: "https://picsum.photos/seed/headphones/400" },
+            { id: 8, name: "4K Action Camera", startPrice: 8999, mrp: 10999, image: "https://picsum.photos/seed/camera/400" },
+        ];
+
+        function createProductCard(product, index) {
+            const isVertical = index % 5 === 0 || index % 5 === 3;
+            const card = document.createElement('div');
+            card.className = `bg-white rounded-lg shadow-md overflow-hidden flex flex-col ${isVertical ? 'row-span-2' : ''} transition-transform duration-300 hover:scale-105 hover:shadow-xl`;
+            card.innerHTML = `
+                <div class="relative overflow-hidden ${isVertical ? 'h-[280px]' : 'h-[180px]'}">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                    <div class="absolute top-2 left-2 bg-gradient-to-r from-gradient-start to-gradient-end text-white text-xs font-bold px-2 py-1 rounded-full">
+                        ${Math.round((product.mrp - product.startPrice) / product.mrp * 100)}% OFF
+                    </div>
+                </div>
+                <div class="p-2 flex-grow flex flex-col justify-between space-y-1">
+                    <h3 class="font-semibold text-gray-800 text-sm line-clamp-2">${product.name}</h3>
+                    <div>
+                        <div class="flex items-baseline justify-between">
+                            <p class="text-transparent bg-clip-text bg-gradient-to-r from-gradient-start to-gradient-end font-bold text-lg">
+                                ₹${product.startPrice}
+                            </p>
+                            <p class="text-gray-500 text-xs line-through">
+                                MRP: ₹${product.mrp}
+                            </p>
+                        </div>
+                        <a href="/product/${product.id}" class="block w-full bg-gradient-to-r from-gradient-start to-gradient-end hover:from-gradient-end hover:to-gradient-start text-white text-center py-1.5 rounded-full text-sm transition duration-300 mt-1">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function createGoogleAd(isVertical) {
+            const ad = document.createElement('div');
+            ad.className = `bg-gradient-to-r from-gradient-start to-gradient-end flex items-center justify-center rounded-lg ${isVertical ? 'row-span-2' : ''} transition-transform duration-300 hover:scale-105`;
+            ad.style.height = isVertical ? '100%' : '180px';
+            ad.innerHTML = '<span class="text-white font-semibold text-sm">Google Ad</span>';
+            return ad;
+        }
+
+        const productGrid = document.getElementById('product-grid');
+        products.forEach((product, index) => {
+            productGrid.appendChild(createProductCard(product, index));
+            if ((index + 1) % 4 === 0) {
+                productGrid.appendChild(createGoogleAd(index % 5 === 0 || index % 5 === 3));
+            }
+        });
+    </script>
+</body>
+</html>
