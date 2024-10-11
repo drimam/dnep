@@ -46,10 +46,10 @@
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
-        <h2 class="text-4xl font-bold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-gradient-start to-gradient-end animate-gradient-x relative overflow-hidden">
-            Trending Products
+        <h4 class="text-2xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-gradient-start to-gradient-end animate-gradient-x relative overflow-hidden whitespace-nowrap">
+            <span class="inline-block">Trending Products</span>
             <span class="absolute inset-0 shine-effect animate-shine"></span>
-        </h2>
+        </h4>
         <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             <!-- Products will be dynamically inserted here -->
         </div>
@@ -72,23 +72,24 @@
             const card = document.createElement('div');
             card.className = `bg-white rounded-lg shadow-md overflow-hidden flex flex-col ${isVertical ? 'row-span-2' : ''} transition-transform duration-300 hover:scale-105 hover:shadow-xl`;
             card.innerHTML = `
-                <div class="relative overflow-hidden ${isVertical ? 'h-[280px]' : 'h-[180px]'}">
+                <div class="relative overflow-hidden ${isVertical ? 'h-[280px]' : 'h-[140px]'}">
                     <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
                     <div class="absolute top-2 left-2 bg-gradient-to-r from-gradient-start to-gradient-end text-white text-xs font-bold px-2 py-1 rounded-full">
                         ${Math.round((product.mrp - product.startPrice) / product.mrp * 100)}% OFF
                     </div>
                 </div>
-                <div class="p-2 flex-grow flex flex-col justify-between space-y-1">
-                    <h3 class="font-semibold text-gray-800 text-sm line-clamp-2">${product.name}</h3>
+                <div class="p-2 flex flex-col justify-between flex-grow">
+                    <h3 class="font-semibold text-gray-800 text-sm mb-1">${product.name}</h3>
                     <div>
                         <div class="flex items-baseline justify-between">
                             <p class="text-transparent bg-clip-text bg-gradient-to-r from-gradient-start to-gradient-end font-bold text-lg">
-                                ₹${product.startPrice}
+                                रू.${product.startPrice}
                             </p>
                             <p class="text-gray-500 text-xs line-through">
-                                MRP: ₹${product.mrp}
+                                MRP: रू.${product.mrp}
                             </p>
                         </div>
+                        <p class="text-xs text-red-500 font-semibold mt-1 text-center">Offer Ending Soon: <span class="countdown-${product.id}"></span></p>
                         <a href="/product/${product.id}" class="block w-full bg-gradient-to-r from-gradient-start to-gradient-end hover:from-gradient-end hover:to-gradient-start text-white text-center py-1.5 rounded-full text-sm transition duration-300 mt-1">
                             View Details
                         </a>
@@ -98,20 +99,33 @@
             return card;
         }
 
-        function createGoogleAd(isVertical) {
-            const ad = document.createElement('div');
-            ad.className = `bg-gradient-to-r from-gradient-start to-gradient-end flex items-center justify-center rounded-lg ${isVertical ? 'row-span-2' : ''} transition-transform duration-300 hover:scale-105`;
-            ad.style.height = isVertical ? '100%' : '180px';
-            ad.innerHTML = '<span class="text-white font-semibold text-sm">Google Ad</span>';
-            return ad;
+        function startCountdown(productId) {
+            const countdownElement = document.querySelector(`.countdown-${productId}`);
+            const endTime = new Date().getTime() + Math.floor(Math.random() * 24 * 60 * 60 * 1000); // Random time within 24 hours
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const timeLeft = endTime - now;
+
+                if (timeLeft < 0) {
+                    countdownElement.textContent = "Offer ended";
+                } else {
+                    const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                    countdownElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    setTimeout(updateCountdown, 1000);
+                }
+            }
+
+            updateCountdown();
         }
 
         const productGrid = document.getElementById('product-grid');
         products.forEach((product, index) => {
             productGrid.appendChild(createProductCard(product, index));
-            if ((index + 1) % 4 === 0) {
-                productGrid.appendChild(createGoogleAd(index % 5 === 0 || index % 5 === 3));
-            }
+            startCountdown(product.id);
         });
     </script>
 </body>
