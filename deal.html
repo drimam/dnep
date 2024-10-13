@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deal of the Day</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+        .icon-pulse {
+            animation: iconPulse 1.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-3xl bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="bg-gradient-to-r from-orange-500 to-pink-500 text-white p-2 relative">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-bolt text-xl icon-pulse"></i>
+                    <span class="text-lg font-semibold">Deal of the Day</span>
+                </div>
+                <div class="text-sm">
+                    Expires in: <span id="countdown" class="font-bold"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-4 flex justify-between items-center relative">
+            <div class="absolute -left-6 top-4">
+                <div class="bg-blue-600 text-white text-center rounded-md p-1 w-20 transform -rotate-12">
+                    <div class="text-xs font-bold">-28% TODAY!</div>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <img
+                    src="https://placehold.co/150x100"
+                    alt="Hollywood Sky Loft"
+                    class="w-32 h-24 object-cover rounded-md shadow-sm"
+                >
+                <div>
+                    <h2 class="text-xl font-bold text-blue-800">Hollywood Sky Loft</h2>
+                    <div class="text-sm text-gray-600">
+                        <a href="#" class="text-blue-500 hover:underline">Hollywood, Los Angeles</a> – Subway Access
+                    </div>
+                    <div class="flex items-center mt-1 text-sm text-gray-600">
+                        <i class="fas fa-users mr-1"></i>
+                        <span>5</span>
+                        <span class="ml-2">Loft</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <div class="text-yellow-500 font-bold text-lg">Excellent 8.8</div>
+                <div class="text-sm text-gray-600 hover:underline cursor-pointer">47 reviews</div>
+                <div class="mt-1 text-sm line-through text-gray-500">रू3,125</div>
+                <div class="text-2xl font-bold text-orange-500">रू2,250</div>
+                <div class="text-xs text-gray-500">Price for 6 Nights</div>
+                <button class="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-sm font-bold py-1 px-4 rounded-full mt-2 hover:shadow-md transition-shadow duration-300">
+                    Get it!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startCountdown(duration, display) {
+            let timer = duration, hours, minutes, seconds;
+            setInterval(function () {
+                hours = parseInt(timer / 3600, 10);
+                minutes = parseInt((timer % 3600) / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = hours + ":" + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = duration; // Reset timer if needed
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            const countdownTime = 3600 * 14 + 44 * 60 + 8; // 14 hours, 44 minutes, 8 seconds
+            const display = document.querySelector('#countdown');
+            startCountdown(countdownTime, display);
+        };
+    </script>
+</body>
+</html>
