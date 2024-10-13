@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <style>
+    #modal {
+      display: none;
+    }
+    .blur-background {
+      filter: blur(4px);
+    }
+  </style>
+  <script>
+    function toggleModal() {
+      var modal = document.getElementById('modal');
+      var mainContent = document.getElementById('main-content');
+      if (modal.style.display === 'none' || modal.style.display === '') {
+        modal.style.display = 'flex';
+        mainContent.classList.add('blur-background');
+      } else {
+        modal.style.display = 'none';
+        mainContent.classList.remove('blur-background');
+      }
+    }
+  </script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="relative w-full max-w-sm">
+    <!-- Main content container -->
+    <div id="main-content" class="flex items-center justify-between bg-yellow-50 p-3 rounded-lg relative z-10 text-sm">
+      <div class="flex items-center space-x-2">
+        <!-- Icon container (cart with X) -->
+        <div class="relative">
+          <!-- Cart Icon -->
+          <i class="fas fa-shopping-cart text-yellow-500 text-base"></i>
+          <!-- X Icon - positioned on top of cart -->
+          <div class="absolute -top-1 -right-1">
+            <i class="fas fa-times text-xs text-yellow-500"></i>
+          </div>
+        </div>
+
+        <!-- Text content -->
+        <div>
+          <p class="text-sm font-semibold text-black">We Request, Please Shop Responsibly</p>
+          <p class="text-xs text-gray-500">Free cancellations within 24 hours</p>
+        </div>
+      </div>
+
+      <!-- Add space between the text and the info icon -->
+      <div class="ml-2">
+        <!-- Info icon for knowledge base -->
+        <i class="fas fa-info-circle text-black text-base cursor-pointer" onclick="toggleModal()"></i>
+      </div>
+    </div>
+
+    <!-- Modal (hidden by default) positioned in the center -->
+    <div id="modal" class="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-50">
+      <div class="bg-white p-4 rounded-lg w-4/5 max-w-sm shadow-lg">
+        <h2 class="text-lg font-semibold mb-3 text-center">Order Cancellation Rules</h2>
+        <ul class="list-disc pl-5 text-gray-700 text-left space-y-1 text-sm">
+          <li class="pl-1">Free cancellations are only available within 24 hours of placing the order.</li>
+          <li class="pl-1">After 24 hours, cancellations are not possible as this is an overseas shipment.</li>
+          <li class="pl-1">Once dispatched, the order cannot be cancelled or refunded.</li>
+          <li class="pl-1">Please review your order details carefully before confirming your purchase.</li>
+        </ul>
+        <button class="mt-4 bg-yellow-500 text-white px-3 py-1 rounded-lg w-full text-sm" onclick="toggleModal()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
