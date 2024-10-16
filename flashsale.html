@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Sale - Ending Soon</title></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'custom-pink': '#FF4D8D',
+                        'custom-blue': '#001FEF', // Updated custom blue color
+                        'custom-blue': '#3B82F6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes iconRotate {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(90deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-90deg); }
+        }
+        .icon-rotate {
+            animation: iconRotate 3s ease-in-out infinite;
+            display: inline-block;
+        }
+        .order-tag {
+            position: absolute;
+            left: 10px;
+            top: 4px;
+        }
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) skewX(-15deg);
+            }
+            100% {
+                transform: translateX(100%) skewX(-15deg);
+            }
+        }
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .shine-effect::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: translateX(-100%) skewX(-15deg);
+            animation: shine 3s infinite;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+        .animate-fade-in-out {
+            animation: fadeInOut 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+    <div class="w-full max-w-3xl bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="bg-gradient-to-r from-custom-blue to-blue-900 text-white py-2 px-4 relative">  <!-- Updated gradient class -->
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="text-base icon-rotate">🌟</span>
+                    <span class="text-sm font-semibold">Flash Sale - Ending Soon</span>
+                </div>
+                <div class="text-[0.6rem] font-semibold">
+                    <span id="animatedText" class="animate-fade-in-out"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Container with smaller text, centered alignment, and improved shine effect -->
+        <div class="bg-gradient-to-r from-emerald-500 to-emerald-700 text-white py-1 px-4 text-[0.6rem] font-semibold whitespace-nowrap overflow-hidden shine-effect flex items-center justify-center">
+            Quotation Pending, Total cost will be updated soon, Please wait !
+        </div>
+
+        <div class="p-6 pt-8 flex justify-between items-center relative"> 
+            <!-- Order Created component -->
+            <div class="order-tag scale-[0.694] transform origin-top-left mb-8"> 
+                <div class="flex items-center">
+                    <div class="relative">
+                        <div class="w-10 h-10 bg-custom-pink rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
+                                <path fill-rule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-custom-blue rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-2">
+                        <h2 class="text-lg font-bold text-custom-pink">Order Created</h2>
+                        <p class="text-xs text-gray-800" id="orderDate"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center space-x-6">
+                <img
+                    src="https://placehold.co/150x100"
+                    alt="Hollywood Sky Loft"
+                    class="w-16 h-12 object-cover rounded-md shadow-sm"
+                >
+                <div class="space-y-1">
+                    <h4 class="text-sm font-bold text-blue-800">CMF by Nothing Smartwatch</h4>
+                    <div class="text-[0.375rem] text-gray-600">
+                        <a href="#" class="text-blue-500 hover:underline">Electronic>Smartwatch</a> – Early Access
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <div class="text-yellow-500 font-bold text-sm">Rating 4.8</div>
+                <div class="text-[0.375rem] text-gray-600 hover:underline cursor-pointer">47 reviews</div>
+                <div class="text-base font-bold text-orange-500">रु.2,250</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            // Set order date
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            
+            // Set a specific date (Tuesday in October)
+            const date = new Date(2024, 9, 17); // Month is 0-indexed, so 9 is October
+            const formattedDate = `On ${days[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+            
+            document.getElementById('orderDate').textContent = formattedDate;
+
+            // Animated text
+            const animatedTextElement = document.getElementById('animatedText');
+            const texts = ['Grab The Offer!', 'Hurry Up!', 'Limited Time Deal!'];
+            let currentIndex = 0;
+
+            function changeText() {
+                animatedTextElement.textContent = texts[currentIndex];
+                currentIndex = (currentIndex + 1) % texts.length;
+            }
+
+            setInterval(changeText, 1500); // Change text every 1.5 seconds
+            changeText(); // Initial text change
+        };
+    </script>
+</body>
+</html>
