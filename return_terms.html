@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            backgroundImage: {
+              'gradient-button': 'linear-gradient(to right, #8B5CF6, #EC4899)',
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="flex justify-center items-center h-screen bg-white">
+    <div class="text-center">
+      <button class="bg-gradient-button hover:opacity-90 text-white font-medium py-3 px-24 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 mb-4">
+        Pay Now
+      </button>
+      <p class="text-[0.5rem] text-gray-700">
+        By placing your order, you agree to Merowish's 
+        <a href="#" class="text-blue-600 underline">return policy</a> and 
+        <a href="#" class="text-blue-600 underline">terms of use</a>.
+      </p>
+    </div>
+  </body>
+</html>
