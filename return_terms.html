@@ -1,5 +1,7 @@
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -13,12 +15,12 @@
       }
     </script>
   </head>
-  <body class="flex justify-center items-center h-screen bg-white">
-    <div class="text-center">
-      <button class="bg-gradient-button hover:opacity-90 text-white font-medium py-3 px-24 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 mb-4">
+  <body class="flex justify-center items-center min-h-screen bg-white p-4">
+    <div class="text-center w-full max-w-md">
+      <button class="bg-gradient-button hover:opacity-90 text-white font-medium py-3 px-6 sm:px-12 md:px-24 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 mb-4 w-full sm:w-auto">
         Pay Now
       </button>
-      <p class="text-[0.5rem] text-gray-700">
+      <p class="text-[0.5rem] sm:text-xs text-gray-700 max-w-[250px] sm:max-w-none mx-auto">
         By placing your order, you agree to Merowish's 
         <a href="#" class="text-blue-600 underline">return policy</a> and 
         <a href="#" class="text-blue-600 underline">terms of use</a>.
