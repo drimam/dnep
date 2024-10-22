@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Payment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .text-xs-custom {
+            font-size: 0.6rem;
+            line-height: 0.75rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <div class="flex justify-between items-center mb-6">
+            <h4 class="text-2xl font-semibold text-gray-400">Request payment</h4>
+            <button id="closeBtn" class="text-gray-500 hover:text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        
+        <div class="text-center">
+            <h3 class="text-xl font-medium mb-4">We Accept</h3>
+            <img src="https://fonepay.com/images/logo.png" alt="Fonepay" class="mx-auto mb-2 h-12">
+            <p class="text-sm mb-6">नेपाल राष्ट्र बैंकबाट अनुमति प्राप्त</p>
+            
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=MEROWISH%20COM" alt="QR Code" class="mx-auto mb-6 w-64 h-64">
+            
+            <h4 class="text-xl font-bold mb-2">MEROWISH COM</h4>
+            <p class="text-sm text-gray-600 mb-1">Terminal: 2222500004693104</p>
+            <p class="text-sm text-gray-600 mb-6">Address: Nepal</p>
+        </div>
+        
+        <div class="flex text-xs-custom">
+            <div class="bg-red-600 text-white p-2 flex-1 flex items-start">
+                <span class="font-bold text-lg mr-1 leading-none">1</span>
+                <span>Open your fonepay Member Mobile Banking app / Digital Wallet / Union pay</span>
+            </div>
+            <div class="bg-gray-300 text-gray-700 p-2 flex-1 flex items-start">
+                <span class="font-bold text-lg mr-1 leading-none">2</span>
+                <span>Scan this code, confirm the payment details and make quick payments.</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
