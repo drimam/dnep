@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image and Text Copier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
+        <div class="mb-4">
+            <img id="sourceImage" src="https://images.unsplash.com/photo-1682685796014-2f342188a635?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Scenic mountain landscape" class="w-full h-auto rounded-lg">
+        </div>
+        <p id="sourceText" class="text-lg mb-4">This is a breathtaking mountain landscape from Unsplash. You can copy both this text and the image together!</p>
+        <button id="copyButton" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full transition duration-300 ease-in-out transform hover:scale-105">
+            Copy Image and Text
+        </button>
+    </div>
+
+    <script>
+        document.getElementById('copyButton').addEventListener('click', async () => {
+            const image = document.getElementById('sourceImage');
+            const text = document.getElementById('sourceText').textContent;
+
+            try {
+                // Create a temporary textarea element to hold the text
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+
+                // Create a canvas element
+                const canvas = document.createElement('canvas');
+                canvas.width = image.naturalWidth;
+                canvas.height = image.naturalHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(image, 0, 0);
+
+                // Convert canvas to blob
+                canvas.toBlob(async (blob) => {
+                    try {
+                        // Create a temporary anchor element
+                        const item = new ClipboardItem({ "image/png": blob });
+                        await navigator.clipboard.write([item]);
+
+                        alert('Image and text copied to clipboard!');
+                    } catch (err) {
+                        console.error('Failed to copy image:', err);
+                        alert('Text copied, but failed to copy image. Please try again.');
+                    }
+                }, 'image/png');
+            } catch (err) {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
