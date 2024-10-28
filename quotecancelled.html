@@ -13,7 +13,7 @@
                     colors: {
                         'custom-pink': '#FF4D8D',
                         'custom-blue': '#3B82F6',
-                        'navy-blue': '#000080', // Add this line
+                        'navy-blue': '#000080',
                     }
                 }
             }
@@ -22,8 +22,7 @@
     <style>
         @keyframes iconPulse {
             0%, 100% { transform: scale(1); opacity: 1; }
-            ```html type="html" project="Deal of the Day" file="index.html"
-[v0-no-op-code-block-prefix]50% { transform: scale(1.2); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 0.7; }
         }
         .icon-pulse {
             animation: iconPulse 1.5s ease-in-out infinite;
@@ -78,7 +77,7 @@
         </div>
 
         <div class="bg-gray-800 text-white py-1 px-4 text-[0.6rem] font-semibold whitespace-nowrap overflow-hidden shine-effect flex items-center justify-center">
-          Order Cancelled, Please check here <a href="https://drimam.github.io/dnep/return_terms.html" class="text-yellow-300 hover:underline ml-1">why?</a>
+          Order Cancelled, Please check here <span id="whyButton" class="text-yellow-300 hover:underline ml-1 cursor-pointer underline">why?</span>
         </div>
 
         <div class="p-6 pt-8 flex justify-between items-center relative"> 
@@ -125,6 +124,21 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full transform scale-70">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">Reason for Cancellation</h3>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <p class="text-gray-600">The Seller You Had Selected Doesn't Ship Upto Our Warehouse In India</p>
+        </div>
+    </div>
+
     <script>
         function startCountdown(duration, display) {
             let timer = duration, hours, minutes, seconds;
@@ -159,6 +173,26 @@
             const formattedDate = `On ${days[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
             
             document.getElementById('orderDate').textContent = formattedDate;
+
+            // Modal functionality
+            const modal = document.getElementById('modal');
+            const whyButton = document.getElementById('whyButton');
+            const closeModal = document.getElementById('closeModal');
+
+            whyButton.addEventListener('click', () => {
+                modal.style.display = 'flex';
+            });
+
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
         };
     </script>
 </body>
