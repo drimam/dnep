@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discount Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+            text-align: left;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <label for="mrp">MRP:</label>
+        <input type="number" id="mrp" placeholder="Enter MRP" required>
+        
+        <label for="itemPrice">Item Price:</label>
+        <input type="number" id="itemPrice" placeholder="Enter Item Price" required>
+        
+        <button onclick="calculateDiscount()">Calculate Discount</button>
+        
+        <p id="result"></p>
+    </div>
+
+    <script>
+        // Function to calculate discount
+        function calculateDiscount() {
+            const mrp = parseFloat(document.getElementById("mrp").value);
+            const itemPrice = parseFloat(document.getElementById("itemPrice").value);
+            const resultElement = document.getElementById("result");
+
+            if (isNaN(mrp) || isNaN(itemPrice) || mrp <= 0 || itemPrice < 0) {
+                resultElement.textContent = "Please enter valid MRP and Item Price values.";
+                return;
+            }
+
+            const discountPercentage = ((mrp - itemPrice) / mrp) * 100;
+            resultElement.textContent = `✨Awesome! You Got ${discountPercentage.toFixed(0)}% Off on MRP.`;
+        }
+
+        // Add event listener to trigger calculation on Enter key
+        document.getElementById("itemPrice").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                calculateDiscount();
+            }
+        });
+    </script>
+</body>
+</html>
