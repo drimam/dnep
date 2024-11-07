@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quotation Received</title>
+    <title>Buy More Save More</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script>
@@ -59,32 +59,15 @@
             transform: translateX(-100%) skewX(-15deg);
             animation: shine 3s infinite;
         }
-        .filter-overlay {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background-color: white;
-            z-index: 1000;
-            overflow-y: auto;
-            transition: transform 0.3s ease-out;
-            transform: translateY(100%);
-        }
-        .filter-overlay.show {
-            display: block;
-            transform: translateY(0);
-        }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen bg-gray-100 p-4">
     <div class="w-full max-w-4xl bg-white rounded-lg shadow-md overflow-hidden mb-4">
         <div class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-4 px-6 flex justify-between items-center">
-            <button id="selectMultiple" class="bg-white text-blue-700 px-4 py-2 rounded-full text-sm font-bold hover:bg-blue-100 transition duration-300">
-                <i class="fas fa-check-square mr-2"></i>Select Multiple - Buy More Save More
+            <button id="selectMultiple" class="bg-white text-blue-700 px-4 py-2 rounded-full text-xs font-bold hover:bg-blue-100 transition duration-300">
+                <i class="fas fa-check-square mr-2"></i>Select Buy More Save More
             </button>
-            <button id="filterButton" class="bg-white text-blue-700 px-4 py-2 rounded-full text-sm font-bold hover:bg-blue-100 transition duration-300">
+            <button id="filterButton" class="bg-white text-blue-700 px-4 py-2 rounded-full text-xs font-bold hover:bg-blue-100 transition duration-300">
                 <i class="fas fa-filter mr-2"></i>Filter
             </button>
         </div>
@@ -95,7 +78,7 @@
             </label>
         </div>
         <div id="confirmCombinedOrderContainer" class="bg-gray-100 py-2 px-6 hidden">
-            <button id="confirmCombinedOrder" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-2 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
+            <button id="confirmCombinedOrder" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-2 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1" disabled>
                 Confirm Combined Order
             </button>
             <p id="savingsText" class="text-center text-sm font-medium text-green-600 mt-2"></p>
@@ -106,46 +89,67 @@
         <!-- Order items will be dynamically inserted here -->
     </div>
 
-    <div id="filterOverlay" class="filter-overlay">
-        <div class="p-6">
-            <h2 class="text-2xl font-bold mb-4">Filter by Order Stage</h2>
-            <div class="space-y-2">
-                <button class="filter-option w-full text-left py-2 px-4 rounded hover:bg-gray-100 transition duration-300">
-                    <i class="fas fa-box-open mr-2"></i>Order Created
-                </button>
-                <button class="filter-option w-full text-left py-2 px-4 rounded hover:bg-gray-100 transition duration-300">
-                    <i class="fas fa-clock mr-2"></i>Order Approval Pending
-                </button>
-                <button class="filter-option w-full text-left py-2 px-4 rounded hover:bg-gray-100 transition duration-300">
-                    <i class="fas fa-check-circle mr-2"></i>Order Approved
-                </button>
-                <button class="filter-option w-full text-left py-2 px-4 rounded hover:bg-gray-100 transition duration-300">
-                    <i class="fas fa-times-circle mr-2"></i>Order Cancelled
-                </button>
-                <button class="filter-option w-full text-left py-2 px-4 rounded hover:bg-gray-100 transition duration-300">
-                    <i class="fas fa-shipping-fast mr-2"></i>Order Shipped By Seller
-                </button>
-                <button class="filter-option w-full text-left py-2 px-4 rounded hover:bg-gray-100 transition duration-300">
-                    <i class="fas fa-warehouse mr-2"></i>Order Arrived at India Warehouse
-                </button>
-                <button class="filter-option w-full text-left py-2 px-4 rounded hover:bg-gray-100 transition duration-300">
-                    <i class="fas fa-plane mr-2"></i>Order Importing
-                </button>
-                <button class="filter-option w-full text-left py-2 px-4 rounded hover:bg-gray-100 transition duration-300">
-                    <i class="fas fa-building mr-2"></i>Order Arrived at Nepal Custom Office
-                </button>
-                <button class="filter-option w-full text-left py-2 px-4 rounded hover:bg-gray-100 transition duration-300">
-                    <i class="fas fa-truck mr-2"></i>Order Shipped
-                </button>
-                <button class="filter-option w-full text-left py-2 px-4 rounded hover:bg-gray-100 transition duration-300">
-                    <i class="fas fa-exclamation-triangle mr-2"></i>Order Delayed
-                </button>
-                <button class="filter-option w-full text-left py-2 px-4 rounded hover:bg-gray-100 transition duration-300">
-                    <i class="fas fa-box-check mr-2"></i>Order Delivered
-                </button>
-                <button class="filter-option w-full text-left py-2 px-4 rounded hover:bg-gray-100 transition duration-300">
-                    <i class="fas fa-undo mr-2"></i>Order Returned
-                </button>
+    <div id="filterOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl transform translate-y-full transition-transform duration-300 ease-in-out">
+            <div class="p-6 max-h-[80vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h4 class="text-lg font-bold text-gray-900">Filter By Order Status</h4>
+                    <button id="closeFilter" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-2">
+                    <button class="filter-option w-full text-left py-3 px-4 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center">
+                        <i class="fas fa-box-open mr-3 text-blue-500"></i>
+                        <span class="text-gray-700">Order Created</span>
+                    </button>
+                    <button class="filter-option w-full text-left py-3 px-4 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center">
+                        <i class="fas fa-clock mr-3 text-yellow-500"></i>
+                        <span class="text-gray-700">Order Approval Pending</span>
+                    </button>
+                    <button class="filter-option w-full text-left py-3 px-4 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center">
+                        <i class="fas fa-check-circle mr-3 text-green-500"></i>
+                        <span class="text-gray-700">Order Approved</span>
+                    </button>
+                    <button class="filter-option w-full text-left py-3 px-4 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center">
+                        <i class="fas fa-times-circle mr-3 text-red-500"></i>
+                        <span class="text-gray-700">Order Cancelled</span>
+                    </button>
+                    <button class="filter-option w-full text-left py-3 px-4 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center">
+                        <i class="fas fa-shipping-fast mr-3 text-purple-500"></i>
+                        <span class="text-gray-700">Order Shipped By Seller</span>
+                    </button>
+                    <button class="filter-option w-full text-left py-3 px-4 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center">
+                        <i class="fas fa-warehouse mr-3 text-indigo-500"></i>
+                        <span class="text-gray-700">Arrived at India Warehouse</span>
+                    </button>
+                    <button class="filter-option w-full text-left py-3 px-4 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center">
+                        <i class="fas fa-plane mr-3 text-cyan-500"></i>
+                        <span class="text-gray-700">Order Importing</span>
+                    </button>
+                    <button class="filter-option w-full text-left py-3 px-4 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center">
+                        <i class="fas fa-building mr-3 text-teal-500"></i>
+                        <span class="text-gray-700">Arrived at Nepal Custom Office</span>
+                    </button>
+                    <button class="filter-option w-full text-left py-3 px-4 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center">
+                        <i class="fas fa-truck mr-3 text-orange-500"></i>
+                        <span class="text-gray-700">Order Shipped</span>
+                    </button>
+                    <button class="filter-option w-full text-left py-3 px-4 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center">
+                        <i class="fas fa-exclamation-triangle mr-3 text-amber-500"></i>
+                        <span class="text-gray-700">Order Delayed</span>
+                    </button>
+                    <button class="filter-option w-full text-left py-3 px-4 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center">
+                        <i class="fas fa-solid fa-circle-check mr-3 text-green-600"></i>
+                        <span class="text-gray-700">Order Delivered</span>
+                    </button>
+                    <button class="filter-option w-full text-left py-3 px-4 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center">
+                        <i class="fas fa-undo mr-3 text-pink-500"></i>
+                        <span class="text-gray-700">Order Returned</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -220,7 +224,9 @@
                             <div class="text-right flex flex-col items-end ml-auto">
                                 <div class="text-yellow-500 font-bold text-xs">Estimated Arrival Date</div>
                                 <div class="text-xs text-gray-600 hover:underline cursor-pointer">29th Oct 2024</div>
-                                <div class="text-1.5xl font-bold text-orange-500 mt-1">रु. 2,250</div>
+                                <div class="price-container">
+                                    <span class="text-1.5xl font-bold text-orange-500 mt-1">रु. 2,250</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -246,7 +252,7 @@
                     </div>
 
                     <div class="px-6 pb-6 space-y-3">
-                        <button class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-1 px-1 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
+                        <button class="confirm-individual-order w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-1 px-1 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
                             Confirm Order
                         </button>
                         <button class="w-full border-2 border-gray-500 text-gray-500 font-bold py-0.95 px-0.95 rounded-full hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1">
@@ -274,6 +280,7 @@
             const confirmCombinedOrderContainer = document.getElementById('confirmCombinedOrderContainer');
             const confirmCombinedOrderButton = document.getElementById('confirmCombinedOrder');
             const savingsText = document.getElementById('savingsText');
+            const individualOrderButtons = document.querySelectorAll('.confirm-individual-order');
             let selectMode = false;
 
             function updateSelectAllState() {
@@ -286,16 +293,31 @@
             function updateBuyMoreSaveMoreButton(selectedCount) {
                 selectMultipleButton.innerHTML = selectMode
                     ? `<i class="fas fa-shopping-cart mr-2"></i>Buy More Save More (${selectedCount})`
-                    : '<i class="fas fa-check-square mr-2"></i>Select Multiple - Buy More Save More';
+                    : '<i class="fas fa-check-square mr-2"></i>Select Buy More Save More';
             }
 
             function updateConfirmCombinedOrderButton(selectedCount) {
-                if (selectedCount > 0) {
+                if (selectedCount >= 2) {
                     confirmCombinedOrderContainer.style.display = 'block';
+                    confirmCombinedOrderButton.disabled = false;
                     const savings = selectedCount * 100;
                     savingsText.textContent = `You will save रु. ${savings} on this combined order!`;
+                    document.querySelectorAll('.confirm-individual-order').forEach(button => {
+                        button.style.display = 'none';
+                    });
+                } else if (selectedCount === 1) {
+                    confirmCombinedOrderContainer.style.display = 'block';
+                    confirmCombinedOrderButton.disabled = true;
+                    savingsText.textContent = "Select at least 2 products to confirm combined orders.";
+                    savingsText.style.fontSize = "65%"; // Reduces the font size by 35%
+                    document.querySelectorAll('.confirm-individual-order').forEach(button => {
+                        button.style.display = 'none';
+                    });
                 } else {
                     confirmCombinedOrderContainer.style.display = 'none';
+                    document.querySelectorAll('.confirm-individual-order').forEach(button => {
+                        button.style.display = 'block';
+                    });
                 }
             }
 
@@ -306,6 +328,9 @@
                     checkbox.checked = false;
                 });
                 selectAllContainer.style.display = selectMode ? 'block' : 'none';
+                document.querySelectorAll('.confirm-individual-order').forEach(button => {
+                    button.style.display = selectMode ? 'none' : 'block';
+                });
                 selectAllCheckbox.checked = false;
                 updateBuyMoreSaveMoreButton(0);
                 updateConfirmCombinedOrderButton(0);
@@ -320,7 +345,11 @@
             });
 
             orderCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', updateSelectAllState);
+                checkbox.addEventListener('change', () => {
+                    updateSelectAllState();
+                    const checkedCount = document.querySelectorAll('.order-checkbox:checked').length;
+                    updateConfirmCombinedOrderButton(checkedCount);
+                });
             });
 
             confirmCombinedOrderButton.addEventListener('click', () => {
@@ -330,23 +359,36 @@
 
             const filterButton = document.getElementById('filterButton');
             const filterOverlay = document.getElementById('filterOverlay');
+            const closeFilter = document.getElementById('closeFilter');
+            const filterOptions = document.querySelectorAll('.filter-option');
 
-            filterButton.addEventListener('click', () => {
-                filterOverlay.classList.toggle('show');
-            });
+            function openFilterOverlay() {
+                filterOverlay.classList.remove('hidden');
+                setTimeout(() => {
+                    filterOverlay.querySelector('div').classList.remove('translate-y-full');
+                }, 10);
+            }
+
+            function closeFilterOverlay() {
+                filterOverlay.querySelector('div').classList.add('translate-y-full');
+                setTimeout(() => {
+                    filterOverlay.classList.add('hidden');
+                }, 300);
+            }
+
+            filterButton.addEventListener('click', openFilterOverlay);
+            closeFilter.addEventListener('click', closeFilterOverlay);
 
             filterOverlay.addEventListener('click', (e) => {
                 if (e.target === filterOverlay) {
-                    filterOverlay.classList.remove('show');
+                    closeFilterOverlay();
                 }
             });
 
-            const filterOptions = document.querySelectorAll('.filter-option');
             filterOptions.forEach(option => {
                 option.addEventListener('click', () => {
-                    // Here you would implement the actual filtering logic
                     console.log('Filter selected:', option.textContent.trim());
-                    filterOverlay.classList.remove('show');
+                    closeFilterOverlay();
                 });
             });
         };
