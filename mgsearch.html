@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merowish Google Search</title>
+    <script async src="https://cse.google.com/cse.js?cx=f5204c9b50ae04b1f"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    boxShadow: {
+                        'custom': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'custom-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    },
+                    fontSize: {
+                        'xxs': '0.5rem',
+                        'xs': '0.550rem',
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f0f4f8;
+            padding: 0 16px;
+        }
+        .gsc-control-cse {
+            padding: 0 !important;
+            border: none !important;
+            background-color: transparent !important;
+        }
+        .gsc-input-box {
+            height: 40px !important;
+            border-radius: 15px !important;
+            overflow: hidden !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+            border: none !important;
+        }
+        .gsc-input-box input {
+            height: 90% !important;
+            padding: 0 10px !important;
+            border-radius: 15px !important;
+            font-size: 16px !important;
+        }
+        .gsc-search-button {
+            height: 40px !important;
+            margin-left: 10px !important;
+        }
+        .gsc-search-button-v2 {
+            height: 90% !important;
+            padding: 15px !important;
+            border-radius: 15px !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+        }
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .gsc-input-box input::placeholder {
+            position: relative;
+            color: #718096;
+        }
+        .gsc-input-box input::placeholder::after {
+            content: '|';
+            color: #805ad5;
+            position: absolute;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+        .gsc-completion-container {
+            border-radius: 15px !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+        }
+        @media (min-width: 768px) {
+            body {
+                padding: 0;
+            }
+            .gcse-searchbox-only {
+                max-width: 600px !important;
+                width: 100% !important;
+            }
+            .gsc-control-cse {
+                width: 100% !important;
+            }
+            form.gsc-search-box {
+                max-width: 600px !important;
+            }
+            .gsc-input {
+                width: calc(100% - 70px) !important;
+            }
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #8B5CF6, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @media (min-width: 600px) {
+            .container-desktop {
+                width: 160px !important;
+                height: 160px !important;
+            }
+            .icon-desktop {
+                width: 70px !important;
+                height: 70px !important;
+            }
+            .text-desktop {
+                font-size: 1rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center min-h-screen">
+    <div class="w-full max-w-[600px] mt-16">
+        <div class="gcse-searchbox-only"></div>
+    </div>
+
+    <div class="container mx-auto py-2 mt-8">
+        <div class="flex flex-wrap justify-center items-center gap-2.4">
+            <div class="w-20 h-20 bg-white rounded-lg shadow-custom p-0.6 flex flex-col items-center justify-between transition-all duration-300 ease-in-out hover:shadow-custom-hover hover:-translate-y-1 container-desktop" style="margin: 3px;">
+                <div class="flex flex-col items-center justify-center flex-grow">
+                    <img class="w-8 h-8 icon-desktop mb-1" src="https://drimam.github.io/dnep/Fdelivery.png" alt="All Over Nepal Shipping">
+                    <p class="text-center text-xs font-semibold leading-tight gradient-text text-desktop">All Over Nepal<br>Shipping</p>
+                </div>
+            </div>
+            <div class="w-20 h-20 bg-white rounded-lg shadow-custom p-0.6 flex flex-col items-center justify-between transition-all duration-300 ease-in-out hover:shadow-custom-hover hover:-translate-y-1 container-desktop" style="margin: 3px;">
+                <div class="flex flex-col items-center justify-center flex-grow">
+                    <img class="w-8 h-8 icon-desktop mb-1" src="https://drimam.github.io/dnep/locost.png" alt="Lowest Overall Order Cost">
+                    <p class="text-center text-xs font-semibold leading-tight gradient-text text-desktop">Lowest Overall<br>Order Cost</p>
+                </div>
+            </div>
+            <div class="w-20 h-20 bg-white rounded-lg shadow-custom p-0.6 flex flex-col items-center justify-between transition-all duration-300 ease-in-out hover:shadow-custom-hover hover:-translate-y-1 container-desktop" style="margin: 3px;">
+                <div class="flex flex-col items-center justify-center flex-grow">
+                    <img class="w-8 h-8 icon-desktop mb-1" src="https://drimam.github.io/dnep/pcash.png" alt="Partial & Full Cash on Delivery">
+                    <p class="text-center text-xs font-semibold leading-tight gradient-text text-desktop">Partial & Full<br>Cash On Delivery</p>
+                </div>
+            </div>
+            <div class="w-20 h-20 bg-white rounded-lg shadow-custom p-0.6 flex flex-col items-center justify-between transition-all duration-300 ease-in-out hover:shadow-custom-hover hover:-translate-y-1 container-desktop" style="margin: 3px;">
+                <div class="flex flex-col items-center justify-center flex-grow">
+                    <img class="w-8 h-8 icon-desktop mb-1" src="https://drimam.github.io/dnep/100crore.png" alt="100+ Crores Products Access">
+                    <p class="text-center text-xs font-semibold leading-tight gradient-text text-desktop">100+ Crores<br>Products Access</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const placeholders = [
+            "Search anything you wish to buy...",
+            "Earbuds at Amazon.in",
+            "Kid's Toy at Amazon.in",
+            "Women dresses at Flipkart",
+            "Men polo t-shirt at Flipkart",
+            "Men shirt at Flipkart",
+            "Men jeans at Flipkart",
+            "Party dresses at Myntra",
+            "kid's clothing at Firstcry",
+            "Trending clothes at Ajio",
+            "Search for clothes at Zara",
+            "Search for clothes at H&M",
+        ];
+
+        function waitForElement(selector, callback) {
+            if (document.querySelector(selector)) {
+                callback();
+            } else {
+                setTimeout(() => waitForElement(selector, callback), 100);
+            }
+        }
+
+        waitForElement('.gsc-input-box input', () => {
+            const searchInput = document.querySelector('.gsc-input-box input');
+            let currentPlaceholderIndex = 0;
+            let placeholderIndex = 0;
+
+            // Clear the initial placeholder
+            searchInput.setAttribute('placeholder', '');
+
+            function typeWriter() {
+                if (placeholderIndex < placeholders[currentPlaceholderIndex].length) {
+                    searchInput.setAttribute('placeholder', placeholders[currentPlaceholderIndex].substring(0, placeholderIndex + 1));
+                    placeholderIndex++;
+                    setTimeout(typeWriter, 50 + Math.random() * 50);
+                } else {
+                    setTimeout(resetTypewriter, 2000);
+                }
+            }
+
+            function resetTypewriter() {
+                searchInput.setAttribute('placeholder', '');
+                placeholderIndex = 0;
+                currentPlaceholderIndex = (currentPlaceholderIndex + 1) % placeholders.length;
+                setTimeout(typeWriter, 500);
+            }
+
+            // Start the typewriter effect
+            typeWriter();
+
+            // Modify the form submission to open results in a new window
+            const searchForm = document.querySelector('form.gsc-search-box');
+            searchForm.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>
