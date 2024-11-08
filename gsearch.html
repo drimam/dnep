@@ -9,6 +9,7 @@
     <style>
         body {
             background-color: #f0f4f8;
+            padding: 0 16px;
         }
         .gsc-control-cse {
             padding: 0 !important;
@@ -58,10 +59,30 @@
             border-radius: 15px !important;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
         }
+        @media (min-width: 768px) {
+            body {
+                padding: 0;
+            }
+            .gcse-searchbox-only {
+                max-width: 600px !important;
+                width: 100% !important;
+            }
+            .gsc-control-cse {
+                width: 100% !important;
+            }
+            form.gsc-search-box {
+                max-width: 600px !important;
+            }
+            .gsc-input {
+                width: calc(100% - 70px) !important;
+            }
+        }
     </style>
 </head>
-<body class="p-4">
-    <div class="gcse-search"></div>
+<body class="pt-6 min-h-screen flex justify-center">
+    <div class="w-full max-w-[600px]">
+        <div class="gcse-searchbox-only"></div>
+    </div>
 
     <script>
         const placeholders = [
@@ -114,6 +135,10 @@
 
             // Start the typewriter effect
             typeWriter();
+
+            // Modify the form submission to open results in a new window
+            const searchForm = document.querySelector('form.gsc-search-box');
+            searchForm.setAttribute('target', '_blank');
         });
     </script>
 </body>
