@@ -9,8 +9,8 @@
 </head>
 <body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-2xl bg-white rounded-xl shadow-lg p-6">
-        <h4 class="text-sm font-bold text-gray-800 mb-4">URL Thumbnail Generator</h4>
-        <div class="flex items-center space-x-4">
+        <h4 class="text-sm font-bold text-gray-800 mb-4">Product Name & Image Auto Fetch</h4>
+        <div class="flex items-center space-x-4 mb-4">
             <div id="thumbnailContainer" class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden relative flex-shrink-0 border-2 border-gray-200 transition-all duration-300">
                 <div id="loadingSpinner" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-80 z-10 hidden">
                     <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -24,6 +24,10 @@
                 <input type="text" id="urlInput" placeholder="Paste your URL here" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
             </div>
         </div>
+        <div class="mb-1">
+            <input type="text" id="productName" placeholder="Product Name" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+        </div>
+        <p id="productNameHint" class="text-green-600 text-xs mb-4 hidden">You can edit the product name if you feel it's incorrect.</p>
     </div>
 
     <script>
@@ -31,6 +35,8 @@
         const thumbnailContainer = document.getElementById('thumbnailContainer');
         const loadingSpinner = document.getElementById('loadingSpinner');
         const placeholderText = document.getElementById('placeholderText');
+        const productNameInput = document.getElementById('productName');
+        const productNameHint = document.getElementById('productNameHint');
 
         urlInput.addEventListener('input', debounce(handleUrlInput, 500));
 
@@ -55,6 +61,8 @@
             thumbnailContainer.innerHTML = '<p id="placeholderText" class="text-gray-400 text-xs text-center p-1">Enter URL</p>';
             thumbnailContainer.classList.remove('border-blue-500');
             thumbnailContainer.classList.add('border-gray-200');
+            productNameInput.value = '';
+            productNameHint.classList.add('hidden');
         }
 
         async function handleUrlInput() {
@@ -72,6 +80,12 @@
                 if (status === 'success') {
                     let thumbnailUrl = data.image?.url || data.logo?.url;
                     
+                    // Set the product name to the webpage title
+                    productNameInput.value = data.title || '';
+                    productNameInput.focus();
+                    productNameInput.setSelectionRange(0, productNameInput.value.length);
+                    productNameHint.classList.remove('hidden');
+
                     if (thumbnailUrl) {
                         const img = new Image();
                         img.onload = () => {
@@ -104,8 +118,15 @@
                 thumbnailContainer.innerHTML = '<p class="text-red-500 text-xs text-center p-1">Error</p>';
                 thumbnailContainer.classList.remove('border-blue-500');
                 thumbnailContainer.classList.add('border-gray-200');
+                productNameInput.value = '';
+                productNameHint.classList.add('hidden');
             }
         }
+
+        productNameInput.addEventListener('input', function() {
+            // You can add any additional logic here if needed when the product name is changed
+            console.log('Product name changed to:', this.value);
+        });
     </script>
 </body>
 </html>
