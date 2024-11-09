@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Offers and Price Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="max-w-xl mx-auto p-4 space-y-6">
+        <!-- Bank Offers Section -->
+        <div class="space-y-4">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-university text-gray-600"></i>
+                <h2 class="text-lg text-gray-700">Bank Offers</h2>
+            </div>
+            
+            <div class="flex items-center justify-between">
+                <div class="flex gap-2">
+                    <!-- Bank logos -->
+                    <div class="w-12 h-12 rounded-lg border flex items-center justify-center bg-white">
+                        <div class="w-8 h-8 rounded-full bg-blue-600"></div>
+                    </div>
+                    <div class="w-12 h-12 rounded-lg border flex items-center justify-center bg-white">
+                        <div class="w-8 h-8 rounded bg-orange-500"></div>
+                    </div>
+                    <div class="w-12 h-12 rounded-lg border flex items-center justify-center bg-white">
+                        <i class="fas fa-university text-gray-600 text-xl"></i>
+                    </div>
+                    <div class="w-12 h-12 rounded-lg border flex items-center justify-center bg-white">
+                        <div class="w-8 h-8 rounded bg-orange-400"></div>
+                    </div>
+                </div>
+                <button class="flex items-center text-pink-500 font-medium">
+                    +16 Offers Available
+                    <i class="fas fa-chevron-right ml-1"></i>
+                </button>
+            </div>
+
+            <!-- Recommended Offer -->
+            <div class="bg-purple-50 p-4 rounded-lg flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded bg-orange-400"></div>
+                    <span class="text-lg font-semibold">7.5% Instant Discount</span>
+                </div>
+                <span class="text-purple-600">Recommended offer</span>
+            </div>
+        </div>
+
+        <!-- Price Details Section -->
+        <div class="space-y-4">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-credit-card text-gray-600"></i>
+                <h2 class="text-lg text-gray-700">Price Details</h2>
+            </div>
+
+            <div class="border rounded-lg bg-white">
+                <div class="p-4 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="text-xl font-bold">Total Amount: ₹1,329</div>
+                        <div class="text-gray-500 line-through">₹2,999</div>
+                        <i class="fas fa-chevron-up"></i>
+                    </div>
+
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between">
+                            <span>Total MRP</span>
+                            <span>₹2,999</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <div class="flex items-center gap-2">
+                                <span>Discount on MRP</span>
+                                <button class="text-pink-500">Know More</button>
+                            </div>
+                            <span class="text-emerald-500">- ₹1,700</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <div class="flex items-center gap-2">
+                                <span>Platform Fee</span>
+                                <button class="text-pink-500">Know More</button>
+                            </div>
+                            <span>₹20</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <div class="flex flex-col">
+                                <div class="flex items-center gap-2">
+                                    <span>Shipping Fee</span>
+                                    <button class="text-pink-500">Know More</button>
+                                </div>
+                                <span class="text-gray-500 text-xs">Free shipping for Myntra Insiders</span>
+                            </div>
+                            <span class="text-emerald-500">FREE</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <div class="flex items-center gap-2">
+                                <span>Cash/Pay on Delivery Fee</span>
+                                <button class="text-pink-500">Know More</button>
+                            </div>
+                            <span>₹10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-emerald-50 p-4 text-emerald-600 font-medium">
+                    You're Saving ₹1,700
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="bg-white rounded-lg p-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-gray-100 p-2 rounded">
+                    <i class="fas fa-wallet text-gray-600"></i>
+                </div>
+                <div>
+                    <div class="font-medium">Cash on delivery(Cash/UPI)</div>
+                    <div class="text-gray-500 text-sm">₹10 is applied extra for this option.</div>
+                </div>
+            </div>
+            <button class="text-pink-500 font-medium">Change</button>
+        </div>
+
+        <!-- Place Order Button -->
+        <button class="w-full bg-pink-500 text-white py-4 rounded-lg text-lg font-medium">
+            Confirm & Place order (₹1,329)
+        </button>
+    </div>
+
+    <script>
+        // JavaScript for toggling price details
+        document.addEventListener('DOMContentLoaded', function() {
+            const totalAmountSection = document.querySelector('.text-xl.font-bold').parentElement;
+            const priceDetails = totalAmountSection.nextElementSibling;
+            const chevronIcon = totalAmountSection.querySelector('.fas.fa-chevron-up');
+
+            totalAmountSection.addEventListener('click', function() {
+                priceDetails.classList.toggle('hidden');
+                chevronIcon.classList.toggle('fa-chevron-up');
+                chevronIcon.classList.toggle('fa-chevron-down');
+            });
+        });
+    </script>
+</body>
+</html>
