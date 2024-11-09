@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Thumbnail Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@microlink/mql@latest/dist/mql.min.js"></script>
+</head>
+<body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-2xl bg-white rounded-xl shadow-lg p-6">
+        <h4 class="text-sm font-bold text-gray-800 mb-4">URL Thumbnail Generator</h4>
+        <div class="flex items-center space-x-4">
+            <div id="thumbnailContainer" class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden relative flex-shrink-0 border-2 border-gray-200 transition-all duration-300">
+                <div id="loadingSpinner" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-80 z-10 hidden">
+                    <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
+                <p id="placeholderText" class="text-gray-400 text-xs text-center p-1">Enter URL</p>
+            </div>
+            <div class="flex-1">
+                <input type="text" id="urlInput" placeholder="Paste your URL here" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const urlInput = document.getElementById('urlInput');
+        const thumbnailContainer = document.getElementById('thumbnailContainer');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const placeholderText = document.getElementById('placeholderText');
+
+        urlInput.addEventListener('input', debounce(handleUrlInput, 500));
+
+        function debounce(func, delay) {
+            let timeoutId;
+            return function (...args) {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        function showLoading() {
+            loadingSpinner.classList.remove('hidden');
+            placeholderText.classList.add('hidden');
+        }
+
+        function hideLoading() {
+            loadingSpinner.classList.add('hidden');
+        }
+
+        function resetThumbnail() {
+            thumbnailContainer.innerHTML = '<p id="placeholderText" class="text-gray-400 text-xs text-center p-1">Enter URL</p>';
+            thumbnailContainer.classList.remove('border-blue-500');
+            thumbnailContainer.classList.add('border-gray-200');
+        }
+
+        async function handleUrlInput() {
+            const url = urlInput.value.trim();
+            if (!url) {
+                resetThumbnail();
+                return;
+            }
+
+            showLoading();
+
+            try {
+                const { status, data } = await mql(url);
+
+                if (status === 'success') {
+                    let thumbnailUrl = data.image?.url || data.logo?.url;
+                    
+                    if (thumbnailUrl) {
+                        const img = new Image();
+                        img.onload = () => {
+                            hideLoading();
+                            thumbnailContainer.innerHTML = `<img src="${thumbnailUrl}" alt="Thumbnail" class="w-full h-full object-cover rounded-lg">`;
+                            thumbnailContainer.classList.remove('border-gray-200');
+                            thumbnailContainer.classList.add('border-blue-500');
+                        };
+                        img.onerror = () => {
+                            throw new Error('Failed to load image');
+                        };
+                        img.src = thumbnailUrl;
+                    } else {
+                        const domain = new URL(url).hostname;
+                        hideLoading();
+                        thumbnailContainer.innerHTML = `
+                            <div class="w-full h-full flex items-center justify-center bg-gray-200 rounded-lg">
+                                <span class="text-xs font-bold text-gray-700 break-all px-1 text-center">${domain}</span>
+                            </div>
+                        `;
+                        thumbnailContainer.classList.remove('border-gray-200');
+                        thumbnailContainer.classList.add('border-blue-500');
+                    }
+                } else {
+                    throw new Error('Failed to fetch thumbnail');
+                }
+            } catch (error) {
+                console.error('Error fetching thumbnail:', error);
+                hideLoading();
+                thumbnailContainer.innerHTML = '<p class="text-red-500 text-xs text-center p-1">Error</p>';
+                thumbnailContainer.classList.remove('border-blue-500');
+                thumbnailContainer.classList.add('border-gray-200');
+            }
+        }
+    </script>
+</body>
+</html>
