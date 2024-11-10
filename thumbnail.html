@@ -41,8 +41,8 @@
         const characterCount = document.getElementById('characterCount');
 
         const companyLogos = {
-            'amazon.com': 'https://logo.clearbit.com/amazon.com',
-            'google.com': 'https://logo.clearbit.com/google.com',
+            'flipkart.com': 'https://logo.clearbit.com/flipkart.com',
+            'dl.flipkart.com': 'https://logo.clearbit.com/flipkart.com',
             'apple.com': 'https://logo.clearbit.com/apple.com',
             'microsoft.com': 'https://logo.clearbit.com/microsoft.com',
             'facebook.com': 'https://logo.clearbit.com/facebook.com',
@@ -51,7 +51,16 @@
             'linkedin.com': 'https://logo.clearbit.com/linkedin.com',
             'youtube.com': 'https://logo.clearbit.com/youtube.com',
             'netflix.com': 'https://logo.clearbit.com/netflix.com',
-            // Add more company domains and logo URLs as needed
+            'walmart.com': 'https://logo.clearbit.com/walmart.com',
+            'target.com': 'https://logo.clearbit.com/target.com',
+            'ebay.com': 'https://logo.clearbit.com/ebay.com',
+            'bestbuy.com': 'https://logo.clearbit.com/bestbuy.com',
+            'costco.com': 'https://logo.clearbit.com/costco.com',
+            'homedepot.com': 'https://logo.clearbit.com/homedepot.com',
+            'lowes.com': 'https://logo.clearbit.com/lowes.com',
+            'wayfair.com': 'https://logo.clearbit.com/wayfair.com',
+            'etsy.com': 'https://logo.clearbit.com/etsy.com',
+            'overstock.com': 'https://logo.clearbit.com/overstock.com'
         };
 
         urlInput.addEventListener('input', debounce(handleUrlInput, 500));
@@ -92,12 +101,19 @@
             showLoading();
 
             try {
+                const domain = new URL(url).hostname;
+                const companyLogo = companyLogos[domain];
+
+                if (companyLogo) {
+                    await loadImageWithTimeout(companyLogo, 3000);
+                    return;
+                }
+
                 const { status, data } = await mql(url);
 
                 if (status === 'success') {
                     let thumbnailUrl = data.image?.url || data.logo?.url;
                     
-                    // Set the product name to the webpage title
                     productNameInput.value = data.title ? data.title.substring(0, 30) : '';
                     productNameInput.focus();
                     productNameInput.setSelectionRange(0, productNameInput.value.length);
@@ -141,17 +157,7 @@
 
         async function handleFallbackImage(url) {
             const domain = new URL(url).hostname;
-            const companyLogo = companyLogos[domain];
-
-            if (companyLogo) {
-                try {
-                    await loadImageWithTimeout(companyLogo, 3000);
-                } catch (error) {
-                    await tryFreeLogoApi(domain);
-                }
-            } else {
-                await tryFreeLogoApi(domain);
-            }
+            await tryFreeLogoApi(domain);
         }
 
         async function tryFreeLogoApi(domain) {
