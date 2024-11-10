@@ -25,9 +25,10 @@
             </div>
         </div>
         <div class="mb-1">
-            <input type="text" id="productName" placeholder="Product Name" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+            <input type="text" id="productName" placeholder="Product Name" maxlength="30" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
         </div>
         <p id="productNameHint" class="text-green-600 text-xs mb-4 hidden">You can edit the product name if you feel it's incorrect.</p>
+        <p id="characterCount" class="text-gray-500 text-xs mb-4">0 / 30 characters</p>
     </div>
 
     <script>
@@ -37,6 +38,21 @@
         const placeholderText = document.getElementById('placeholderText');
         const productNameInput = document.getElementById('productName');
         const productNameHint = document.getElementById('productNameHint');
+        const characterCount = document.getElementById('characterCount');
+
+        const companyLogos = {
+            'amazon.com': 'https://logo.clearbit.com/amazon.com',
+            'google.com': 'https://logo.clearbit.com/google.com',
+            'apple.com': 'https://logo.clearbit.com/apple.com',
+            'microsoft.com': 'https://logo.clearbit.com/microsoft.com',
+            'facebook.com': 'https://logo.clearbit.com/facebook.com',
+            'twitter.com': 'https://logo.clearbit.com/twitter.com',
+            'instagram.com': 'https://logo.clearbit.com/instagram.com',
+            'linkedin.com': 'https://logo.clearbit.com/linkedin.com',
+            'youtube.com': 'https://logo.clearbit.com/youtube.com',
+            'netflix.com': 'https://logo.clearbit.com/netflix.com',
+            // Add more company domains and logo URLs as needed
+        };
 
         urlInput.addEventListener('input', debounce(handleUrlInput, 500));
 
@@ -63,6 +79,7 @@
             thumbnailContainer.classList.add('border-gray-200');
             productNameInput.value = '';
             productNameHint.classList.add('hidden');
+            updateCharacterCount();
         }
 
         async function handleUrlInput() {
@@ -81,52 +98,91 @@
                     let thumbnailUrl = data.image?.url || data.logo?.url;
                     
                     // Set the product name to the webpage title
-                    productNameInput.value = data.title || '';
+                    productNameInput.value = data.title ? data.title.substring(0, 30) : '';
                     productNameInput.focus();
                     productNameInput.setSelectionRange(0, productNameInput.value.length);
                     productNameHint.classList.remove('hidden');
+                    updateCharacterCount();
 
                     if (thumbnailUrl) {
-                        const img = new Image();
-                        img.onload = () => {
-                            hideLoading();
-                            thumbnailContainer.innerHTML = `<img src="${thumbnailUrl}" alt="Thumbnail" class="w-full h-full object-cover rounded-lg">`;
-                            thumbnailContainer.classList.remove('border-gray-200');
-                            thumbnailContainer.classList.add('border-blue-500');
-                        };
-                        img.onerror = () => {
-                            throw new Error('Failed to load image');
-                        };
-                        img.src = thumbnailUrl;
+                        await loadImageWithTimeout(thumbnailUrl, 3000);
                     } else {
-                        const domain = new URL(url).hostname;
-                        hideLoading();
-                        thumbnailContainer.innerHTML = `
-                            <div class="w-full h-full flex items-center justify-center bg-gray-200 rounded-lg">
-                                <span class="text-xs font-bold text-gray-700 break-all px-1 text-center">${domain}</span>
-                            </div>
-                        `;
-                        thumbnailContainer.classList.remove('border-gray-200');
-                        thumbnailContainer.classList.add('border-blue-500');
+                        throw new Error('No thumbnail URL available');
                     }
                 } else {
                     throw new Error('Failed to fetch thumbnail');
                 }
             } catch (error) {
                 console.error('Error fetching thumbnail:', error);
-                hideLoading();
-                thumbnailContainer.innerHTML = '<p class="text-red-500 text-xs text-center p-1">Error</p>';
-                thumbnailContainer.classList.remove('border-blue-500');
-                thumbnailContainer.classList.add('border-gray-200');
-                productNameInput.value = '';
-                productNameHint.classList.add('hidden');
+                await handleFallbackImage(url);
             }
         }
 
+        async function loadImageWithTimeout(url, timeout) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => {
+                    hideLoading();
+                    thumbnailContainer.innerHTML = `<img src="${url}" alt="Thumbnail" class="w-full h-full object-cover rounded-lg">`;
+                    thumbnailContainer.classList.remove('border-gray-200');
+                    thumbnailContainer.classList.add('border-blue-500');
+                    resolve();
+                };
+                img.onerror = () => {
+                    reject(new Error('Failed to load image'));
+                };
+                img.src = url;
+
+                setTimeout(() => {
+                    reject(new Error('Image load timeout'));
+                }, timeout);
+            });
+        }
+
+        async function handleFallbackImage(url) {
+            const domain = new URL(url).hostname;
+            const companyLogo = companyLogos[domain];
+
+            if (companyLogo) {
+                try {
+                    await loadImageWithTimeout(companyLogo, 3000);
+                } catch (error) {
+                    await tryFreeLogoApi(domain);
+                }
+            } else {
+                await tryFreeLogoApi(domain);
+            }
+        }
+
+        async function tryFreeLogoApi(domain) {
+            const clearbitLogoUrl = `https://logo.clearbit.com/${domain}`;
+            try {
+                await loadImageWithTimeout(clearbitLogoUrl, 3000);
+            } catch (error) {
+                displayDomainName(domain);
+            }
+        }
+
+        function displayDomainName(domain) {
+            hideLoading();
+            thumbnailContainer.innerHTML = `
+                <div class="w-full h-full flex items-center justify-center bg-gray-200 rounded-lg">
+                    <span class="text-xs font-bold text-gray-700 break-all px-1 text-center">${domain}</span>
+                </div>
+            `;
+            thumbnailContainer.classList.remove('border-gray-200');
+            thumbnailContainer.classList.add('border-blue-500');
+        }
+
         productNameInput.addEventListener('input', function() {
-            // You can add any additional logic here if needed when the product name is changed
+            updateCharacterCount();
             console.log('Product name changed to:', this.value);
         });
+
+        function updateCharacterCount() {
+            const count = productNameInput.value.length;
+            characterCount.textContent = `${count} / 30 characters`;
+        }
     </script>
 </body>
 </html>
