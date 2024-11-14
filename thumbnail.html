@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL Thumbnail Generator</title>
+    <title>URL Thumbnail Generator with Domain Filter</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@microlink/mql@latest/dist/mql.min.js"></script>
 </head>
@@ -24,10 +24,11 @@
                 <input type="text" id="urlInput" placeholder="Paste your URL here" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
             </div>
         </div>
+        <div id="domainMessage" class="text-red-500 text-sm mb-4 hidden"></div>
         <div class="mb-1">
             <input type="text" id="productName" placeholder="Product Name" maxlength="30" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
         </div>
-        <p id="productNameHint" class="text-green-600 text-xs mb-4 hidden">Please edit the product name if it's Incorrect.</p>
+        <p id="productNameHint" class="text-green-600 text-xs mb-4 hidden">Please edit the product name if it's incorrect.</p>
         <p id="characterCount" class="text-gray-500 text-xs mb-4">0 / 30</p>
     </div>
 
@@ -39,6 +40,30 @@
         const productNameInput = document.getElementById('productName');
         const productNameHint = document.getElementById('productNameHint');
         const characterCount = document.getElementById('characterCount');
+        const domainMessage = document.getElementById('domainMessage');
+
+        const allowedDomains = [
+            'flipkart.com',
+            'dl.flipkart.com',
+            'amazon,in',
+            'myntra.com',
+            'nykaa.com',
+            'twitter.com',
+            'instagram.com',
+            'linkedin.com',
+            'youtube.com',
+            'netflix.com',
+            'walmart.com',
+            'target.com',
+            'ebay.com',
+            'bestbuy.com',
+            'costco.com',
+            'homedepot.com',
+            'lowes.com',
+            'wayfair.com',
+            'etsy.com',
+            'overstock.com'
+        ];
 
         const companyLogos = {
             'flipkart.com': 'https://logo.clearbit.com/flipkart.com',
@@ -89,6 +114,11 @@
             productNameInput.value = '';
             productNameHint.classList.add('hidden');
             updateCharacterCount();
+            domainMessage.classList.add('hidden');
+        }
+
+        function isDomainAllowed(domain) {
+            return allowedDomains.some(allowedDomain => domain === allowedDomain || domain.endsWith(`.${allowedDomain}`));
         }
 
         async function handleUrlInput() {
@@ -98,11 +128,20 @@
                 return;
             }
 
-            showLoading();
-
             try {
                 const domain = new URL(url).hostname;
-                const companyLogo = companyLogos[domain];
+
+                if (!isDomainAllowed(domain)) {
+                    domainMessage.textContent = "We do not operate for this website.";
+                    domainMessage.classList.remove('hidden');
+                    resetThumbnail();
+                    return;
+                }
+
+                domainMessage.classList.add('hidden');
+                showLoading();
+
+                const companyLogo = companyLogos[domain] || companyLogos[domain.split('.').slice(-2).join('.')];
 
                 if (companyLogo) {
                     await loadImageWithTimeout(companyLogo, 3000);
