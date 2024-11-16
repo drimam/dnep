@@ -36,7 +36,14 @@
             max-height: 200px;
         }
         .chat-container {
-            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transition: transform 0.3s ease-in-out;
+        }
+        @media (min-width: 1024px) {
+            .chat-container {
+                width: 400px;
+                height: 600px;
+                max-height: 90vh;
+            }
         }
     </style>
 </head>
@@ -52,9 +59,9 @@
     </div>
 
     <!-- Chat Interface -->
-    <div id="chatInterface" class="fixed bottom-4 right-4 z-40 chat-container opacity-0 scale-95 pointer-events-none">
-        <div class="max-w-md w-full mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-            <div class="gradient-bg">
+    <div id="chatInterface" class="fixed bottom-0 right-0 z-40 chat-container transform translate-y-full lg:translate-y-0 lg:right-4 lg:bottom-4">
+        <div class="w-full h-full lg:w-[400px] lg:h-[600px] mx-auto bg-white shadow-lg overflow-hidden flex flex-col">
+            <div class="gradient-bg flex-grow overflow-y-auto">
                 <!-- Close Button -->
                 <button id="closeButton" class="absolute top-4 right-4 text-white text-2xl">&times;</button>
                 
@@ -193,14 +200,31 @@
         const closeButton = document.getElementById('closeButton');
 
         function toggleChatInterface() {
-            chatInterface.classList.toggle('opacity-0');
-            chatInterface.classList.toggle('scale-95');
-            chatInterface.classList.toggle('pointer-events-none');
+            if (window.innerWidth >= 1024) {
+                chatInterface.classList.toggle('hidden');
+            } else {
+                chatInterface.classList.toggle('translate-y-full');
+            }
             chatbotIcon.classList.toggle('hidden');
         }
 
         chatbotIcon.addEventListener('click', toggleChatInterface);
         closeButton.addEventListener('click', toggleChatInterface);
+
+        // Adjust chat interface position on window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                chatInterface.classList.remove('translate-y-full');
+                if (!chatInterface.classList.contains('hidden')) {
+                    chatbotIcon.classList.add('hidden');
+                }
+            } else {
+                if (!chatInterface.classList.contains('hidden')) {
+                    chatInterface.classList.remove('translate-y-full');
+                    chatbotIcon.classList.add('hidden');
+                }
+            }
+        });
 
         // FAQ Accordion functionality
         document.querySelectorAll('.faq-item').forEach(item => {
