@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeroAi Chatbot<sup>Beta</sup></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes blink {
+            0% { opacity: 0.2; }
+            20% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+        .typing-animation span {
+            animation: blink 1.4s infinite both;
+        }
+        .typing-animation span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-animation span:nth-child(3) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen">
+    <div id="chat-icon" class="fixed bottom-4 right-4 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-full p-4 shadow-lg cursor-pointer hover:from-purple-700 hover:to-pink-600 transition-all duration-300 group">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+        </svg>
+        <span class="absolute -top-2 -right-2 bg-white text-purple-600 text-xs font-bold px-1 py-0.5 rounded-full group-hover:bg-purple-100 transition-colors duration-300">AI</span>
+    </div>
+
+    <div id="chat-container" class="hidden fixed bottom-4 right-4 w-96 h-[32rem] bg-white rounded-lg shadow-xl flex flex-col overflow-hidden">
+        <div class="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-4 flex justify-between items-center">
+            <h2 class="text-lg font-semibold">MeroAi Chatbot <span></span><sup class="text-xs">Beta</sup></h2>
+            <button id="close-chat" class="text-white hover:text-gray-200 transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div id="chatbox" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-radial from-purple-50 to-pink-50" style="height: calc(100% - 130px);">
+            <div class="max-w-[80%] p-4 rounded-lg bg-white text-gray-800 shadow-md">
+                <div class="font-semibold mb-1 text-purple-700">MeroAi Chatbot <span></span><sup class="text-xs">Beta</sup></div>
+                Hello! I'm here to help you with questions about Merowish's shipping and shopping services from India to Nepal. How can I assist you today?
+            </div>
+        </div>
+        <div class="border-t border-gray-200 p-4 bg-white">
+            <div class="flex items-center space-x-2">
+                <input
+                    id="chatInput"
+                    type="text"
+                    placeholder="Ask about Merowish services..."
+                    class="flex-1 p-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-700"
+                />
+                <button
+                    id="sendButton"
+                    class="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-3 rounded-full hover:from-purple-700 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 transition-all duration-300"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="text-xs text-gray-500 p-2 text-center bg-gray-100">
+            Disclaimer: This is an AI-generated reply. Please verify information with official Merowish sources.
+        </div>
+    </div>
+
+    <script>
+        const chatIcon = document.getElementById('chat-icon');
+        const chatContainer = document.getElementById('chat-container');
+        const closeChat = document.getElementById('close-chat');
+        const sendButton = document.getElementById("sendButton");
+        const chatInput = document.getElementById('chatInput');
+        const chatbox = document.getElementById('chatbox');
+
+        chatIcon.addEventListener('click', () => {
+            chatContainer.classList.remove('hidden');
+            chatIcon.classList.add('hidden');
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatContainer.classList.add('hidden');
+            chatIcon.classList.remove('hidden');
+        });
+
+        function displayMessage(message, isUser) {
+            const msgElem = document.createElement('div');
+            msgElem.className = `max-w-[80%] p-4 rounded-lg shadow-md ${
+                isUser
+                    ? 'ml-auto bg-gradient-to-r from-purple-600 to-pink-500 text-white'
+                    : 'bg-white text-gray-800'
+            }`;
+            
+            if (!isUser) {
+                const nameElem = document.createElement('div');
+                nameElem.innerHTML = 'MeroAi Chatbot <span></span><sup class="text-xs">Beta</sup>';
+                nameElem.className = 'font-semibold mb-1 text-purple-700';
+                msgElem.appendChild(nameElem);
+            }
+
+            if (isUser) {
+                msgElem.textContent = message;
+            } else {
+                const typingElem = document.createElement('div');
+                typingElem.className = 'typing-animation';
+                typingElem.innerHTML = '<span>.</span><span>.</span><span>.</span>';
+                msgElem.appendChild(typingElem);
+
+                setTimeout(() => {
+                    typingElem.remove();
+                    const messageContent = document.createTextNode(message);
+                    msgElem.appendChild(messageContent);
+                }, 2000);
+            }
+
+            chatbox.appendChild(msgElem);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        async function callApi(apiUrl, prompt) {
+            chatInput.value = "";
+            chatInput.disabled = true;
+            sendButton.disabled = true;
+
+            try {
+                 const enhancedPrompt = `Context: Merowish is a service that helps Nepali customers shop from Indian e-commerce websites and delivers products to Nepal. The shipping cost starts at Rs. 280. 
+                Question: ${prompt}
+                Important: Only provide information related to Merowish services, how to order, process, payment method, delivery time, Order From Major Indian e-commerce brands, shipping, and shopping from India to Nepal. If the question is not about Merowish or its services, politely inform that you can only answer questions about Merowish.`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({prompt: enhancedPrompt})
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    displayMessage(data.text, false);
+                } else {
+                    throw new Error('API request failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                displayMessage('I apologize, but I encountered an error. Please try asking your question again.', false);
+            } finally {
+                chatInput.disabled = false;
+                sendButton.disabled = false;
+                chatInput.focus();
+            }
+        }
+
+        sendButton.addEventListener('click', async () => {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            displayMessage(message, true);
+            chatInput.value = '';
+
+            const apiUrl = 'https://backend.buildpicoapps.com/aero/run/llm-api?pk=v1-Z0FBQUFBQm5HUEtMSjJkakVjcF9IQ0M0VFhRQ0FmSnNDSHNYTlJSblE0UXo1Q3RBcjFPcl9YYy1OZUhteDZWekxHdWRLM1M1alNZTkJMWEhNOWd4S1NPSDBTWC12M0U2UGc9PQ==';
+            await callApi(apiUrl, message);
+        });
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+    </script>
+</body>
+</html>
