@@ -197,10 +197,16 @@
             chatInterface.classList.toggle('scale-95');
             chatInterface.classList.toggle('pointer-events-none');
             chatbotIcon.classList.toggle('hidden');
+            
+            // Add this line to toggle the 'inset-0' class
+            chatInterface.classList.toggle('inset-0');
         }
 
         chatbotIcon.addEventListener('click', toggleChatInterface);
-        closeButton.addEventListener('click', toggleChatInterface);
+        closeButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleChatInterface();
+        });
 
         // FAQ Accordion functionality
         document.querySelectorAll('.faq-item').forEach(item => {
