@@ -41,8 +41,8 @@
         const productNameHint = document.getElementById('productNameHint');
         const characterCount = document.getElementById('characterCount');
         const domainMessage = document.getElementById('domainMessage');
-
-        const allowedDomains = [
+        
+        const allowedDomains = {
     'www.amazon.in', 
     'amazon.in', 
     'amzn.in', 
@@ -287,8 +287,9 @@
     'www.elleven.in', 
     'www.forever21.com'
     'overlaysnow.com'
-];
-       const companyLogos = {
+        };
+       
+        const companyLogos = {
     'www.amazon.in': 'https://shorturl.at/DuzAC',
     'amazon.in': 'https://shorturl.at/DuzAC',
     'amzn.in': 'https://shorturl.at/DuzAC',
