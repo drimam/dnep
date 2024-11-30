@@ -321,7 +321,6 @@
             'm.zara.com/in': 'https://logo.clearbit.com/zara.com',
             'robu.in': 'https://logo.clearbit.com/robu.in',
             'boat-lifestyle.com': 'https://logo.clearbit.com/boat-lifestyle.com'
-            
         };
 
         urlInput.addEventListener('input', debounce(handleUrlInput, 500));
@@ -416,7 +415,6 @@
 
                 if (companyLogo) {
                     await loadImageWithTimeout(companyLogo, 3000);
-                    return;
                 }
 
                 const { status, data } = await mql(url);
@@ -424,15 +422,23 @@
                 if (status === 'success') {
                     let thumbnailUrl = data.image?.url || data.logo?.url;
                     
-                    productNameInput.value = data.title ? data.title.substring(0, 30) : '';
-                    productNameInput.focus();
-                    productNameInput.setSelectionRange(0, productNameInput.value.length);
-                    productNameHint.classList.remove('hidden');
-                    updateCharacterCount();
+                    if (data.title) {
+                        productNameInput.value = data.title.substring(0, 30);
+                        productNameInput.focus();
+                        productNameInput.setSelectionRange(0, productNameInput.value.length);
+                        productNameHint.classList.remove('hidden');
+                        productNameHint.classList.remove('text-red-500');
+                        productNameHint.classList.add('text-green-600');
+                        productNameHint.textContent = "Please edit the product name if it's incorrect.";
+                        updateCharacterCount();
+                    } else {
+                        productNameInput.value = '';
+                        showProductNameError();
+                    }
 
                     if (thumbnailUrl) {
                         await loadImageWithTimeout(thumbnailUrl, 3000);
-                    } else {
+                    } else if (!companyLogo) {
                         throw new Error('No thumbnail URL available');
                     }
                 } else {
@@ -441,6 +447,7 @@
             } catch (error) {
                 console.error('Error fetching thumbnail:', error);
                 await handleFallbackImage(url);
+                showProductNameError();
             }
         }
 
@@ -488,6 +495,13 @@
             `;
             thumbnailContainer.classList.remove('border-gray-200');
             thumbnailContainer.classList.add('border-blue-500');
+        }
+
+        function showProductNameError() {
+            productNameHint.textContent = "Couldn't fetch product name. Please enter it manually.";
+            productNameHint.classList.remove('hidden');
+            productNameHint.classList.remove('text-green-600');
+            productNameHint.classList.add('text-red-500');
         }
 
         productNameInput.addEventListener('input', function() {
