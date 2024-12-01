@@ -135,7 +135,7 @@
                         
                         // Check if the line starts with a number or letter followed by a period or parenthesis
                         if (/^(\d+[\).]|\w[\).])/.test(line)) {
-                            lineElem.className = 'mb-2';
+                            lineElem.className = 'mb-2 font-semibold';
                             lineElem.innerHTML = line;
                         } else {
                             lineElem.className = 'pl-4 mb-2';
@@ -159,9 +159,11 @@
             sendButton.disabled = true;
 
             try {
-                 const enhancedPrompt = `Context: Merowish is a service that helps Nepali customers shop from Indian e-commerce websites and delivers products to Nepal. The shipping cost starts at Rs. 280. 
+                 const enhancedPrompt = `Context: Merowish is a service that helps Nepali customers shop from Indian e-commerce websites and delivers products to Nepal. The shipping cost starts at Rs. 280. Merowish can import goods for customers in Nepal from all major online e-commerce companies in India like Amazon.in, Flipkart.com, Myntra.com, Nykaa.com, and Ajio.com.
+
                 Question: ${prompt}
-                Important: Only provide information related to Merowish services, how to order, process, payment method, delivery time, Order From Major Indian e-commerce brands, shipping, and shopping from India to Nepal. If the question is not about Merowish or its services, politely inform that you can only answer questions about Merowish.`;
+
+                Important: Provide detailed information about Merowish services, including how to order, process, payment methods, delivery time, and shopping from India to Nepal. If the user provides a product link or asks about ordering, explain the step-by-step process for using Merowish. If the question is not about Merowish or its services, politely inform that you can only answer questions about Merowish.`;
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
