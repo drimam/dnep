@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeroWish Shopping Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .typing-indicator::after {
+            content: '...';
+            animation: blink 1s infinite;
+        }
+        .chat-message {
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .bot-message-content {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-purple-500 to-pink-500 h-screen flex items-center justify-center">
+    <div class="w-full max-w-sm bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-[420px]">
+        <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-3">
+            <h1 class="text-xl font-bold">MeroWish Shopping Assistant</h1>
+        </div>
+        <div id="chat-messages" class="flex-grow overflow-y-auto p-3 space-y-3"></div>
+        <div class="p-3 border-t">
+            <form id="chat-form" class="flex">
+                <input type="text" id="user-input" class="flex-grow px-2 py-1 text-sm border rounded-l-md focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Type your message...">
+                <button type="submit" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1 rounded-r-md hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chat-messages');
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+
+        const botResponses = {
+            greeting: getGreeting(),
+            keywords: {
+                order: ['i want to order', 'kasari order garne', 'order kaise kare', 'how to order', 'amazon', 'flipkart', 'myntra', 'ajio'],
+                delivery: ['delivery time', 'delivery date', 'estimated arrival date', 'kaile delivery hunxa', 'kati din lagxa', 'kati din lagcha', 'kaile samma delivery huncha'],
+                payment: ['payment method', 'payment kasari garne', 'cod', 'advance'],
+                thanks: ['thank you', 'tq', 'thnx', 'thank u', 'thanku'],
+                acknowledge: ['ok', 'huss', 'ehh', 'huncha', 'hunxa']
+            },
+            responses: {
+                delivery: `Dear customer,
+
+📦 It takes 10 to 12 working days depending on seller, from the date of Booking except public holidays.
+
+🌐 Tracking Information will be updated once it arrives at our warehouse from the seller.
+
+You Wish it, We Deliver It! ✨🎊🛒🎁🛍`,
+                payment: `We Accept 50% Advance & 50% as cash on delivery facility as well. 
+Payment Method : Esewa, Khalti, Bank Transfer, FonePay, UPI.
+For payment details and order confirmation please contact our WhatsApp chat support:`,
+                thanks: `It was a pleasure to assist you with this. 😇🙏🏻
+
+Thank you for reaching out to us!
+
+Regards
+MeroWish`,
+                acknowledge: `Thank you for understanding. ☺️🙏
+Is there anything else we can help you with? Please let us know. 
+
+Regards
+MeroWish Int'l Logistic.`
+            },
+            orderProcess: [
+                "Great! Let's start the ordering process. First, could you please share the product link you're interested in?",
+                "Thank you for the link. Now, what is the price of your product in INR (Indian Rupees)? Please provide only the numeric value.",
+                "Got it. Lastly, what is the weight of your product in kg?",
+                "Thank you for providing all the necessary information. I'll calculate the estimated cost for you now."
+            ]
+        };
+
+        let conversationState = 'initial';
+        let productInfo = {
+            link: '',
+            price: 0,
+            weight: 0
+        };
+
+        function getGreeting() {
+            const hour = new Date().getHours();
+            if (hour < 12) return "Good morning!";
+            if (hour < 18) return "Good afternoon!";
+            return "Good evening!";
+        }
+
+        function addMessage(sender, message) {
+            const messageElement = document.createElement('div');
+            messageElement.className = `flex ${sender === 'bot' ? 'justify-start' : 'justify-end'}`;
+    
+            const innerDiv = document.createElement('div');
+            innerDiv.className = `chat-message ${sender === 'bot' ? 'bg-purple-100' : 'bg-pink-100'} p-2 rounded-lg text-sm`;
+    
+            if (sender === 'bot') {
+                innerDiv.innerHTML = `<div class="flex items-center mb-1">
+                    <div class="w-6 h-6 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white mr-2">
+                        <i class="fas fa-robot text-xs"></i>
+                    </div>
+                    <span class="font-semibold text-purple-800 text-xs">Bot</span>
+                </div>
+                <div class="bot-message-content typing-indicator"></div>`;
+        
+                messageElement.appendChild(innerDiv);
+                chatMessages.appendChild(messageElement);
+        
+                const contentDiv = innerDiv.querySelector('.bot-message-content');
+                
+                setTimeout(() => {
+                    typeMessage(contentDiv, message);
+                }, 500);
+            } else {
+                innerDiv.innerHTML = `<div class="flex items-center mb-1 justify-end">
+                    <span class="font-semibold text-pink-800 text-xs">You</span>
+                    <div class="w-6 h-6 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white ml-2">
+                        <i class="fas fa-user text-xs"></i>
+                    </div>
+                </div>
+                <div>${message}</div>`;
+        
+                messageElement.appendChild(innerDiv);
+                chatMessages.appendChild(messageElement);
+            }
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function typeMessage(element, message) {
+            element.classList.remove('typing-indicator');
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < message.length) {
+                    element.innerHTML += message.charAt(i);
+                    i++;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                } else {
+                    clearInterval(interval);
+                    if (message === botResponses.responses.payment) {
+                        addWhatsAppButton(element);
+                    }
+                }
+            }, 30);
+        }
+
+        function addWhatsAppButton(element) {
+            const button = document.createElement('a');
+            button.href = "https://wa.me/9779845925880";
+            button.target = "_blank";
+            button.className = "inline-flex items-center justify-center bg-green-500 text-white px-4 py-2 rounded-full mt-2 hover:bg-green-600 transition-colors";
+            button.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-4 h-4 mr-2 fill-current">
+                    <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+                </svg>
+                WhatsApp Support
+            `;
+            element.appendChild(button);
+        }
+
+        function handleUserInput(input) {
+            addMessage('user', input);
+
+            let keywordFound = false;
+            for (const [category, keywordList] of Object.entries(botResponses.keywords)) {
+                if (keywordList.some(keyword => input.toLowerCase().includes(keyword))) {
+                    if (category === 'order') {
+                        startOrderProcess();
+                    } else {
+                        addMessage('bot', botResponses.responses[category]);
+                    }
+                    keywordFound = true;
+                    break;
+                }
+            }
+
+            if (!keywordFound) {
+                if (conversationState === 'initial') {
+                    handleUnknownKeyword();
+                } else {
+                    continueOrderProcess(input);
+                }
+            }
+        }
+
+        function handleUnknownKeyword() {
+            const message = `I'm sorry, I didn't understand that. How can I assist you today? Here are some options:
+1. Start an order
+2. Check delivery time
+3. Learn about payment methods
+4. Something else
+
+Please type the number of your choice or describe your query.`;
+            addMessage('bot', message);
+        }
+
+        function startOrderProcess() {
+            conversationState = 'asking_link';
+            addMessage('bot', botResponses.orderProcess[0]);
+        }
+
+        function continueOrderProcess(input) {
+            switch (conversationState) {
+                case 'asking_link':
+                    productInfo.link = input;
+                    conversationState = 'asking_price';
+                    addMessage('bot', botResponses.orderProcess[1]);
+                    break;
+                case 'asking_price':
+                    const price = parseFloat(input);
+                    if (isNaN(price)) {
+                        addMessage('bot', "Please provide a valid numeric value for the price.");
+                    } else {
+                        productInfo.price = price;
+                        conversationState = 'asking_weight';
+                        addMessage('bot', botResponses.orderProcess[2]);
+                    }
+                    break;
+                case 'asking_weight':
+                    const weight = parseFloat(input);
+                    if (isNaN(weight)) {
+                        addMessage('bot', "Please provide a valid numeric value for the weight.");
+                    } else {
+                        productInfo.weight = weight;
+                        addMessage('bot', botResponses.orderProcess[3]);
+                        const result = calculateCost(productInfo.price, productInfo.weight);
+                        addMessage('bot', result);
+                        conversationState = 'initial';
+                    }
+                    break;
+            }
+        }
+
+        function calculateCost(price, weight) {
+            const conversionRate = 1.60;
+            const nprEquivalent = price * conversionRate;
+            const totalWithServiceCharge = nprEquivalent * 1.03;
+            const importDuty = totalWithServiceCharge * 0.05;
+            const vat = totalWithServiceCharge * 0.13;
+            const totalWithVAT = totalWithServiceCharge + importDuty + vat;
+            const shippingCost = weight <= 0.5 ? 280 : 390;
+            const finalCost = totalWithVAT + shippingCost;
+
+            return `Based on the information provided:
+- Product price: ${price} INR
+- Weight: ${weight} kg
+
+Estimated cost breakdown:
+1. NPR Equivalent: ${nprEquivalent.toFixed(2)} NPR
+2. Total with 3% Service Charge: ${totalWithServiceCharge.toFixed(2)} NPR
+3. Import Duty (5%): ${importDuty.toFixed(2)} NPR
+4. VAT (13%): ${vat.toFixed(2)} NPR
+5. Total with VAT: ${totalWithVAT.toFixed(2)} NPR
+6. International Shipping: ${shippingCost} NPR
+
+Final approximate cost (including free home delivery): ${finalCost.toFixed(2)} NPR
+
+To proceed with your order or for any questions, please contact our WhatsApp support:`;
+        }
+
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const userMessage = userInput.value.trim();
+            if (userMessage) {
+                handleUserInput(userMessage);
+                userInput.value = '';
+            }
+        });
+
+        // Initial greeting
+        addMessage('bot', botResponses.greeting + " How can I assist you with your online shopping today?");
+    </script>
+</body>
+</html>
+
