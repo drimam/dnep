@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,7 +60,9 @@
             'www.nykaafashion.com', 
             'www.zara.com/in', 
             'meesho.com', 
-            'in.jbl.com', 
+            'in.jbl.com',
+            'forestessentialsindia.com',
+            'forever21.abfrl.in',
             'boat-lifestyle.com', 
             'www.layers.shop', 
             'boodmo.com', 
@@ -131,7 +134,6 @@
             'eauto.co.in', 
             'ecovacsindia.in', 
             'enfieldandactivazone.com', 
-            'forever21.abfrl.in', 
             'fuaark.com', 
             'gap.ajio.com', 
             'gap.nnnow.com', 
@@ -269,9 +271,6 @@
             'ustraa.com', 
             'uyyaala.com', 
             'vanheusenindia.com', 
-            'veromoda.in', 
-            'vmartretail.com', 
-            'wakefit.co', 
             'wildstone.in', 
             'wrangler.in', 
             'libas.in', 
@@ -286,8 +285,11 @@
             'wforwoman.com', 
             'wishfulbyw.com', 
             'www.elleven.in', 
-            'www.forever21.com',
-            'overlaysnow.com'
+            'overlaysnow.com',
+            'm.zara.com',
+            'zara.com',
+            'uniqlo.com',
+            'puma.com'
         ];
 
         const companyLogos = {
@@ -366,6 +368,12 @@
             try {
                 const hostname = new URL(url).hostname;
                 const parts = hostname.split('.');
+                if (parts.length > 2) {
+                    // Check for country-specific TLDs like .co.in
+                    if (parts[parts.length - 2] === 'co' || parts[parts.length - 2] === 'com') {
+                        return parts.slice(-3).join('.');
+                    }
+                }
                 return parts.slice(-2).join('.');
             } catch (error) {
                 console.error('Invalid URL:', error);
@@ -400,7 +408,7 @@
                 return;
             }
 
-            if (!allowedDomains.includes(domain)) {
+            if (!allowedDomains.some(domain => url.includes(domain))) {
                 showErrorMessage("We do not operate for this website.");
                 resetThumbnail();
                 disableProductNameInput();
@@ -512,7 +520,7 @@
 
         function updateCharacterCount() {
             const count = productNameInput.value.length;
-            characterCount.textContent = `${count} / 30 characters`;
+            characterCount.textContent = `${count} / 30`;
         }
     </script>
 </body>
