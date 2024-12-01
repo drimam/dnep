@@ -123,7 +123,28 @@
 
                 setTimeout(() => {
                     typingElem.remove();
-                    const messageContent = document.createTextNode(message);
+                    const messageContent = document.createElement('div');
+                    messageContent.className = 'text-left';
+                    
+                    // Split the message into lines
+                    const lines = message.split('\n');
+                    
+                    // Process each line
+                    lines.forEach((line, index) => {
+                        const lineElem = document.createElement('p');
+                        
+                        // Check if the line starts with a number or letter followed by a period or parenthesis
+                        if (/^(\d+[\).]|\w[\).])/.test(line)) {
+                            lineElem.className = 'mb-2';
+                            lineElem.innerHTML = line;
+                        } else {
+                            lineElem.className = 'pl-4 mb-2';
+                            lineElem.textContent = line;
+                        }
+                        
+                        messageContent.appendChild(lineElem);
+                    });
+                    
                     msgElem.appendChild(messageContent);
                 }, 2000);
             }
