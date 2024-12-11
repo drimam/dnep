@@ -6,6 +6,25 @@
     <title>URL Thumbnail Generator with Domain Filter</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@microlink/mql@latest/dist/mql.min.js"></script>
+    <style>
+        @keyframes ellipsis {
+          0% { content: '.'; }
+          33% { content: '..'; }
+          66% { content: '...'; }
+        }
+
+        .loading-ellipsis::after {
+          content: '.';
+          animation: ellipsis 1s infinite;
+          display: inline-block;
+          width: 1em;
+          text-align: left;
+        }
+
+        .product-name-loading::placeholder {
+          color: #9CA3AF; /* Updated CSS for placeholder color */
+        }
+    </style>
 </head>
 <body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-2xl bg-white rounded-xl shadow-lg p-6">
@@ -25,8 +44,11 @@
             </div>
         </div>
         <div id="domainMessage" class="text-red-500 text-sm mb-4 hidden"></div>
-        <div class="mb-1">
+        <div class="mb-1 relative">
             <input type="text" id="productName" placeholder="Product Name" maxlength="30" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+            <div id="productNameLoading" class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none hidden">
+                <span class="loading-ellipsis text-gray-500">Loading</span>
+            </div>
         </div>
         <p id="productNameHint" class="text-green-600 text-xs mb-4 hidden">Please edit the product name if it's incorrect.</p>
         <p id="characterCount" class="text-gray-500 text-xs mb-4">0 / 30</p>
@@ -207,6 +229,7 @@
             'birkenstock.in', 
             'bigrocknutrition.in', 
             'bobogears.com', 
+            'muftijeans.in', 
             'bookswagon.com', 
             'boultaudio.com', 
             'carlo-romano.com', 
@@ -347,6 +370,7 @@
 
         function hideLoading() {
             loadingSpinner.classList.add('hidden');
+            placeholderText.classList.remove('hidden');
         }
 
         function resetThumbnail() {
@@ -354,8 +378,12 @@
             thumbnailContainer.classList.remove('border-blue-500');
             thumbnailContainer.classList.add('border-gray-200');
             productNameInput.value = '';
+            productNameInput.placeholder = 'Product Name'; /* Updated placeholder */
+            productNameInput.classList.remove('product-name-loading');
             productNameHint.classList.add('hidden');
             updateCharacterCount();
+            document.getElementById('productNameLoading').classList.add('hidden');
+            enableProductNameInput();
         }
 
         function showErrorMessage(message) {
@@ -420,8 +448,13 @@
             }
 
             hideErrorMessage();
-            enableProductNameInput();
             showLoading();
+            disableProductNameInput();
+            productNameInput.value = '';
+            productNameInput.placeholder = 'Product Name';
+            productNameInput.classList.add('product-name-loading');
+            document.getElementById('productNameLoading').classList.remove('hidden');
+            productNameHint.classList.add('hidden');
 
             try {
                 const companyLogo = companyLogos[domain];
@@ -437,6 +470,10 @@
                     
                     if (data.title) {
                         productNameInput.value = data.title.substring(0, 30);
+                        enableProductNameInput();
+                        productNameInput.classList.remove('product-name-loading');
+                        productNameInput.placeholder = 'Product Name';
+                        document.getElementById('productNameLoading').classList.add('hidden');
                         productNameInput.focus();
                         productNameInput.setSelectionRange(0, productNameInput.value.length);
                         productNameHint.classList.remove('hidden');
@@ -445,7 +482,6 @@
                         productNameHint.textContent = "Please edit the product name if it's incorrect.";
                         updateCharacterCount();
                     } else {
-                        productNameInput.value = '';
                         showProductNameError();
                     }
 
@@ -511,6 +547,10 @@
         }
 
         function showProductNameError() {
+            document.getElementById('productNameLoading').classList.add('hidden');
+            productNameInput.placeholder = 'Product Name'; /* Updated placeholder */
+            productNameInput.classList.remove('product-name-loading');
+            enableProductNameInput();
             productNameHint.textContent = "Couldn't fetch product name. Please enter it manually.";
             productNameHint.classList.remove('hidden');
             productNameHint.classList.remove('text-green-600');
@@ -529,3 +569,4 @@
     </script>
 </body>
 </html>
+
