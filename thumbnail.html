@@ -24,6 +24,29 @@
         .product-name-loading::placeholder {
           color: #9CA3AF; /* Updated CSS for placeholder color */
         }
+
+        .need-help-button {
+          background-color: rgba(0, 128, 0, 0.1);
+          border: 1px solid darkgreen;
+          color: darkgreen;
+          padding: 5px 10px;
+          border-radius: 25px;
+          font-size: 12px;
+          display: inline-flex;
+          align-items: center;
+          text-decoration: none;
+          transition: background-color 0.3s;
+        }
+
+        .need-help-button:hover {
+          background-color: rgba(0, 128, 0, 0.2);
+        }
+
+        .need-help-icon {
+          width: 12px;
+          height: 12px;
+          margin-right: 5px;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-r from-blue-100 to-purple-100 min-h-screen flex items-center justify-center p-4">
@@ -43,7 +66,19 @@
                 <input type="text" id="urlInput" placeholder="Paste your URL here" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
             </div>
         </div>
-        <div id="domainMessage" class="text-red-500 text-sm mb-4 hidden"></div>
+        <div id="domainMessage" class="text-red-500 text-sm mb-4 hidden">
+            <div class="flex items-center">
+                <span>We do not operate for this website.</span>
+                <a href="https://wa.me/9779845925880?text=Hi%2C%20I%20need%20help%20regarding%20the%203rd%20party%20website%20which%20is%20not%20listed%20at%20Merowish" class="need-help-button ml-2" target="_blank" rel="noopener noreferrer">
+                    <svg class="need-help-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 16V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 8H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Need Help?
+                </a>
+            </div>
+        </div>
         <div class="mb-1 relative">
             <input type="text" id="productName" placeholder="Product Name" maxlength="30" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
             <div id="productNameLoading" class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none hidden">
@@ -315,6 +350,9 @@
             'overlaysnow.com',
             'm.zara.com',
             'zara.com',
+            'optimumnutrition.co.in',
+            'bathandbodyworks.in',
+            'myglamm.com',
             'uniqlo.com',
             'puma.com'
         ];
@@ -387,7 +425,7 @@
         }
 
         function showErrorMessage(message) {
-            domainMessage.textContent = message;
+            domainMessage.querySelector('span').textContent = message;
             domainMessage.classList.remove('hidden');
         }
 
