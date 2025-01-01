@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MeroAi Chatbot</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
@@ -27,12 +28,87 @@
         }
         .typing-animation span:nth-child(2) { animation-delay: 0.2s; }
         .typing-animation span:nth-child(3) { animation-delay: 0.4s; }
+
+        /* Menu Icon Styles */
+        .menu-icon {
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+        .menu-icon span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: white;
+            border-radius: 3px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+        .menu-icon span:nth-child(1) { top: 0px; }
+        .menu-icon span:nth-child(2) { top: 8px; }
+        .menu-icon span:nth-child(3) { top: 16px; }
+        .menu-icon.open span:nth-child(1) {
+            top: 8px;
+            transform: rotate(135deg);
+        }
+        .menu-icon.open span:nth-child(2) {
+            opacity: 0;
+            left: -60px;
+        }
+        .menu-icon.open span:nth-child(3) {
+            top: 8px;
+            transform: rotate(-135deg);
+        }
+
+        #contact-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+            max-height: 80%; /* Limit the height to 80% of the container */
+            overflow-y: auto; /* Add scrolling if content exceeds max-height */
+        }
+
+        #contact-container.show {
+            transform: translateY(0);
+        }
+
+        #backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        #backdrop.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
     </style>
 </head>
 <body class="bg-gray-100 h-screen">
     <div id="chat-container" class="fixed inset-4 max-w-[32rem] mx-auto bg-white rounded-lg shadow-xl flex flex-col overflow-hidden">
         <div class="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-4 flex justify-between items-center">
             <h2 class="text-lg font-semibold">MeroAi Chatbot <span></span><sup class="text-xs">Beta</sup></h2>
+            <div class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
         <div id="chatbox" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-radial from-purple-50 to-pink-50">
             <div class="max-w-[80%] p-4 rounded-lg bg-white text-gray-800 shadow-md">
@@ -79,6 +155,45 @@
         <div class="text-xs text-gray-500 p-2 text-center bg-gray-100">
             Disclaimer: This is an AI-generated reply. Please verify information with official Merowish sources.
         </div>
+        <div id="backdrop"></div>
+        <div id="contact-container" class="bg-white w-full rounded-t-lg shadow-lg">
+            <p class="text-center text-gray-700 font-medium text-xs py-4 border-b">How would you like to contact us?</p>
+            <div class="py-2">
+                <a href="https://m.me/209855716168742" class="flex items-center px-4 py-3 hover:bg-gray-100" target="_blank">
+                    <i class="fab fa-facebook-messenger text-blue-600 text-xl mr-3"></i>
+                    <span class="text-gray-700">Facebook Messenger</span>
+                </a>
+                <a href="https://instagram.com/merowish" class="flex items-center px-4 py-3 hover:bg-gray-100" target="_blank">
+                    <i class="fab fa-instagram text-pink-500 text-xl mr-3"></i>
+                    <span class="text-gray-700">Instagram</span>
+                </a>
+                <a href="https://www.tiktok.com/@merowish_official" class="flex items-center px-4 py-3 hover:bg-gray-100" target="_blank">
+                    <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="#000000">
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                    </svg>
+                    <span class="text-gray-700">TikTok</span>
+                </a>
+                <a href="viber://chat?number=%2B9779845925880" class="flex items-center px-4 py-3 hover:bg-gray-100">
+                    <i class="fab fa-viber text-purple-600 text-xl mr-3"></i>
+                    <span class="text-gray-700">Viber</span>
+                </a>
+                <a href="https://wa.me/9779845925880" class="flex items-center px-4 py-3 hover:bg-gray-100" target="_blank">
+                    <i class="fab fa-whatsapp text-green-500 text-xl mr-3"></i>
+                    <span class="text-gray-700">WhatsApp</span>
+                </a>
+                <a href="tel:9845925880" class="flex items-center px-4 py-3 hover:bg-gray-100">
+                    <i class="fas fa-phone text-green-600 text-xl mr-3"></i>
+                    <span class="text-gray-700">Call 9845925880</span>
+                </a>
+                <a href="sms:9779845925880" class="flex items-center px-4 py-3 hover:bg-gray-100">
+                    <i class="fas fa-comment text-green-400 text-xl mr-3"></i>
+                    <span class="text-gray-700">Send us a message</span>
+                </a>
+            </div>
+            <div class="border-t">
+                <button onclick="toggleContactContainer()" class="w-full text-gray-700 py-4 hover:bg-gray-100">Close</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -88,6 +203,11 @@
         const quickQuestions = document.querySelectorAll('.quick-question');
         const chatContainer = document.getElementById('chat-container');
         const liveAgentButton = document.getElementById('liveAgentButton');
+        const menuIcon = document.querySelector('.menu-icon');
+
+        menuIcon.addEventListener('click', function() {
+            toggleContactContainer();
+        });
 
         function adjustChatboxHeight() {
             const containerHeight = chatContainer.offsetHeight;
@@ -220,6 +340,18 @@
         setTimeout(() => {
             liveAgentButton.classList.remove('hidden');
         }, 15000);
+
+        function toggleContactContainer() {
+            const contactContainer = document.getElementById('contact-container');
+            const backdrop = document.getElementById('backdrop');
+            contactContainer.classList.toggle('show');
+            backdrop.classList.toggle('show');
+            menuIcon.classList.toggle('open');
+        }
+
+        // Add a click event listener to the backdrop to close the contact menu
+        document.getElementById('backdrop').addEventListener('click', toggleContactContainer);
     </script>
 </body>
 </html>
+
