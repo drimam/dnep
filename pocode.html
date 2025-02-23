@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Postal Codes </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 p-4 transition-all duration-300" id="body"><div class="max-w-6xl mx-auto">
+    <!-- Header with Theme Toggle -->
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-lg font-semibold">Nepal Postal Codes</h1>
+        <button id="themeToggle" class="flex items-center px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-white">
+            <i id="themeIcon" data-lucide="moon"></i>
+        </button>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="mb-4">
+        <input type="text" id="searchInput" placeholder="Search..." 
+               class="w-full p-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+    </div>
+
+    <!-- Table Container (For Mobile Responsiveness) -->
+    <div class="bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-x-auto">
+        <table class="w-full text-sm text-left">
+            <thead class="bg-gray-50 dark:bg-gray-800">
+                <tr>
+                    <th class="px-4 py-2 text-gray-500 dark:text-gray-300 uppercase">S.N.</th>
+                    <th class="px-4 py-2 text-gray-500 dark:text-gray-300 uppercase">State</th>
+                    <th class="px-4 py-2 text-gray-500 dark:text-gray-300 uppercase">Post Code</th>
+                    <th class="px-4 py-2 text-gray-500 dark:text-gray-300 uppercase">City</th>
+                    <th class="px-4 py-2 text-gray-500 dark:text-gray-300 uppercase">Common Name</th>
+                    <th class="px-4 py-2 text-gray-500 dark:text-gray-300 uppercase">Address</th>
+                    <th class="px-4 py-2 text-gray-500 dark:text-gray-300 uppercase">Delivery</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody" class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                <!-- Data will be populated here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Postal data
+    const postalData = [
+        {"state":"Achham","postCode":"10708","city":"Kamalbazar","commonName":"","address":"Kamalbazar Area","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"Bairaagidhara","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"Buspark","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"District Administration","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"District Education Office","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"District Hospital Area","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"Mangalsen Bazzar","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Airport Area","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Airport Bazar","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Bagbhidi","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Bahelpata","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Bayalpata Hospital","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Chipekhola","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Hatbazar","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Janakalyan Area","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Jhakale","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Kalimati","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Thati Bazar","deliveryService":"YES"},
+        
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Aatika Pata","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Khilji Asurkot counter Area","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Bhakti tola Area","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Guntikhola","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Khilji Area","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Mashal Bajar","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Myalpokhari","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Nuwakot Area","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Padinichowk","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Ratahale","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Rubdi","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Sandhikharka Bajar","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Sankhetari","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Shanti Bagaincha","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Buspark area","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Hall line area","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Phudbang Bazar","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Bihaara bazar","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Syale Bajar","deliveryService":"YES"},
+        
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Bangechaur","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Baglung Bazar","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Baglung Buspark","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Campus Chowk","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Deuralichowk","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Dhaulagiri Chowk","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Golden Gate","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Guthi","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Hallenchowk","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Jeep Park","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Kudule","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Laliguras Chowk","deliveryService":"YES"}
+    ];
+
+    // Render table
+    function renderTable(data) {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = data.map((item, index) => `
+            <tr>
+                <td class="px-4 py-2 text-gray-900 dark:text-gray-300">${index + 1}</td>
+                <td class="px-4 py-2 text-gray-900 dark:text-gray-300">${item.state}</td>
+                <td class="px-4 py-2 text-gray-900 dark:text-gray-300">${item.postCode}</td>
+                <td class="px-4 py-2 text-gray-900 dark:text-gray-300">${item.city}</td>
+                <td class="px-4 py-2 text-gray-900 dark:text-gray-300">${item.commonName}</td>
+                <td class="px-4 py-2 text-gray-900 dark:text-gray-300">${item.address}</td>
+                <td class="px-4 py-2 text-gray-900 dark:text-gray-300">${item.deliveryService}</td>
+            </tr>
+        `).join('');
+    }
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const filteredData = postalData.filter(item => 
+            Object.values(item).some(value => 
+                value.toString().toLowerCase().includes(searchTerm)
+            )
+        );
+        renderTable(filteredData);
+    });
+
+    // Dark/Light Mode Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.getElementById('body');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function updateThemeIcon() {
+        if (body.classList.contains('dark')) {
+            themeIcon.setAttribute('data-lucide', 'sun');
+        } else {
+            themeIcon.setAttribute('data-lucide', 'moon');
+        }
+        lucide.createIcons();
+    }
+
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark');
+        localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+        updateThemeIcon();
+    });
+
+    // Check saved theme preference
+    if (localStorage.getItem('theme') === 'dark') {
+        body.classList.add('dark');
+    }
+    updateThemeIcon();
+
+    // Initial load
+    renderTable(postalData);
+</script>
+
+</body>
+</html>
