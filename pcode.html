@@ -1,8 +1,9 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nepal Postal Codes</title>
+    <title> Postal Codes </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -26,6 +27,7 @@
         <table class="w-full text-sm text-left">
             <thead class="bg-gray-50 dark:bg-gray-800">
                 <tr>
+                    <th class="px-4 py-2 text-gray-500 dark:text-gray-300 uppercase">S.N.</th>
                     <th class="px-4 py-2 text-gray-500 dark:text-gray-300 uppercase">State</th>
                     <th class="px-4 py-2 text-gray-500 dark:text-gray-300 uppercase">Post Code</th>
                     <th class="px-4 py-2 text-gray-500 dark:text-gray-300 uppercase">City</th>
@@ -44,64 +46,65 @@
 <script>
     // Postal data
     const postalData = [
-    {"state":"Achham","postCode":"10708","city":"Kamalbazar","commonName":"","address":"Kamalbazar Area","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"Bairaagidhara","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"Buspark","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"District Administration","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"District Education Office","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"District Hospital Area","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"Mangalsen Bazzar","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Airport Area","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Airport Bazar","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Bagbhidi","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Bahelpata","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Bayalpata Hospital","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Chipekhola","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Hatbazar","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Janakalyan Area","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Jhakale","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Kalimati","deliveryService":"YES"},
-    {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Thati Bazar","deliveryService":"YES"},
-    
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Aatika Pata","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Khilji Asurkot counter Area","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Bhakti tola Area","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Guntikhola","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Khilji Area","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Mashal Bajar","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Myalpokhari","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Nuwakot Area","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Padinichowk","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Ratahale","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Rubdi","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Sandhikharka Bajar","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Sankhetari","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Shanti Bagaincha","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Buspark area","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Hall line area","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Phudbang Bazar","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Bihaara bazar","deliveryService":"YES"},
-    {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Syale Bajar","deliveryService":"YES"},
-    
-    {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Bangechaur","deliveryService":"YES"},
-    {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Baglung Bazar","deliveryService":"YES"},
-    {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Baglung Buspark","deliveryService":"YES"},
-    {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Campus Chowk","deliveryService":"YES"},
-    {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Deuralichowk","deliveryService":"YES"},
-    {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Dhaulagiri Chowk","deliveryService":"YES"},
-    {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Golden Gate","deliveryService":"YES"},
-    {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Guthi","deliveryService":"YES"},
-    {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Hallenchowk","deliveryService":"YES"},
-    {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Jeep Park","deliveryService":"YES"},
-    {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Kudule","deliveryService":"YES"},
-    {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Laliguras Chowk","deliveryService":"YES"}
-  ];
+        {"state":"Achham","postCode":"10708","city":"Kamalbazar","commonName":"","address":"Kamalbazar Area","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"Bairaagidhara","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"Buspark","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"District Administration","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"District Education Office","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"District Hospital Area","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10700","city":"Mangalsen","commonName":"","address":"Mangalsen Bazzar","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Airport Area","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Airport Bazar","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Bagbhidi","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Bahelpata","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Bayalpata Hospital","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Chipekhola","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Hatbazar","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Janakalyan Area","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Jhakale","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Kalimati","deliveryService":"YES"},
+        {"state":"Achham","postCode":"10709","city":"Sanphebagar","commonName":"","address":"Thati Bazar","deliveryService":"YES"},
+        
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Aatika Pata","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Khilji Asurkot counter Area","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Bhakti tola Area","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Guntikhola","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Khilji Area","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Mashal Bajar","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Myalpokhari","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Nuwakot Area","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Padinichowk","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Ratahale","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Rubdi","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Sandhikharka Bajar","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Sankhetari","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Shanti Bagaincha","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Buspark area","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Hall line area","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Phudbang Bazar","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Bihaara bazar","deliveryService":"YES"},
+        {"state":"Arghakhanchi","postCode":"32700","city":"Sandhikharka","commonName":"","address":"Syale Bajar","deliveryService":"YES"},
+        
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Bangechaur","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Baglung Bazar","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Baglung Buspark","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Campus Chowk","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Deuralichowk","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Dhaulagiri Chowk","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Golden Gate","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Guthi","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Hallenchowk","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Jeep Park","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Kudule","deliveryService":"YES"},
+        {"state":"Baglung","postCode":"33300","city":"Baglung","commonName":"","address":"Laliguras Chowk","deliveryService":"YES"}
+    ];
 
     // Render table
     function renderTable(data) {
         const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = data.map(item => `
+        tbody.innerHTML = data.map((item, index) => `
             <tr>
+                <td class="px-4 py-2 text-gray-900 dark:text-gray-300">${index + 1}</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-300">${item.state}</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-300">${item.postCode}</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-300">${item.city}</td>
