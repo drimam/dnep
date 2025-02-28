@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Original Price Calculator (INR)</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #f0f2f5;
+        }
+        .calculator { 
+            max-width: 400px; 
+            margin: 20px auto; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 12px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 { 
+            color: #1a73e8; 
+            margin-bottom: 20px; 
+            text-align: center;
+        }
+        label { 
+            display: block; 
+            margin: 10px 0 5px; 
+            color: #555;
+        }
+        input, select { 
+            width: 100%; 
+            padding: 10px; 
+            margin-bottom: 15px; 
+            border: 1px solid #ddd; 
+            border-radius: 6px; 
+            box-sizing: border-box;
+        }
+        button { 
+            width: 100%; 
+            padding: 12px; 
+            background: #1a73e8; 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 16px;
+        }
+        button:hover { 
+            background: #1557b0; 
+        }
+        .result { 
+            margin-top: 20px; 
+            padding: 15px; 
+            background: #e8f0fe; 
+            border-radius: 6px; 
+            text-align: center; 
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h2>INR Original Price Calculator</h2>
+        
+        <label for="percentage">Markup Percentage:</label>
+        <select id="percentage">
+            <option value="1.13">13%</option>
+            <option value="1.18" selected>18%</option>
+            <option value="1.23">23%</option>
+            <option value="1.28">28%</option>
+        </select>
+
+        <label for="finalValue">Final Value (NPR):</label>
+        <input type="number" id="finalValue" placeholder="Enter final value in NPR">
+
+        <label for="additionalCost">Additional Cost (NPR):</label>
+        <input type="number" id="additionalCost" value="280">
+
+        <button onclick="calculate()">Calculate Original Price (INR)</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculate() {
+            // Get inputs
+            const percentage = parseFloat(document.getElementById("percentage").value);
+            const finalValue = parseFloat(document.getElementById("finalValue").value);
+            const additionalCost = parseFloat(document.getElementById("additionalCost").value);
+
+            // Validate inputs
+            if (isNaN(finalValue)) {
+                alert("Please enter a valid final value!");
+                return;
+            }
+            if (isNaN(additionalCost)) {
+                alert("Please enter a valid additional cost!");
+                return;
+            }
+
+            // Calculate
+            const numerator = finalValue - additionalCost;
+            const denominator = 1.6 * 1.03 * percentage;
+            
+            if (numerator < 0 || denominator <= 0) {
+                alert("Final value must be greater than additional cost!");
+                return;
+            }
+
+            const originalPrice = numerator / denominator;
+
+            // Display result
+            document.getElementById("result").innerHTML = 
+                `Original Price (INR): <span style="color: #1a73e8;">₹${originalPrice.toFixed(2)}</span>`;
+        }
+    </script>
+</body>
+</html>
