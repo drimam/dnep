@@ -213,7 +213,7 @@
 
         function showErrorMessage(message, url) {
             domainMessage.querySelector('span').textContent = message;
-            const text = `Hi, I need help regarding the 3rd party website which is not listed at Merowish: ${url}`;
+            const text = `Hi, I need help regarding this 3rd party website which is not listed at Merowish : ${url}`;
             helpLink.href = `https://wa.me/9779845925880?text=${encodeURIComponent(text)}`;
             domainMessage.classList.remove('hidden');
         }
