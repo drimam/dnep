@@ -146,6 +146,8 @@
         overflow: hidden;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         animation: slideUp 0.3s ease;
+        transform: scale(0.6);
+        transform-origin: center;
       }
 
       .modal-header {
@@ -309,11 +311,11 @@
       @keyframes slideUp {
         from {
           opacity: 0;
-          transform: translateY(30px);
+          transform: scale(0.6) translateY(30px);
         }
         to {
           opacity: 1;
-          transform: translateY(0);
+          transform: scale(0.6) translateY(0);
         }
       }
     </style>
