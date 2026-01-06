@@ -1,86 +1,443 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lottie Buttons</title>
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            height: 100vh;
-            overflow: hidden;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        height: 100vh;
+        overflow: hidden;
+        background-color: #f5f5f5;
+      }
 
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh; /* Full viewport height */
-        }
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
 
-        .lottie-button {
-            display: inline-flex;
-            align-items: center;
-            padding: 10px 13px; /* Adjusted padding for button size */
-            border-radius: 50px; /* Rounded corners */
-            border: 1px solid #ccc;
-            background: linear-gradient(45deg, #ff69b4, #8a2be2); /* Gradient from pink to purple */
-            cursor: pointer;
-            font-size: 16px;
-            font-family: Arial, sans-serif;
-            transition: background-color 0.3s;
-            color: white; /* Text color for better contrast */
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* 20% grey shadow */
-            margin-bottom: 20px; /* Increased space between buttons */
-            white-space: nowrap; /* Prevents text wrapping */
-            text-decoration: none; /* Removes underline from links */
-        }
+      .lottie-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 12px 20px;
+        border-radius: 50px;
+        border: 1px solid #ccc;
+        background: linear-gradient(45deg, #ff69b4, #8a2be2);
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s;
+        color: white;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+        white-space: nowrap;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+      }
 
-        .lottie-button:hover {
-            background: linear-gradient(45deg, #ff85c0, #9370db); /* Slightly lighter gradient on hover */
-        }
+      .lottie-button:hover {
+        background: linear-gradient(45deg, #ff85c0, #9370db);
+        transform: translateY(-2px);
+        box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.25);
+      }
 
-        .lottie-animation {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 10px;
-            overflow: hidden;
-            background-color: #fffdd0; /* Light cream color */
-        }
+      .shining-button {
+        background: linear-gradient(45deg, #ff3366, #6633ff);
+        position: relative;
+        overflow: hidden;
+      }
 
-        .lottie-button span {
-            font-weight: bold; /* Bold text */
-            text-transform: uppercase; /* All caps */
+      .shining-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        animation: shine 3s infinite;
+      }
+
+      @keyframes shine {
+        0% {
+          left: -100%;
         }
+        20% {
+          left: 100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(138, 43, 226, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(138, 43, 226, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(138, 43, 226, 0);
+        }
+      }
+
+      .shining-button {
+        animation: pulse 2s infinite;
+      }
+
+      .lottie-animation {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 12px;
+        overflow: hidden;
+        background-color: #fffdd0;
+        position: relative;
+        z-index: 1;
+      }
+
+      .lottie-button span {
+        font-weight: bold;
+        text-transform: uppercase;
+        position: relative;
+        z-index: 1;
+      }
+
+      .shining-button:hover {
+        background: linear-gradient(45deg, #ff5588, #7755ff);
+      }
+
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        width: 90%;
+        max-width: 350px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        animation: slideUp 0.3s ease;
+      }
+
+      .modal-header {
+        background: linear-gradient(45deg, #ff3366, #6633ff);
+        color: white;
+        padding: 15px;
+        text-align: center;
+        position: relative;
+      }
+
+      .modal-header h2 {
+        margin: 0;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        font-size: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+      }
+
+      .close-modal:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .modal-body {
+        padding: 20px;
+        text-align: center;
+      }
+
+      .modal-body p {
+        line-height: 1.5;
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 14px;
+      }
+
+      .feature-highlight {
+        background: #f0f4ff;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 15px 0;
+        border: 2px solid #6633ff;
+        box-shadow: 0 3px 8px rgba(102, 51, 255, 0.1);
+      }
+
+      .feature-highlight strong {
+        color: #6633ff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+      }
+
+      .country-flag {
+        display: inline-block;
+        margin: 0 5px;
+        font-size: 18px;
+        vertical-align: middle;
+      }
+
+      .ai-badge {
+        display: inline-block;
+        background: linear-gradient(45deg, #ff3366, #6633ff);
+        color: white;
+        padding: 2px 8px;
+        border-radius: 15px;
+        font-size: 10px;
+        font-weight: bold;
+        margin-left: 5px;
+        vertical-align: middle;
+      }
+
+      .info-section {
+        margin: 20px 0;
+        padding: 15px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        border-left: 4px solid #4CAF50;
+      }
+
+      .info-section p {
+        margin-bottom: 10px;
+        color: #444;
+      }
+
+      .info-icon {
+        font-size: 24px;
+        margin-bottom: 10px;
+        display: block;
+      }
+
+      .disclaimer-text {
+        font-size: 9px; 
+        color: #666;
+        background: #fff3f3;
+        padding: 12px;
+        border-radius: 6px;
+        margin-top: 20px;
+        border: 1px solid #ffcccc;
+        line-height: 1.4;
+        text-align: left; 
+      }
+
+      .disclaimer-text strong {
+        color: #cc0000;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .modal-footer {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        justify-content: center;  
+      }
+
+      .modal-footer button {
+        padding: 12px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+        min-width: 180px;
+      }
+
+      .proceed-btn {
+        background: linear-gradient(45deg, #ff3366, #6633ff);
+        color: white;
+      }
+
+      .proceed-btn:hover {
+        background: linear-gradient(45deg, #ff5588, #7755ff);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 51, 255, 0.3);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="button-container">
-        <a href="https://merowish.com/order" class="lottie-button">
-            <div class="lottie-animation">
-                <dotlottie-player src="https://lottie.host/a9f276c9-7a41-4d37-9adf-ed488b1dac21/QgVPaX7z7W.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
-            </div>
-            <span>Buy For Me</span>
-        </a>
-        
-        <a href="https://wa.me/9779845925880" class="lottie-button">
-            <div class="lottie-animation">
-                <dotlottie-player src="https://lottie.host/bcb2bc2b-a437-4cd8-b66d-de1119cd1ab3/q8LJuJbECV.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
-            </div>
-            <span>Self Order</span>
-        </a>
-        
-        <a href="https://wa.me/9779845925880" class="lottie-button">
-            <div class="lottie-animation">
-                <dotlottie-player src="https://lottie.host/845a9f06-f737-4b77-887c-5db6245215ad/tH3Z1uOIM3.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
-            </div>
-            <span>Quick Order</span>
-        </a>
+      <a href="https://merowish.com/order" class="lottie-button">
+        <div class="lottie-animation">
+          <dotlottie-player
+            src="https://lottie.host/a9f276c9-7a41-4d37-9adf-ed488b1dac21/QgVPaX7z7W.json"
+            background="transparent"
+            speed="1"
+            style="width: 100%; height: 100%"
+            loop
+            autoplay
+          ></dotlottie-player>
+        </div>
+        <span>Buy For Me</span>
+      </a>
+
+      <!-- Quick Order button with shining effect -->
+      <a href="#" class="lottie-button shining-button" id="quickOrderBtn">
+        <div class="lottie-animation">
+          <dotlottie-player
+            src="https://lottie.host/845a9f06-f737-4b77-887c-5db6245215ad/tH3Z1uOIM3.json"
+            background="transparent"
+            speed="1"
+            style="width: 100%; height: 100%"
+            loop
+            autoplay
+          ></dotlottie-player>
+        </div>
+        <span>Quick Order</span>
+      </a>
+
+      <a href="https://wa.me/9779845925880" class="lottie-button">
+        <div class="lottie-animation">
+          <dotlottie-player
+            src="https://lottie.host/bcb2bc2b-a437-4cd8-b66d-de1119cd1ab3/q8LJuJbECV.json"
+            background="transparent"
+            speed="1"
+            style="width: 100%; height: 100%"
+            loop
+            autoplay
+          ></dotlottie-player>
+        </div>
+        <span>Self Order</span>
+      </a>
     </div>
-</body>
+
+    <div class="modal-overlay" id="quickOrderModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>
+            ⚡ Quick Order Ai
+            <span class="ai-badge">NEW</span>
+          </h2>
+          <button class="close-modal" id="closeModal">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="feature-highlight">
+            <strong>1st Time In Nepal <span class="country-flag">🇳🇵</span></strong>
+            Merowish Introduces Revolutionary Quick Order Ai System
+          </div>
+          
+          <div class="info-section">
+            <span class="info-icon">🚀</span>
+            <p><strong>No Waiting For Quotation</strong></p>
+            <p>Simply Paste the product link and proceed with Pay Now to complete order within few seconds ⚡</p>
+          </div>
+          
+          <div class="disclaimer-text">
+            <strong>Disclaimer:</strong> Currently limited to few product categories. AI can make mistakes. <br>We reserve the right to cancel orders in case of stock or price issues.
+          </div>
+          
+          <div class="modal-footer">
+            <button class="proceed-btn" id="proceedBtn">Order Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Get DOM elements
+      const quickOrderBtn = document.getElementById('quickOrderBtn');
+      const quickOrderModal = document.getElementById('quickOrderModal');
+      const closeModal = document.getElementById('closeModal');
+      const proceedBtn = document.getElementById('proceedBtn');
+
+      // Open modal when Quick Order button is clicked
+      quickOrderBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        quickOrderModal.classList.add('active');
+      });
+
+      // Close modal functions
+      function closeModalFunction() {
+        quickOrderModal.classList.remove('active');
+      }
+
+      // Close modal when close button is clicked
+      closeModal.addEventListener('click', closeModalFunction);
+
+      // Close modal when clicking outside the modal content
+      quickOrderModal.addEventListener('click', function(e) {
+        if (e.target === quickOrderModal) {
+          closeModalFunction();
+        }
+      });
+
+      // Close modal with Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && quickOrderModal.classList.contains('active')) {
+          closeModalFunction();
+        }
+      });
+
+      // Order Now
+      proceedBtn.addEventListener('click', function() {
+        const whatsappNumber = '9779845925880';
+        window.open(`https://wa.me/${whatsappNumber}`, '_blank');
+        closeModalFunction();
+      });
+    </script>
+  </body>
 </html>
