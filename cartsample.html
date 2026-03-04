@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Cart · NPR/INR · mobile aligned</title>
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* RESET & BASE */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    body {
+      background: #f4f6fa;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 12px;
+    }
+
+    /* MAIN CARD */
+    .cart-container {
+      max-width: 780px;
+      width: 100%;
+      background: #fff;
+      border-radius: 28px;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+      padding: 28px 24px;
+      transition: padding 0.2s;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .header h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #1e293b;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .header h2 i { color: #3b82f6; }
+
+    .currency-toggle {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 40px;
+      display: inline-flex;
+      padding: 4px;
+      gap: 4px;
+    }
+    .currency-toggle button {
+      border: none;
+      background: transparent;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: .95rem;
+      transition: .2s;
+      min-width: 80px;
+      white-space: nowrap;
+    }
+    .currency-toggle button.active {
+      background: #fff;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    /* CART ITEMS */
+    .cart-items {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .cart-item {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid #e9eef2;
+      background: #fff;
+      transition: gap 0.2s;
+    }
+    .item-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 16px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #eef2f6;
+    }
+    .item-info {
+      flex: 2;
+      min-width: 120px;
+    }
+    .item-title {
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+      word-break: break-word;
+    }
+    .item-price {
+      font-weight: 700;
+      font-size: .95rem;
+      color: #1e293b;
+    }
+    .item-total {
+      font-size: .85rem;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    /* item-actions (stacked column) */
+    .item-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+      margin-left: auto;
+      min-width: 260px;
+    }
+
+    /* payable-row: quantity left, payable right — side by side */
+    .payable-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;                /* base gap */
+      width: 100%;
+      flex-wrap: nowrap;        /* stay side by side by default */
+      justify-content: space-between;
+    }
+
+    /* quantity control (left) */
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      background: #f1f5f9;
+      border-radius: 40px;
+      padding: 3px;
+      border: 1px solid #d1d9e6;
+      flex-shrink: 0;
+    }
+    .quantity-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 40px;
+      border: none;
+      background: #fff;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.15s;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+    .quantity-btn:active {
+      background: #e2e8f0;
+    }
+    .quantity-number {
+      width: 30px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* payable display (right) */
+    .payable-display {
+      text-align: right;
+      flex-shrink: 1;
+      min-width: 120px;
+    }
+    .payable-display .amount {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #0f172a;
+      white-space: nowrap;
+    }
+    .payable-display .label {
+      font-size: .75rem;
+      color: #64748b;
+      letter-spacing: 0.2px;
+    }
+
+    /* breakdown wrapper – full width, below payable-row */
+    .breakdown-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .breakdown-btn {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 40px;
+      padding: 8px 18px;
+      font-size: .9rem;
+      cursor: pointer;
+      color: #2563eb;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      transition: .2s;
+      white-space: nowrap;
+    }
+    .breakdown-btn:hover {
+      background: #2563eb;
+      color: #fff;
+      border-color: #2563eb;
+    }
+    .breakdown-btn i {
+      font-size: 0.9rem;
+    }
+
+    /* SUMMARY PANEL */
+    .summary-panel {
+      margin-top: 28px;
+      background: #f8fafc;
+      border-radius: 24px;
+      padding: 20px 24px;
+      border: 1px solid #e2e8f0;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+    }
+    .advance-due {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+    }
+    .summary-box {
+      flex: 1;
+      background: #fff;
+      border-radius: 20px;
+      padding: 18px 12px;
+      text-align: center;
+      border: 1px solid #e2e8f0;
+    }
+    .summary-box h4 {
+      font-size: .9rem;
+      color: #64748b;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .summary-box .value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* PAY BAR – centered */
+    .pay-bar {
+      margin-top: 20px;
+      background: #1e293b;
+      color: #fff;
+      border-radius: 60px;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .pay-text {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      flex-wrap: wrap;
+    }
+    .pay-btn {
+      background: #3b82f6;
+      border: none;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 1rem;
+      transition: 0.15s;
+      box-shadow: 0 8px 18px rgba(59, 130, 246, 0.3);
+    }
+    .pay-btn:active {
+      background: #2563eb;
+      transform: scale(0.97);
+    }
+
+    /* BOTTOM SHEET */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .4);
+      opacity: 0;
+      visibility: hidden;
+      transition: .25s;
+      z-index: 998;
+    }
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .bottom-sheet {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      border-top-left-radius: 32px;
+      border-top-right-radius: 32px;
+      transform: translateY(100%);
+      transition: .3s cubic-bezier(0.2, 0.9, 0.3, 1);
+      padding: 24px 20px;
+      z-index: 999;
+      max-height: 85vh;
+      overflow: auto;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
+    }
+    .bottom-sheet.active {
+      transform: translateY(0);
+    }
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .close-sheet {
+      border: none;
+      background: #f1f5f9;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px dashed #cbd5e1;
+      font-size: .95rem;
+    }
+    .breakdown-row.total {
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-top: 2px solid #cbd5e1;
+      margin-top: 12px;
+      padding-top: 16px;
+    }
+
+    /* ====== RESPONSIVE FINE-TUNING ====== */
+    @media (max-width: 680px) {
+      .cart-item { gap: 14px; }
+      .item-actions { min-width: 220px; }
+    }
+
+    @media (max-width: 580px) {
+      .cart-item { flex-wrap: wrap; }
+      .item-info { min-width: 140px; }
+      .item-actions {
+        width: 100%;
+        min-width: 0;
+        margin-left: 0;
+      }
+      .payable-row { gap: 8px; }           /* keep side by side, narrower gap */
+      .breakdown-wrapper { justify-content: stretch; }
+      .breakdown-btn { width: 100%; justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .cart-container { padding: 16px 12px; }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .currency-toggle {
+        align-self: stretch;
+        display: flex;
+      }
+      .currency-toggle button {
+        flex: 1;
+        text-align: center;
+        padding: 10px 0;
+      }
+      .item-img { width: 70px; height: 70px; }
+      .item-title { font-size: 1rem; }
+      .item-price, .item-total { font-size: .9rem; }
+      .payable-display .amount { font-size: 1rem; }
+      .summary-row { font-size: 1.1rem; }
+      .advance-due {
+        flex-direction: row;
+        gap: 10px;
+      }
+      .summary-box { padding: 12px 8px; }
+      .summary-box h4 {
+        font-size: 0.8rem;
+        margin-bottom: 6px;
+      }
+      .summary-box .value { font-size: 1.2rem; }
+      .pay-bar { padding: 14px 18px; }
+      .pay-text { font-size: 1rem; gap: 6px; }
+      .pay-btn { padding: 10px 20px; font-size: .95rem; }
+    }
+
+    /* SMALLEST SCREENS: keep quantity & payable side by side, breakdown below */
+    @media (max-width: 360px) {
+      .payable-row {
+        flex-wrap: nowrap !important;        /* override any wrap */
+        gap: 4px;
+      }
+      .payable-display {
+        width: auto;                         /* remove 100% width */
+        text-align: right;
+        min-width: 90px;                     /* allow slight shrink */
+      }
+      .payable-display .amount {
+        font-size: 0.9rem;
+      }
+      .payable-display .label {
+        font-size: 0.7rem;
+      }
+      .quantity-control {
+        margin-left: 0;
+      }
+      .quantity-btn {
+        width: 24px;
+        height: 24px;
+      }
+      .quantity-number {
+        width: 24px;
+        font-size: 0.9rem;
+      }
+      .breakdown-btn {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+      }
+
+      /* keep rest of compact rules (from original 360) */
+      .advance-due { gap: 6px; }
+      .summary-box { padding: 8px 4px; }
+      .summary-box .value { font-size: 1rem; }
+      .pay-bar {
+        flex-direction: column;
+        align-items: center;
+      }
+      .pay-btn { width: 100%; justify-content: center; }
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+</head>
+<body>
+
+<div class="cart-container">
+  <div class="header">
+    <h2><i class="fas fa-shopping-cart"></i> Your cart</h2>
+    <div class="currency-toggle">
+      <button id="inrBtn">🇮🇳 INR</button>
+      <button id="nprBtn" class="active">🇳🇵 NPR</button>
+    </div>
+  </div>
+
+  <div id="cart-items" class="cart-items"></div>
+
+  <div class="summary-panel">
+    <div class="summary-row">
+      <span>Grand total</span>
+      <span id="grandTotal"></span>
+    </div>
+    <div class="advance-due">
+      <div class="summary-box">
+        <h4>Advance (25%)</h4>
+        <div class="value" id="advanceAmt"></div>
+      </div>
+      <div class="summary-box">
+        <h4>Due on COD (75%)</h4>
+        <div class="value" id="dueAmt"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pay-bar">
+    <div class="pay-text">
+      <span>Pay now</span>
+      <span id="payAdvance"></span>
+      <span>(25%)</span>
+    </div>
+    <button class="pay-btn" id="payBtn">
+      <i class="fas fa-bolt"></i> Pay now
+    </button>
+  </div>
+</div>
+
+<!-- BREAKDOWN SHEET -->
+<div class="overlay" id="overlay"></div>
+<div class="bottom-sheet" id="sheet">
+  <div class="sheet-header">
+    <h3>🧾 Cost breakdown</h3>
+    <button class="close-sheet" id="closeSheet">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div id="sheetContent"></div>
+</div>
+
+<script>
+  (function() {
+    const rate = 1.6;                // 1 INR = 1.6 NPR
+    let currency = "NPR";             // default to NPR
+
+    const products = [
+      { id: 0, name: 'Running Shoes', price: 1299, weight: 0.8, img: 'https://picsum.photos/id/100/200' },
+      { id: 1, name: 'Cotton T-Shirt', price: 499, weight: 0.2, img: 'https://picsum.photos/id/1015/200' },
+      { id: 2, name: 'Slim Fit Jeans', price: 1599, weight: 0.5, img: 'https://picsum.photos/id/1043/200' },
+      { id: 3, name: 'Wireless Earbuds', price: 2999, weight: 0.1, img: 'https://picsum.photos/id/106/200' }
+    ];
+
+    products.forEach(p => p.qty = 1);
+
+    // Format basic amounts (price, item total) which are in INR originally
+    function format(amountInINR) {
+      if (currency === "INR") return "₹" + amountInINR.toFixed(2);
+      return "रु " + (amountInINR * rate).toFixed(2);
+    }
+
+    // Format payable amounts (already in NPR)
+    function formatPayable(amountInNPR) {
+      if (currency === "INR") return "₹" + (amountInNPR / rate).toFixed(2);
+      return "रु " + amountInNPR.toFixed(2);
+    }
+
+    // Animation that respects current currency (used for grandTotal, advance, due, payAdvance)
+    function animateNumber(el, startINR, endINR, duration) {
+      if (!el) return;
+      let startTime = null;
+      function animate(ts) {
+        if (!startTime) startTime = ts;
+        let progress = Math.min((ts - startTime) / duration, 1);
+        let valueINR = startINR + (endINR - startINR) * progress;
+        el.innerText = format(valueINR);   // format expects INR
+        if (progress < 1) requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+    }
+
+    // Calculate final payable in NPR (as before)
+    function calculatePayableNPR(p) {
+      let itemTotalINR = p.price * p.qty;
+      let amazonFeeINR = 10;
+      let nprEquivalent = (itemTotalINR + amazonFeeINR) * rate;
+      let service = nprEquivalent * 0.03;
+      let base = nprEquivalent + service;
+      let duty = base * 0.10;
+      let vat = base * 0.13;
+      let subtotal = nprEquivalent + service + duty + vat;
+      let shipping = (p.weight * p.qty) * 560;  // shipping in NPR
+      return subtotal + shipping;
+    }
+
+    function render() {
+      const cart = document.getElementById("cart-items");
+      if (!cart) return;
+      cart.innerHTML = "";
+
+      products.forEach(p => {
+        let itemTotalINR = p.price * p.qty;
+        let totalPayNPR = calculatePayableNPR(p);
+
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'cart-item';
+        itemDiv.innerHTML = `
+          <img src="${p.img}" class="item-img" alt="${p.name}" loading="lazy">
+          <div class="item-info">
+            <div class="item-title">${p.name}</div>
+            <div class="item-price">${format(p.price)}</div>
+            <div class="item-total">Total: ${format(itemTotalINR)}</div>
+          </div>
+          <div class="item-actions">
+            <div class="payable-row">
+              <div class="quantity-control">
+                <button class="quantity-btn" data-id="${p.id}" data-delta="-1">−</button>
+                <span class="quantity-number">${p.qty}</span>
+                <button class="quantity-btn" data-id="${p.id}" data-delta="1">+</button>
+              </div>
+              <div class="payable-display">
+                <div class="amount">${formatPayable(totalPayNPR)}</div>
+                <div class="label">Final Payable</div>
+              </div>
+            </div>
+            <div class="breakdown-wrapper">
+              <button class="breakdown-btn" data-id="${p.id}">
+                <i class="fas fa-chart-pie"></i> View Breakdown
+              </button>
+            </div>
+          </div>
+        `;
+        cart.appendChild(itemDiv);
+      });
+
+      // re-attach event listeners
+      document.querySelectorAll('.quantity-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = parseInt(e.currentTarget.dataset.id);
+          const delta = parseInt(e.currentTarget.dataset.delta);
+          updateQty(id, delta);
+        });
+      });
+
+      document.querySelectorAll('.breakdown-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = parseInt(e.currentTarget.dataset.id);
+          openBreakdown(id);
+        });
+      });
+
+      updateSummary();
+    }
+
+    function updateQty(id, delta) {
+      const p = products.find(x => x.id === id);
+      if (p) {
+        p.qty = Math.max(1, p.qty + delta);
+        render();
+      }
+    }
+
+    function updateSummary() {
+      let totalINR = 0;
+      products.forEach(p => totalINR += p.price * p.qty);
+      let advanceINR = totalINR * 0.25;
+      let dueINR = totalINR * 0.75;
+
+      animateNumber(document.getElementById("grandTotal"), 0, totalINR, 500);
+      animateNumber(document.getElementById("advanceAmt"), 0, advanceINR, 500);
+      animateNumber(document.getElementById("dueAmt"), 0, dueINR, 500);
+      animateNumber(document.getElementById("payAdvance"), 0, advanceINR, 500);
+    }
+
+    function openBreakdown(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+
+      // All values computed in NPR
+      let itemTotalINR = p.price * p.qty;
+      let amazonFeeINR = 10;
+      let nprEquivalent = (itemTotalINR + amazonFeeINR) * rate;
+      let serviceNPR = nprEquivalent * 0.03;
+      let baseNPR = nprEquivalent + serviceNPR;
+      let dutyNPR = baseNPR * 0.10;
+      let vatNPR = baseNPR * 0.13;
+      let subtotalNPR = nprEquivalent + serviceNPR + dutyNPR + vatNPR;
+      let shippingNPR = (p.weight * p.qty) * 560;
+      let totalPayNPR = subtotalNPR + shippingNPR;
+
+      // Helper to format breakdown values based on currency
+      const breakdownFormat = (valueNPR) => {
+        if (currency === "INR") return "₹" + (valueNPR / rate).toFixed(2);
+        return "रु " + valueNPR.toFixed(2);
+      };
+
+      document.getElementById("sheetContent").innerHTML = `
+        <div class="breakdown-row"><span>Item total (INR)</span><span>₹${itemTotalINR.toFixed(2)}</span></div>
+        <div class="breakdown-row"><span>Amazon fee</span><span>₹10.00</span></div>
+        <div class="breakdown-row"><span>NPR equivalent</span><span>${breakdownFormat(nprEquivalent)}</span></div>
+        <div class="breakdown-row"><span>Service charge (3%)</span><span>${breakdownFormat(serviceNPR)}</span></div>
+        <div class="breakdown-row"><span>Import duty (10%)</span><span>${breakdownFormat(dutyNPR)}</span></div>
+        <div class="breakdown-row"><span>VAT (13%)</span><span>${breakdownFormat(vatNPR)}</span></div>
+        <div class="breakdown-row"><span>Subtotal (NPR)</span><span>${breakdownFormat(subtotalNPR)}</span></div>
+        <div class="breakdown-row"><span>Shipping</span><span>${breakdownFormat(shippingNPR)}</span></div>
+        <div class="breakdown-row total"><span>Total payable</span><span>${breakdownFormat(totalPayNPR)}</span></div>
+      `;
+
+      document.getElementById("overlay").classList.add("active");
+      document.getElementById("sheet").classList.add("active");
+    }
+
+    function closeSheet() {
+      document.getElementById("overlay").classList.remove("active");
+      document.getElementById("sheet").classList.remove("active");
+    }
+
+    // Event listeners
+    document.getElementById("overlay").addEventListener('click', closeSheet);
+    document.getElementById("closeSheet").addEventListener('click', closeSheet);
+
+    document.getElementById("inrBtn").addEventListener('click', () => {
+      currency = "INR";
+      document.getElementById("inrBtn").classList.add("active");
+      document.getElementById("nprBtn").classList.remove("active");
+      render();
+    });
+
+    document.getElementById("nprBtn").addEventListener('click', () => {
+      currency = "NPR";
+      document.getElementById("nprBtn").classList.add("active");
+      document.getElementById("inrBtn").classList.remove("active");
+      render();
+    });
+
+    document.getElementById("payBtn").addEventListener('click', () => {
+      let totalINR = 0;
+      products.forEach(p => totalINR += p.price * p.qty);
+      let advance = totalINR * 0.25;
+      alert("Advance amount: " + format(advance));  // format uses current currency
+    });
+
+    // Initial render (NPR active)
+    render();
+  })();
+</script>
+</body>
+</html>
