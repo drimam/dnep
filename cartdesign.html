@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Cart · compact text · fullwidth toggle</title>
+  <title>Cart · delete icon · INR item total</title>
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
@@ -53,7 +53,7 @@
     }
     .header h2 i { color: #3b82f6; }
 
-    /* currency toggle — inline but will be fullwidth on mobile */
+    /* currency toggle */
     .currency-toggle {
       background: #f1f5f9;
       border: 1px solid #cbd5e1;
@@ -79,7 +79,7 @@
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
     }
 
-    /* ===== CART ITEMS (unchanged) ===== */
+    /* ===== CART ITEMS ===== */
     .cart-items { display: flex; flex-direction: column; gap: 20px; }
     .cart-item {
       display: flex;
@@ -89,7 +89,37 @@
       border-radius: 20px;
       border: 1px solid #e9eef2;
       background: #fff;
+      position: relative;  /* for delete icon positioning */
     }
+    /* delete icon – top right corner */
+    .item-delete {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 32px;
+      height: 32px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid #e2e8f0;
+      color: #ef4444;
+      transition: 0.15s;
+      z-index: 5;
+      font-size: 1rem;
+    }
+    .item-delete:hover {
+      background: #fee2e2;
+      border-color: #ef4444;
+      transform: scale(1.05);
+    }
+    .item-delete:active {
+      transform: scale(0.95);
+    }
+
     .item-img {
       width: 80px; height: 80px; border-radius: 16px; object-fit: cover; flex-shrink: 0;
       background: #eef2f6;
@@ -120,7 +150,13 @@
     .quantity-btn:active { background: #e2e8f0; }
     .quantity-number { width: 30px; text-align: center; font-weight: 600; font-size: 0.95rem; }
 
-    .payable-display { text-align: right; flex-shrink: 1; min-width: 120px; }
+    /* ===== ADDED SPACE: move payable-display slightly from right side ===== */
+    .payable-display {
+      text-align: right;
+      flex-shrink: 1;
+      min-width: 120px;
+      margin-right: 40px;
+    }
     .payable-display .amount { font-weight: 700; font-size: 1rem; color: #0f172a; white-space: nowrap; }
     .payable-display .label { font-size: .75rem; color: #64748b; letter-spacing: 0.2px; }
 
@@ -141,7 +177,6 @@
       display: flex; justify-content: space-between; font-weight: 700;
       font-size: 1.2rem; margin-bottom: 8px;
     }
-    /* home delivery row (compact) */
     .delivery-row {
       display: flex; justify-content: space-between; align-items: center;
       font-size: 0.95rem; padding: 8px 0; border-bottom: 1px dashed #cbd5e1; margin-bottom: 12px;
@@ -149,22 +184,20 @@
     .delivery-row s { color: #ef4444; margin-right: 6px; }
     .free-badge { color: #10b981; font-weight: 600; }
 
-    /* discount applied line */
     .discount-line {
       display: flex; justify-content: space-between; background: #e6f7e6;
-      padding: 8px 12px; border-radius: 40px; margin: 12px 0; font-weight: 500;
+      padding: 8px 12px; border-radius: 40px; margin: 12px 0; font-weight: 400;
       color: #0b5e0b; border: 1px solid #a3d8a3;
     }
     .discount-amount { font-weight: 700; }
 
-    /* discount section (yellow) */
     .discount-section {
       background: #fef9c3; border: 1px solid #fde047; border-radius: 24px;
       padding: 16px 20px; margin: 16px 0; display: flex; align-items: center;
       justify-content: space-between; flex-wrap: wrap; gap: 12px;
     }
     .discount-left {
-      display: flex; align-items: center; gap: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 12px; font-weight: 450;
     }
     .pulse-circle {
       width: 20px; height: 20px; background: #f97316; border-radius: 50%;
@@ -191,7 +224,6 @@
     .remove-btn { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
     .remove-btn:hover { background: #fecaca; }
 
-    /* final cost section */
     .final-cost {
       display: flex; align-items: center; justify-content: space-between;
       border-radius: 60px; padding: 14px 22px; margin: 18px 0 8px;
@@ -202,7 +234,6 @@
     .bg-red { background: #fee2e2; }
     .bg-green { background: #dcfce7; }
 
-    /* advance & due boxes – original size, will be reduced below */
     .advance-due { display: flex; flex-direction: row; gap: 16px; margin-top: 16px; }
     .summary-box {
       flex: 1;
@@ -224,7 +255,6 @@
       line-height: 1.2;
     }
 
-    /* pay bar */
     .pay-bar {
       margin-top: 20px; background: #1e293b; color: #fff; border-radius: 60px;
       padding: 16px 24px; display: flex; justify-content: center; align-items: center;
@@ -254,101 +284,28 @@
     .breakdown-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #cbd5e1; font-size: .95rem; }
     .breakdown-row.total { font-weight: 700; font-size: 1.1rem; border-top: 2px solid #cbd5e1; margin-top: 12px; padding-top: 16px; }
 
-    /* ===== TEXT SIZE REDUCTION BY ~30% ===== */
-    .discount-line,
-    .discount-line span {
-      font-size: 1rem;
-    }
-    .discount-left,
-    .discount-left span {
-      font-size: 1rem;
-    }
-    .apply-btn, .remove-btn {
-      font-size: 0.63rem;  /* 0.9 * 0.7 */
-      padding: 7px 16px;    /* adjusted */
-    }
-    .final-cost-left,
-    #finalCostAmount {
-      font-size: 1rem;
-    }
-    .summary-box h4 {
-      font-size: 0.63rem;   /* 0.9 * 0.7 */
-    }
-    .summary-box .value {
-      font-size: 0.98rem;   /* 1.4 * 0.7 */
-    }
-    /* also ensure the discount amount and value spans are smaller */
-    #discountAmount, #discountValue {
-      font-size: 0.7rem;
-    }
-
-    /* ===== RESPONSIVE (fullwidth toggle, compact adjustments) ===== */
+    /* responsive adjustments – keep the right spacing on small devices */
     @media (max-width: 580px) {
       .cart-item { flex-wrap: wrap; }
       .item-actions { width: 100%; min-width: 0; margin-left: 0; }
       .payable-row { gap: 8px; }
+      .payable-display { margin-right: 8px; } /* slightly reduce on narrow screens */
       .breakdown-wrapper { justify-content: stretch; }
       .breakdown-btn { width: 100%; justify-content: center; }
     }
 
     @media (max-width: 480px) {
       .cart-container { padding: 16px 12px; }
-
-      /* currency toggle: full width */
-      .currency-toggle {
-        width: 100%;
-        display: flex;
-      }
-      .currency-toggle button {
-        flex: 1;
-        text-align: center;
-        padding: 10px 0;
-      }
-
-      /* keep other compact styles */
-      .delivery-row {
-        font-size: 0.85rem;
-        padding: 5px 0;
-      }
-      .discount-section {
-        padding: 12px 16px;
-        gap: 8px;
-      }
-      .discount-left {
-        gap: 8px;
-      }
-      .pulse-circle {
-        width: 16px;
-        height: 16px;
-      }
-      .final-cost {
-        padding: 10px 16px;
-        margin: 12px 0 6px;
-      }
-      .final-cost-left {
-        gap: 6px;
-      }
-      .cost-icon {
-        width: 22px;
-        height: 22px;
-      }
-      .pay-bar { padding: 12px 18px; }
-      .pay-text { font-size: 0.95rem; }
-      .pay-btn { padding: 8px 20px; font-size: 0.9rem; }
+      .currency-toggle { width: 100%; display: flex; }
+      .currency-toggle button { flex: 1; text-align: center; padding: 10px 0; }
+      .delivery-row { font-size: 0.85rem; padding: 5px 0; }
     }
 
     @media (max-width: 360px) {
       .payable-row { flex-wrap: nowrap; gap: 4px; }
-      .payable-display { min-width: 90px; }
+      .payable-display { min-width: 90px; margin-right: 6px; }
       .payable-display .amount { font-size: 0.9rem; }
       .payable-display .label { font-size: 0.65rem; }
-      .quantity-btn { width: 22px; height: 22px; }
-      .delivery-row { font-size: 0.8rem; }
-      .discount-left { font-size: 0.7rem; gap: 5px; }
-      .pulse-circle { width: 14px; height: 14px; }
-      .apply-btn, .remove-btn { padding: 5px 12px; }
-      .final-cost-left { font-size: 0.9rem; }
-      #finalCostAmount { font-size: 0.9rem; }
     }
 
     button { -webkit-tap-highlight-color: transparent; }
@@ -373,7 +330,6 @@
       <span id="grandTotal"></span>
     </div>
 
-    <!-- HOME DELIVERY (compact) -->
     <div class="delivery-row" id="homeDeliveryRow">
       <span>HOME DELIVERY 📦</span>
       <span><s id="deliveryOriginal">NPR 110</s> <span class="free-badge">FREE</span></span>
@@ -384,7 +340,6 @@
       <span class="discount-amount" id="discountAmount"></span>
     </div>
 
-    <!-- discount section (yellow) -->
     <div class="discount-section" id="discountSection">
       <div class="discount-left">
         <div class="pulse-circle"></div>
@@ -397,23 +352,20 @@
       </div>
     </div>
 
-    <!-- final cost row (compact) -->
     <div class="final-cost bg-red" id="finalCostSection">
       <div class="final-cost-left">
-        <img src="https://picsum.photos/id/20/30/30" alt="icon" class="cost-icon">
-        <span>FINAL AMOUNT</span>
+        <span>💳 FINAL AMOUNT</span>
       </div>
       <div class="final-cost-amount" id="finalCostAmount"></div>
     </div>
 
-    <!-- advance / due boxes (text reduced by 30%) -->
     <div class="advance-due">
       <div class="summary-box">
         <h4>Advance (25%)</h4>
         <div class="value" id="advanceAmt"></div>
       </div>
       <div class="summary-box">
-        <h4>Due on COD (75%)</h4>
+        <h4>COD (75%)</h4>
         <div class="value" id="dueAmt"></div>
       </div>
     </div>
@@ -421,7 +373,7 @@
 
   <div class="pay-bar">
     <div class="pay-text">
-      <span>Pay now</span>
+      <span>Advance :</span>
       <span id="payAdvance"></span>
       <span>(25%)</span>
     </div>
@@ -444,30 +396,37 @@
 <script>
   (function() {
     const rate = 1.6;
-    let currency = "NPR";
+    let currency = "NPR";    // default
     let discountActive = false;
 
-    const products = [
+    // make products mutable (let) so we can remove items
+    let products = [
       { id: 0, name: 'Running Shoes', price: 1299, weight: 0.8, img: 'https://picsum.photos/id/100/200' },
       { id: 1, name: 'Cotton T-Shirt', price: 499, weight: 0.2, img: 'https://picsum.photos/id/1015/200' },
       { id: 2, name: 'Slim Fit Jeans', price: 1599, weight: 0.5, img: 'https://picsum.photos/id/1043/200' },
       { id: 3, name: 'Wireless Earbuds', price: 2999, weight: 0.1, img: 'https://picsum.photos/id/106/200' }
     ];
+    // initialize qty
     products.forEach(p => p.qty = 1);
 
+    // helper: format amount based on current currency (for prices, totals except item-total)
     function format(amountInINR) {
       if (currency === "INR") return "₹" + amountInINR.toFixed(2);
       return "रु " + (amountInINR * rate).toFixed(2);
     }
+
+    // format for payable display (NPR value already)
     function formatPayable(amountInNPR) {
       if (currency === "INR") return "₹" + (amountInNPR / rate).toFixed(2);
       return "रु " + amountInNPR.toFixed(2);
     }
+
     function formatDelivery() {
       if (currency === "INR") return "₹" + (110 / rate).toFixed(2);
       return "रु 110";
     }
 
+    // animation (unchanged)
     function animateNumber(el, startINR, endINR, duration) {
       if (!el) return;
       let startTime = null;
@@ -481,6 +440,7 @@
       requestAnimationFrame(animate);
     }
 
+    // calculate payable NPR per product (same as original)
     function calculatePayableNPR(p) {
       let itemTotalINR = p.price * p.qty;
       let amazonFeeINR = 10;
@@ -494,6 +454,13 @@
       return subtotal + shipping;
     }
 
+    // --- remove item function ---
+    function removeItem(id) {
+      // filter out the product with given id
+      products = products.filter(p => p.id !== id);
+      render(); // re-render everything
+    }
+
     function render() {
       const cart = document.getElementById("cart-items");
       if (!cart) return;
@@ -502,14 +469,19 @@
       products.forEach(p => {
         let itemTotalINR = p.price * p.qty;
         let totalPayNPR = calculatePayableNPR(p);
+
         const itemDiv = document.createElement('div');
         itemDiv.className = 'cart-item';
         itemDiv.innerHTML = `
+          <!-- delete icon (top right) -->
+          <div class="item-delete" data-id="${p.id}"><i class="fas fa-trash"></i></div>
+
           <img src="${p.img}" class="item-img" alt="${p.name}" loading="lazy">
           <div class="item-info">
             <div class="item-title">${p.name}</div>
             <div class="item-price">${format(p.price)}</div>
-            <div class="item-total">Total: ${format(itemTotalINR)}</div>
+            <!-- item-total ALWAYS shows INR (₹) regardless of currency toggle, as requested -->
+            <div class="item-total">INR: ₹${itemTotalINR.toFixed(2)}</div>
           </div>
           <div class="item-actions">
             <div class="payable-row">
@@ -531,13 +503,20 @@
         cart.appendChild(itemDiv);
       });
 
+      // attach quantity listeners
       document.querySelectorAll('.quantity-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const id = parseInt(e.currentTarget.dataset.id);
           const delta = parseInt(e.currentTarget.dataset.delta);
-          updateQty(id, delta);
+          const product = products.find(x => x.id === id);
+          if (product) {
+            product.qty = Math.max(1, product.qty + delta);
+            render();
+          }
         });
       });
+
+      // attach breakdown listeners
       document.querySelectorAll('.breakdown-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const id = parseInt(e.currentTarget.dataset.id);
@@ -545,12 +524,16 @@
         });
       });
 
-      updateSummaryAndDiscount();
-    }
+      // attach delete listeners
+      document.querySelectorAll('.item-delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation(); // avoid any bubbling
+          const id = parseInt(e.currentTarget.dataset.id);
+          removeItem(id);
+        });
+      });
 
-    function updateQty(id, delta) {
-      const p = products.find(x => x.id === id);
-      if (p) { p.qty = Math.max(1, p.qty + delta); render(); }
+      updateSummaryAndDiscount();
     }
 
     function updateSummaryAndDiscount() {
@@ -675,6 +658,7 @@
       render();
     });
 
+    // initial render
     render();
   })();
 </script>
