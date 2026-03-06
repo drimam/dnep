@@ -309,6 +309,23 @@
     }
 
     button { -webkit-tap-highlight-color: transparent; }
+
+    /* ===== SIZE REDUCTION (30% smaller) ===== */
+    /* discount-right buttons: reduce font & padding by 30% approx */
+    .discount-right .apply-btn,
+    .discount-right .remove-btn {
+      font-size: 0.63rem;      /* 0.9rem * 0.7 = 0.63rem */
+      padding: 7px 15px;        /* originally 10px 22px ~70% */
+    }
+    /* final-cost-left text */
+    .final-cost-left {
+      font-size: 0.9rem;        /* relative to parent (~1rem) */
+    }
+    /* advanceAmt & dueAmt numbers (inside .value) */
+    #advanceAmt,
+    #dueAmt {
+      font-size: 0.98rem;       /* 1.4rem * 0.7 = 0.98rem */
+    }
   </style>
 </head>
 <body>
