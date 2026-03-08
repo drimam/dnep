@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Order page · track with dates & day names</title>
+  <title>Order page · simple financial row · single image</title>
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    /* === RESET & CORE (reused from cart design) === */
+    /* === RESET & CORE === */
     * {
       margin: 0;
       padding: 0;
@@ -42,7 +42,7 @@
       gap: 12px;
     }
     .header h2 {
-      font-size: 1.2rem;
+      font-size: 1.8rem;
       font-weight: 600;
       color: #1e293b;
       display: flex;
@@ -176,39 +176,73 @@
       margin-left: 4px;
     }
 
-    .order-items {
+    /* single image + summary */
+    .order-summary-row {
       display: flex;
+      gap: 16px;
       align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
       margin-bottom: 18px;
       background: #f8fafc;
       padding: 12px 16px;
       border-radius: 20px;
     }
-    .item-imgs {
-      display: flex;
-      align-items: center;
-    }
-    .item-thumb {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: #eef2f6;
+    .order-main-image {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
       object-fit: cover;
-      border: 2px solid white;
-      margin-right: -8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      background: #eef2f6;
+      border: 1px solid #d1d9e6;
+      flex-shrink: 0;
     }
-    .item-summary-text {
-      font-size: 0.9rem;
-      color: #334155;
-      font-weight: 500;
+    .order-brief {
+      flex: 1;
     }
-    .item-summary-text strong {
+    .order-brief .item-count {
+      font-weight: 600;
       color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .order-brief .item-names {
+      font-size: 0.9rem;
+      color: #475569;
+      line-height: 1.4;
     }
 
+    /* ===== redesigned financial row – simple, clean ===== */
+    .financial-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-start;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin: 16px 0 18px 0;
+      padding: 6px 0;
+      border-top: 1px dashed #e2e8f0;
+      border-bottom: 1px dashed #e2e8f0;
+    }
+    .finance-item {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      font-size: 0.95rem;
+    }
+    .finance-item .label {
+      color: #64748b;
+      font-weight: 400;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .finance-item .value {
+      font-weight: 600;
+      color: #1e293b;
+    }
+    .finance-item.advance .value { color: #2563eb; }      /* subtle blue */
+    .finance-item.due .value { color: #b45309; }          /* subtle amber */
+    /* no background, no borders – just text */
+
+    /* action buttons */
     .order-actions {
       display: flex;
       gap: 12px;
@@ -245,7 +279,7 @@
       background: #dbeafe;
     }
 
-    /* bottom sheet – timeline styling */
+    /* bottom sheet – timeline */
     .overlay {
       position: fixed;
       inset: 0;
@@ -355,9 +389,12 @@
       .order-container { padding: 18px 14px; }
       .order-row2 { gap: 12px; }
       .action-btn { padding: 8px 16px; }
+      .financial-row { gap: 16px; }
     }
     @media (max-width: 400px) {
       .chip { padding: 6px 12px; font-size: 0.75rem; }
+      .finance-item .label { font-size: 0.7rem; }
+      .finance-item .value { font-size: 0.85rem; }
     }
     button { -webkit-tap-highlight-color: transparent; }
   </style>
@@ -390,15 +427,13 @@
       <h3><i class="fas fa-truck"></i> Tracking timeline</h3>
       <button class="close-sheet" id="closeSheet"><i class="fas fa-times"></i></button>
     </div>
-    <div id="trackSheetContent" class="track-sheet-content">
-      <!-- dynamic timeline will be injected here -->
-    </div>
+    <div id="trackSheetContent" class="track-sheet-content"></div>
   </div>
 </div>
 
 <script>
   (function() {
-    // ----- ALL POSSIBLE SHIPMENT STATUSES (with icons & order for timeline) -----
+    // ----- ALL POSSIBLE SHIPMENT STATUSES (with icons) -----
     const statusList = [
       { id: 'all', label: 'All', icon: 'fa-list' },
       { id: 'orderCreated', label: 'Order Created', icon: 'fa-clipboard-list' },
@@ -421,7 +456,7 @@
       { id: 'returnReceived', label: 'Return Received', icon: 'fa-check-double' }
     ];
 
-    // ----- TYPICAL PROGRESSION (for building timeline) -----
+    // main flow for timeline generation
     const mainFlow = [
       'orderCreated',
       'quotationReceived',
@@ -434,61 +469,91 @@
       'delivered'
     ];
 
-    // ----- MOCK ORDER DATA (with realistic dates) -----
+    // ----- ORDER DATA with item prices, single image -----
     const ordersData = [
-      { id: 1, orderNo: 'ORD-1001', date: '2025-03-28', estArrival: '2025-04-05', statusId: 'orderCreated', items: [{ name: 'Running Shoes', qty: 1, img: 'https://picsum.photos/id/100/40' }, { name: 'T-Shirt', qty: 2, img: 'https://picsum.photos/id/1015/40' }] },
-      { id: 2, orderNo: 'ORD-1002', date: '2025-03-25', estArrival: '2025-04-02', statusId: 'shipped', items: [{ name: 'Slim Jeans', qty: 1, img: 'https://picsum.photos/id/1043/40' }, { name: 'Earbuds', qty: 1, img: 'https://picsum.photos/id/106/40' }] },
-      { id: 3, orderNo: 'ORD-1003', date: '2025-03-20', estArrival: '2025-03-30', statusId: 'delivered', items: [{ name: 'Leather Wallet', qty: 1, img: 'https://picsum.photos/id/1/40' }] },
-      { id: 4, orderNo: 'ORD-1004', date: '2025-03-22', estArrival: '2025-04-07', statusId: 'customClearance', items: [{ name: 'Smartwatch', qty: 1, img: 'https://picsum.photos/id/20/40' }, { name: 'Sunglasses', qty: 1, img: 'https://picsum.photos/id/26/40' }] },
-      { id: 5, orderNo: 'ORD-1005', date: '2025-03-18', estArrival: '2025-03-28', statusId: 'deliveryDelayed', items: [{ name: 'Yoga Mat', qty: 1, img: 'https://picsum.photos/id/30/40' }] },
-      { id: 6, orderNo: 'ORD-1006', date: '2025-03-15', estArrival: '2025-03-25', statusId: 'returnRequested', items: [{ name: 'Bluetooth Speaker', qty: 1, img: 'https://picsum.photos/id/36/40' }] },
-      { id: 7, orderNo: 'ORD-1007', date: '2025-03-10', estArrival: '2025-03-19', statusId: 'orderApproved', items: [{ name: 'Backpack', qty: 1, img: 'https://picsum.photos/id/40/40' }] }
+      { id: 1, orderNo: 'ORD-1001', date: '2025-03-28', estArrival: '2025-04-05', statusId: 'orderCreated',
+        items: [
+          { name: 'Running Shoes', qty: 1, price: 1299, img: 'https://picsum.photos/id/100/80' },
+          { name: 'T-Shirt', qty: 2, price: 499, img: 'https://picsum.photos/id/1015/80' }
+        ] },
+      { id: 2, orderNo: 'ORD-1002', date: '2025-03-25', estArrival: '2025-04-02', statusId: 'shipped',
+        items: [
+          { name: 'Slim Jeans', qty: 1, price: 1599, img: 'https://picsum.photos/id/1043/80' },
+          { name: 'Wireless Earbuds', qty: 1, price: 2999, img: 'https://picsum.photos/id/106/80' }
+        ] },
+      { id: 3, orderNo: 'ORD-1003', date: '2025-03-20', estArrival: '2025-03-30', statusId: 'delivered',
+        items: [
+          { name: 'Leather Wallet', qty: 1, price: 799, img: 'https://picsum.photos/id/1/80' }
+        ] },
+      { id: 4, orderNo: 'ORD-1004', date: '2025-03-22', estArrival: '2025-04-07', statusId: 'customClearance',
+        items: [
+          { name: 'Smartwatch', qty: 1, price: 3499, img: 'https://picsum.photos/id/20/80' },
+          { name: 'Sunglasses', qty: 1, price: 1299, img: 'https://picsum.photos/id/26/80' }
+        ] },
+      { id: 5, orderNo: 'ORD-1005', date: '2025-03-18', estArrival: '2025-03-28', statusId: 'deliveryDelayed',
+        items: [
+          { name: 'Yoga Mat', qty: 1, price: 699, img: 'https://picsum.photos/id/30/80' }
+        ] },
+      { id: 6, orderNo: 'ORD-1006', date: '2025-03-15', estArrival: '2025-03-25', statusId: 'returnRequested',
+        items: [
+          { name: 'Bluetooth Speaker', qty: 1, price: 2299, img: 'https://picsum.photos/id/36/80' }
+        ] },
+      { id: 7, orderNo: 'ORD-1007', date: '2025-03-10', estArrival: '2025-03-19', statusId: 'orderApproved',
+        items: [
+          { name: 'Backpack', qty: 1, price: 1899, img: 'https://picsum.photos/id/40/80' }
+        ] }
     ];
 
+    // active filter
     let activeFilter = 'all';
 
-    // helper to get full status object by id
+    // helper: get status object by id
     function getStatusById(id) {
       return statusList.find(s => s.id === id) || { label: id, icon: 'fa-question' };
     }
 
-    // ----- generate timeline for an order (returns array of steps with date & day) -----
+    // ----- calculate financials for an order (in NPR mock) -----
+    function calculateOrderTotals(order) {
+      // subtotal INR (we keep as base, but show in NPR with a conversion factor)
+      const subtotalINR = order.items.reduce((sum, i) => sum + (i.price * i.qty), 0);
+      // mock conversion rate 1.6, plus taxes & shipping -> final payable NPR
+      const conversion = 1.6;
+      const taxShippingFactor = 1.2; // 20% extra for fees, shipping
+      const finalPayableNPR = subtotalINR * conversion * taxShippingFactor;
+      const advance = finalPayableNPR * 0.25;
+      const due = finalPayableNPR * 0.75;
+      return {
+        final: finalPayableNPR.toFixed(0),
+        advance: advance.toFixed(0),
+        due: due.toFixed(0)
+      };
+    }
+
+    // format NPR
+    function formatNPR(amount) {
+      return 'रु ' + amount;
+    }
+
+    // ----- generate timeline for an order (returns steps with dates & day names) -----
     function generateTimeline(order) {
       const currentStatusId = order.statusId;
-      const baseDate = new Date(order.date); // order date
-      const today = new Date();
-
-      // 1. Determine sequence of status IDs leading to current status
+      const baseDate = new Date(order.date);
       let sequence = [];
 
       if (mainFlow.includes(currentStatusId)) {
-        // take all steps from start up to current
         const idx = mainFlow.indexOf(currentStatusId);
         sequence = mainFlow.slice(0, idx + 1);
       } else {
-        // For statuses not in main flow (cancelled, return, etc.)
-        // We'll create a simple two-step: orderCreated -> current status
-        // but if orderCreated is already there, we keep it.
         sequence = ['orderCreated', currentStatusId];
-        // Remove duplicates if same
         if (currentStatusId === 'orderCreated') sequence = ['orderCreated'];
       }
 
-      // 2. Assign dates: spread evenly between order date and today (or est arrival for future)
-      // For simplicity, we increment by 1 day for each step after the first.
       let timeline = [];
-      let currentDate = new Date(baseDate);
       for (let i = 0; i < sequence.length; i++) {
         const statusId = sequence[i];
         const status = getStatusById(statusId);
-        // create date object for this step
-        let stepDate = new Date(currentDate);
-        // add i days (so first step = order date, second = order date +1, etc.)
+        let stepDate = new Date(baseDate);
         stepDate.setDate(baseDate.getDate() + i);
-
-        // But ensure we don't exceed today for past statuses? we'll just keep logical.
-        // For delivered, it might be in past.
-        // Add day name
         const dayName = stepDate.toLocaleDateString('en-US', { weekday: 'long' });
         const formattedDate = stepDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
@@ -496,14 +561,11 @@
           statusId,
           label: status.label,
           icon: status.icon,
-          date: stepDate,
-          dayName,
           formattedDate,
+          dayName,
           isCurrent: (statusId === currentStatusId)
         });
       }
-
-      // Optionally, if the order has a return/ cancellation, we could add more steps, but this is sufficient.
       return timeline;
     }
 
@@ -526,7 +588,7 @@
       });
     }
 
-    // ----- render orders based on filter -----
+    // ----- render orders -----
     function renderOrders() {
       const listEl = document.getElementById('ordersList');
       if (!listEl) return;
@@ -542,15 +604,12 @@
       let htmlStr = '';
       filtered.forEach(order => {
         const status = getStatusById(order.statusId);
-        let thumbsHtml = '';
-        let itemNames = [];
-        order.items.forEach((item, idx) => {
-          if (idx < 3) {
-            thumbsHtml += `<img src="${item.img}" class="item-thumb" alt="${item.name}" loading="lazy">`;
-          }
-          itemNames.push(`${item.qty}× ${item.name}`);
-        });
-        const itemsSummary = itemNames.join(', ');
+        const totals = calculateOrderTotals(order);
+        // first item's image (single)
+        const firstImg = order.items[0]?.img || 'https://picsum.photos/id/0/80';
+        // list all item names for tooltip / brief
+        const itemNames = order.items.map(i => `${i.qty}× ${i.name}`).join(', ');
+        const totalItems = order.items.reduce((acc, i) => acc + i.qty, 0);
 
         htmlStr += `
           <div class="order-card" data-order-id="${order.id}">
@@ -562,10 +621,32 @@
               <div class="order-date"><i class="far fa-calendar-alt"></i> Order date: <span>${order.date}</span></div>
               <div class="est-arrival"><i class="far fa-clock"></i> Est. arrival: <span>${order.estArrival}</span></div>
             </div>
-            <div class="order-items">
-              <div class="item-imgs">${thumbsHtml}</div>
-              <div class="item-summary-text"><strong>${order.items.length} item(s)</strong> · ${itemsSummary.substring(0,40)}${itemsSummary.length>40?'...':''}</div>
+
+            <!-- single image + summary -->
+            <div class="order-summary-row">
+              <img src="${firstImg}" class="order-main-image" alt="order image" loading="lazy">
+              <div class="order-brief">
+                <div class="item-count">${totalItems} item(s)</div>
+                <div class="item-names" title="${itemNames}">${itemNames.substring(0, 40)}${itemNames.length > 40 ? '…' : ''}</div>
+              </div>
             </div>
+
+            <!-- redesigned financial row: simple, clean, no heavy boxes -->
+            <div class="financial-row">
+              <div class="finance-item">
+                <span class="label">Total</span>
+                <span class="value">${formatNPR(totals.final)}</span>
+              </div>
+              <div class="finance-item advance">
+                <span class="label">Advance (25%)</span>
+                <span class="value">${formatNPR(totals.advance)}</span>
+              </div>
+              <div class="finance-item due">
+                <span class="label">Due COD (75%)</span>
+                <span class="value">${formatNPR(totals.due)}</span>
+              </div>
+            </div>
+
             <div class="order-actions">
               <button class="action-btn track" data-order='${JSON.stringify(order)}'><i class="fas fa-map-marker-alt"></i> Track</button>
               <button class="action-btn help" data-orderid="${order.id}"><i class="fas fa-life-ring"></i> Help</button>
@@ -598,10 +679,10 @@
       const contentDiv = document.getElementById('trackSheetContent');
 
       const timeline = generateTimeline(order);
+      const status = getStatusById(order.statusId);
 
       let timelineHtml = '';
       timeline.forEach(step => {
-        const currentClass = step.isCurrent ? 'current-indicator' : '';
         const currentBadge = step.isCurrent ? '<span class="current-indicator">current</span>' : '';
         timelineHtml += `
           <div class="timeline-item">
@@ -617,16 +698,21 @@
         `;
       });
 
-      // also show order summary
-      const status = getStatusById(order.statusId);
+      // also show order summary with amounts
+      const totals = calculateOrderTotals(order);
       contentDiv.innerHTML = `
         <div style="background:#f8fafc; border-radius:20px; padding:16px; margin-bottom:20px;">
           <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px;">
             <i class="fas ${status.icon}" style="font-size:1.4rem;"></i>
             <span><strong>${order.orderNo}</strong> · ${status.label}</span>
           </div>
-          <div style="font-size:0.9rem; color:#334155;">Items: ${order.items.map(i=>`${i.qty}× ${i.name}`).join(', ')}</div>
-          <div style="font-size:0.85rem; margin-top:8px;">📅 Est. arrival: ${order.estArrival}</div>
+          <div style="font-size:0.9rem; color:#334155; margin-bottom:6px;">Items: ${order.items.map(i=>`${i.qty}× ${i.name}`).join(', ')}</div>
+          <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; font-size:0.9rem;">
+            <span><span style="color:#2563eb;">Advance:</span> ${formatNPR(totals.advance)}</span>
+            <span><span style="color:#b45309;">Due COD:</span> ${formatNPR(totals.due)}</span>
+            <span><span style="font-weight:600;">Total:</span> ${formatNPR(totals.final)}</span>
+          </div>
+          <div style="font-size:0.85rem; margin-top:10px;">📅 Est. arrival: ${order.estArrival}</div>
         </div>
         <h4 style="margin: 0 0 10px;"><i class="fas fa-history"></i> Shipment updates</h4>
         ${timelineHtml}
