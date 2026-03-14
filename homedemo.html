@@ -102,7 +102,7 @@
         </div>
     </header>
 
-    <div class="lg:hidden relative bg-indigo-600 pt-10 pb-14 px-6 rounded-b-[2.5rem]">
+    <div class="lg:hidden relative bg-indigo-600 pt-10 pb-14 px-6 rounded-b-[1.5rem]">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-white font-black text-2xl italic tracking-tight">Merowish</h1>
             <button class="w-10 h-10 bg-white/20 rounded-full text-white backdrop-blur-md relative">
@@ -121,7 +121,7 @@
 
     <main class="max-w-[1400px] mx-auto px-6 mt-12 md:mt-8 space-y-10">
 
-        <!-- Banner + sidebar layout (unchanged) -->
+        <!-- Banner + sidebar layout -->
         <section class="flex flex-col lg:flex-row gap-6">
             <aside class="hidden lg:block w-64 flex-shrink-0 bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
                 <h3 class="font-black text-slate-900 mb-4 px-2 uppercase text-[11px] tracking-widest">Store's by Category</h3>
@@ -141,7 +141,7 @@
                 </div>
             </aside>
 
-            <!-- Banner slider with 4 images (improved rounding on mobile) -->
+            <!-- Banner slider with 4 images -->
             <div class="flex-1 relative h-48 md:h-[420px] rounded-[2.5rem] overflow-hidden group">
                 <div id="banner-slider" class="banner-container h-full w-full">
                     <!-- slide 1 -->
@@ -181,18 +181,18 @@
                         </div>
                     </div>
                 </div>
-                <!-- dots will be injected via JS -->
                 <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2" id="dots-container"></div>
             </div>
         </section>
 
-        <!-- PARTNER STORES – moved directly below banner (as requested) -->
+        <!-- PARTNER STORES – now with extra brands hidden on mobile -->
         <section>
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-black text-slate-900">Partner Stores</h3>
                 <button onclick="toggleDrawer(true)" class="text-indigo-600 font-bold text-sm flex items-center gap-2 hover:underline">View All 100+ Stores <i class="fas fa-arrow-right text-[10px]"></i></button>
             </div>
             <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-6">
+                <!-- Original 4 brands (visible on all devices) -->
                 <div class="flex flex-col items-center group cursor-pointer">
                     <div class="w-16 h-16 bg-black rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform mb-3">
                         <span class="text-white font-bold text-2xl italic">a</span>
@@ -217,15 +217,41 @@
                     </div>
                     <span class="text-[11px] font-bold text-slate-500 uppercase">Apple</span>
                 </div>
-                <!-- additional brand icons (optional) – keeping minimal but can be extended -->
+
+                <!-- Additional brands (hidden on mobile, visible from md up) -->
+                <div class="hidden md:flex flex-col items-center group cursor-pointer">
+                    <div class="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform mb-3">
+                        <span class="text-white font-bold text-2xl italic">n</span>
+                    </div>
+                    <span class="text-[11px] font-bold text-slate-500 uppercase">Nike</span>
+                </div>
+                <div class="hidden md:flex flex-col items-center group cursor-pointer">
+                    <div class="w-16 h-16 bg-blue-800 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform mb-3">
+                        <span class="text-white font-bold text-2xl italic">ad</span>
+                    </div>
+                    <span class="text-[11px] font-bold text-slate-500 uppercase">Adidas</span>
+                </div>
+                <div class="hidden md:flex flex-col items-center group cursor-pointer">
+                    <div class="w-16 h-16 bg-black rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform mb-3">
+                        <span class="text-white font-bold text-2xl italic">z</span>
+                    </div>
+                    <span class="text-[11px] font-bold text-slate-500 uppercase">Zara</span>
+                </div>
+                <div class="hidden md:flex flex-col items-center group cursor-pointer">
+                    <div class="w-16 h-16 bg-blue-700 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform mb-3">
+                        <span class="text-white font-bold text-2xl italic">s</span>
+                    </div>
+                    <span class="text-[11px] font-bold text-slate-500 uppercase">Samsung</span>
+                </div>
+  
             </div>
         </section>
 
-        <!-- FEATURE CARDS (Global Access, Secure Payment, etc.) now come after Partner Stores -->
+        <!-- FEATURE CARDS -->
         <section class="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="bg-white p-6 rounded-3xl border border-slate-100 flex items-center gap-4 hover-lift">
                 <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-xl"><i class="fas fa-globe"></i></div>
-                <div><p class="font-bold text-sm">Global Access</p><p class="text-[11px] text-slate-400">🇮🇳India to Nepal🇳🇵</p></div>
+                <div><p class="font-bold text-sm">Import Access</p><p class="text-[11px] text-slate-400">India to Nepal</p></div>
             </div>
             <div class="bg-white p-6 rounded-3xl border border-slate-100 flex items-center gap-4 hover-lift">
                 <div class="w-12 h-12 bg-pink-50 text-pink-600 rounded-2xl flex items-center justify-center text-xl"><i class="fas fa-shield-alt"></i></div>
@@ -241,7 +267,7 @@
             </div>
         </section>
 
-        <!-- TRENDING (16 products, 2 columns on mobile) -->
+        <!-- TRENDING PRODUCTS -->
         <section>
             <h3 class="text-xl font-black text-slate-900 mb-6">🔥 Trending Products</h3>
             <div id="trending-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
