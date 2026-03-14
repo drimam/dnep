@@ -362,7 +362,7 @@
         </div>
     </div>
 
-    <!-- BOTTOM NAVIGATION (MOBILE ONLY) with links -->
+    <!-- BOTTOM NAVIGATION (MOBILE ONLY) with links and FAB link -->
     <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-6 py-4 z-50 flex justify-between items-center">
         <!-- Home -->
         <div class="nav-item active flex flex-col items-center gap-1" onclick="setActiveAndNavigate(this, 'https://drimam.github.io/dnep/homedemo.html')">
@@ -374,11 +374,11 @@
             <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-calculator"></i></div>
             <span class="text-[9px] font-bold">Calculator</span>
         </div>
-        <!-- FAB (no link) -->
+        <!-- FAB (now a link to BUY.html) -->
         <div class="relative -top-8">
-            <button class="fab-button w-16 h-16 rounded-full flex items-center justify-center border-4 border-white text-white">
+            <a href="https://drimam.github.io/dnep/BUY.html" class="fab-button w-16 h-16 rounded-full flex items-center justify-center border-4 border-white text-white">
                 <i class="fas fa-plus text-xl"></i>
-            </button>
+            </a>
         </div>
         <!-- Order -->
         <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActiveAndNavigate(this, 'https://drimam.github.io/dnep/orderpage.html')">
