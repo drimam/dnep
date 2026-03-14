@@ -51,7 +51,13 @@
       gap: 10px;
       align-items: center;
     }
-    .header h2 i { color: #3b82f6; }
+    /* ----- MODIFIED: header icon gradient from indigo-600 → purple-600 → pink-500 ----- */
+    .header h2 i {
+      background: linear-gradient(135deg, #4F46E5, #9333EA, #EC4899);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
     /* currency toggle */
     .currency-toggle {
@@ -150,7 +156,6 @@
     .quantity-btn:active { background: #e2e8f0; }
     .quantity-number { width: 30px; text-align: center; font-weight: 600; font-size: 0.95rem; }
 
-    /* ===== ADDED SPACE: move payable-display slightly from right side ===== */
     .payable-display {
       text-align: right;
       flex-shrink: 1;
@@ -191,7 +196,6 @@
     }
     .discount-amount { font-weight: 700; }
 
-    /* --- DISCOUNT SECTION --- original styles + 30% size reduction applied below */
     .discount-section {
       background: #fef9c3; border: 1px solid #fde047; border-radius: 24px;
       padding: 16px 20px; margin: 16px 0; display: flex; align-items: center;
@@ -225,15 +229,14 @@
     .remove-btn { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
     .remove-btn:hover { background: #fecaca; }
 
-    /* ===== REDUCE #discountSection CONTAINER SIZE BY 30% ===== */
+    /* discount section size reduction (30%) */
     #discountSection {
-      padding: calc(16px * 0.7) calc(20px * 0.7);   /* 11.2px 14px */
-      margin: calc(16px * 0.7) 0;                   /* 11.2px 0 */
-      border-radius: calc(24px * 0.7);              /* 16.8px */
-      font-size: 0.7em;                              /* scale base font inside */
-      gap: calc(12px * 0.7);                         /* reduce gap proportionally */
+      padding: calc(16px * 0.7) calc(20px * 0.7);
+      margin: calc(16px * 0.7) 0;
+      border-radius: calc(24px * 0.7);
+      font-size: 0.7em;
+      gap: calc(12px * 0.7);
     }
-    /* further scale inner elements that have fixed sizes */
     #discountSection .pulse-circle {
       width: calc(20px * 0.7);
       height: calc(20px * 0.7);
@@ -244,14 +247,11 @@
     #discountSection .discount-right {
       gap: calc(10px * 0.7);
     }
-    /* buttons already have 30% reduced size from previous global rule, 
-       but we keep them consistent */
     #discountSection .apply-btn,
     #discountSection .remove-btn {
-      font-size: calc(0.9rem * 0.7); /* 0.63rem matches previous rule, but we recalc for safety */
+      font-size: calc(0.9rem * 0.7);
       padding: calc(10px * 0.7) calc(22px * 0.7);
     }
-    /* ===== END 30% REDUCTION ===== */
 
     .final-cost {
       display: flex; align-items: center; justify-content: space-between;
@@ -290,13 +290,30 @@
       flex-wrap: wrap; gap: 24px;
     }
     .pay-text { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.1rem; flex-wrap: wrap; }
+
+    /* ----- MODIFIED: primary action button (pink-500 → purple-500 gradient) ----- */
     .pay-btn {
-      background: #3b82f6; border: none; color: #fff; padding: 12px 28px;
-      border-radius: 40px; font-weight: 600; cursor: pointer; display: flex;
-      gap: 8px; align-items: center; font-size: 1rem; transition: 0.15s;
-      box-shadow: 0 8px 18px rgba(59, 130, 246, 0.3);
+      background: linear-gradient(135deg, #EC4899, #A855F7);
+      border: none;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 1rem;
+      transition: 0.15s;
+      box-shadow: 0 8px 18px rgba(168, 85, 247, 0.3); /* purple-500 shadow */
     }
-    .pay-btn:active { background: #2563eb; transform: scale(0.97); }
+    .pay-btn:hover {
+      background: linear-gradient(135deg, #d43c8c, #9747d1);
+    }
+    .pay-btn:active {
+      background: linear-gradient(135deg, #c1357d, #843dbd);
+      transform: scale(0.97);
+    }
 
     /* bottom sheet */
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); opacity: 0; visibility: hidden; transition: .25s; z-index: 998; }
@@ -313,7 +330,7 @@
     .breakdown-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #cbd5e1; font-size: .95rem; }
     .breakdown-row.total { font-weight: 700; font-size: 1.1rem; border-top: 2px solid #cbd5e1; margin-top: 12px; padding-top: 16px; }
 
-    /* responsive adjustments – keep the right spacing on small devices */
+    /* responsive adjustments */
     @media (max-width: 580px) {
       .cart-item { flex-wrap: wrap; }
       .item-actions { width: 100%; min-width: 0; margin-left: 0; }
@@ -339,22 +356,16 @@
 
     button { -webkit-tap-highlight-color: transparent; }
 
-    /* ===== SIZE REDUCTION (30% smaller) ===== */
-    /* discount-right buttons: reduce font & padding by 30% approx */
+    /* discount-right buttons size reduction */
     .discount-right .apply-btn,
     .discount-right .remove-btn {
-      font-size: 0.63rem;      /* 0.9rem * 0.7 = 0.63rem */
-      padding: 7px 15px;        /* originally 10px 22px ~70% */
+      font-size: 0.63rem;
+      padding: 7px 15px;
     }
     /* final-cost-left text */
-    .final-cost-left {
-      font-size: 0.9rem;        /* relative to parent (~1rem) */
-    }
-    /* advanceAmt & dueAmt numbers (inside .value) */
-    #advanceAmt,
-    #dueAmt {
-      font-size: 0.98rem;       /* 1.4rem * 0.7 = 0.98rem */
-    }
+    .final-cost-left { font-size: 0.9rem; }
+    /* advanceAmt & dueAmt numbers */
+    #advanceAmt, #dueAmt { font-size: 0.98rem; }
   </style>
 </head>
 <body>
