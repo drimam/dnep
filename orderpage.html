@@ -3,26 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Order page · simple financial row · single image</title>
-  <!-- Font Awesome 6 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>Merowish | My Orders</title>
+  <!-- Tailwind + Font Awesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* === RESET & CORE === */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    /* Global styles from previous pages */
     body {
-      background: #f4f6fa;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      padding: 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding-bottom: 80px; /* space for bottom nav on mobile */
+    }
+    @media (min-width: 1024px) {
+      body { padding-bottom: 0; }
     }
 
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    /* Bottom navigation active state */
+    .nav-item.active { color: #db2777; }
+    .nav-item.active .nav-icon-bg { background-color: #fce7f3; }
+
+    /* Floating action button gradient */
+    .fab-button {
+      background: linear-gradient(135deg, #db2777 0%, #7c3aed 100%);
+      box-shadow: 0 10px 25px rgba(219, 39, 119, 0.3);
+    }
+
+    /* No extra scrollbar */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Original order page styles preserved */
     .order-container {
       max-width: 880px;
       width: 100%;
@@ -31,6 +51,7 @@
       box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
       padding: 28px 24px;
       transition: padding 0.2s;
+      margin: 0 auto;
     }
 
     .header {
@@ -49,7 +70,6 @@
       gap: 10px;
       align-items: center;
     }
-    /* ----- MODIFIED: header icon gradient indigo-600 → purple-600 → pink-500 ----- */
     .header h2 i {
       background: linear-gradient(135deg, #4F46E5, #9333EA, #EC4899);
       -webkit-background-clip: text;
@@ -68,7 +88,6 @@
       border: 1px solid #cbd5e1;
     }
 
-    /* filter chips */
     .filter-section {
       margin-bottom: 28px;
     }
@@ -124,7 +143,6 @@
       color: #facc15;
     }
 
-    /* order cards */
     .orders-list {
       display: flex;
       flex-direction: column;
@@ -182,7 +200,6 @@
       margin-left: 4px;
     }
 
-    /* single image + summary */
     .order-summary-row {
       display: flex;
       gap: 16px;
@@ -215,7 +232,6 @@
       line-height: 1.4;
     }
 
-    /* redesigned financial row – simple, clean */
     .financial-row {
       display: flex;
       align-items: baseline;
@@ -244,11 +260,9 @@
       font-weight: 600;
       color: #1e293b;
     }
-    .finance-item.advance .value { color: #2563eb; }      /* subtle blue */
-    .finance-item.due .value { color: #b45309; }          /* subtle amber */
-    /* no background, no borders – just text */
+    .finance-item.advance .value { color: #2563eb; }
+    .finance-item.due .value { color: #b45309; }
 
-    /* action buttons */
     .order-actions {
       display: flex;
       gap: 12px;
@@ -270,8 +284,6 @@
       color: #1e293b;
     }
     .action-btn i { font-size: 0.9rem; }
-
-    /* ----- MODIFIED: primary action button (pink-500 → purple-500 gradient) ----- */
     .action-btn.track {
       background: linear-gradient(135deg, #EC4899, #A855F7);
       border-color: #A855F7;
@@ -283,15 +295,10 @@
       border-color: #9747d1;
       box-shadow: 0 6px 14px rgba(168, 85, 247, 0.3);
     }
-
-    .action-btn.help {
-      background: #f0f2f5;
-    }
     .action-btn.help:hover {
       background: #e2e8f0;
     }
 
-    /* bottom sheet – timeline */
     .overlay {
       position: fixed;
       inset: 0;
@@ -411,343 +418,480 @@
     button { -webkit-tap-highlight-color: transparent; }
   </style>
 </head>
-<body>
+<body class="min-h-screen">
 
-<div class="order-container">
-  <div class="header">
-    <h2><i class="fas fa-box-open"></i> My orders</h2>
-    <div class="profile-badge">
-      <i class="fas fa-user-circle"></i> <span>Ramesh</span>
+  <!-- DESKTOP HEADER (hidden on mobile) with cart icon added -->
+  <header class="hidden lg:block sticky top-0 z-[100] glass-nav">
+    <div class="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-10">
+        <div class="flex items-center gap-2">
+          <div class="bg-indigo-600 p-2 rounded-xl text-white"><i class="fas fa-box"></i></div>
+          <span class="text-2xl font-extrabold tracking-tighter">Merowish</span>
+        </div>
+        <nav class="flex items-center gap-6 text-sm font-bold text-slate-500">
+          <a href="#" class="hover:text-indigo-600 transition-colors">Home</a>
+          <a href="#" class="hover:text-indigo-600 transition-colors">Cost Calculator</a>
+          <a href="#" class="hover:text-indigo-600 transition-colors">Self-Order</a>
+        </nav>
+      </div>
+
+      <div class="flex-1 max-w-xl mx-10">
+        <div class="relative group">
+          <input type="text" placeholder="Search Amazon, Flipkart, or Myntra products..." 
+                 class="w-full bg-slate-100 border-2 border-transparent focus:border-indigo-500 focus:bg-white rounded-2xl py-2.5 pl-12 pr-4 text-sm transition-all outline-none">
+          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500"></i>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-5">
+        <!-- heart icon -->
+        <button class="text-slate-500 hover:text-indigo-600 transition-colors"><i class="far fa-heart text-xl"></i></button>
+        <!-- cart icon added -->
+        <button class="text-slate-500 hover:text-indigo-600 transition-colors"><i class="fas fa-shopping-cart text-xl"></i></button>
+        <div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+          <div class="text-right">
+            <p class="text-[10px] font-bold text-slate-400 uppercase">Damodar Bhattarai</p>
+            <p class="text-xs font-bold text-slate-800">Account & Orders</p>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border-2 border-white shadow-sm">DB</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE HEADER (visible only on mobile) with cart icon added -->
+  <div class="lg:hidden relative bg-indigo-600 pt-6 pb-8 px-6 rounded-b-[1.5rem]">
+    <div class="flex justify-between items-center mb-2">
+      <h1 class="text-white font-black text-2xl italic tracking-tight">Merowish</h1>
+      <!-- cart + bell group -->
+      <div class="flex gap-2">
+        <!-- cart icon with same backdrop style -->
+        <button class="w-10 h-10 bg-white/20 rounded-full text-white backdrop-blur-md relative">
+          <i class="fas fa-shopping-cart"></i>
+        </button>
+        <!-- bell icon with badge -->
+        <button class="w-10 h-10 bg-white/20 rounded-full text-white backdrop-blur-md relative">
+          <i class="far fa-bell"></i>
+          <span class="absolute top-2 right-2 w-2 h-2 bg-pink-500 rounded-full border-2 border-indigo-600"></span>
+        </button>
+      </div>
+    </div>
+    <p class="text-indigo-100 text-sm mb-2">Hello, <span class="text-white font-bold">Damodar</span> 👋</p>
+    <div class="absolute -bottom-6 left-6 right-6 shadow-xl">
+      <!-- (search bar can be added if needed) -->
     </div>
   </div>
 
-  <!-- FILTER SECTION -->
-  <div class="filter-section">
-    <div class="filter-title">
-      <i class="fas fa-sliders-h"></i> Shipment status
+  <!-- MAIN CONTENT: ORDER PAGE -->
+  <main class="max-w-[1400px] mx-auto px-4 sm:px-6 mt-8 md:mt-10">
+    <div class="order-container">
+      <div class="header">
+        <h2><i class="fas fa-box-open"></i> My orders</h2>
+        <div class="profile-badge">
+          <i class="fas fa-user-circle"></i> <span>Ramesh</span>
+        </div>
+      </div>
+
+      <!-- FILTER SECTION -->
+      <div class="filter-section">
+        <div class="filter-title">
+          <i class="fas fa-sliders-h"></i> Shipment status
+        </div>
+        <div class="filter-chips" id="filterChips"></div>
+      </div>
+
+      <!-- ORDERS LIST -->
+      <div id="ordersList" class="orders-list"></div>
+
+      <!-- bottom sheet for tracking -->
+      <div class="overlay" id="overlay"></div>
+      <div class="bottom-sheet" id="trackSheet">
+        <div class="sheet-header">
+          <h3><i class="fas fa-truck"></i> Tracking Timeline</h3>
+          <button class="close-sheet" id="closeSheet"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="trackSheetContent" class="track-sheet-content"></div>
+      </div>
     </div>
-    <div class="filter-chips" id="filterChips"></div>
-  </div>
+  </main>
 
-  <!-- ORDERS LIST -->
-  <div id="ordersList" class="orders-list"></div>
-
-  <!-- bottom sheet for tracking -->
-  <div class="overlay" id="overlay"></div>
-  <div class="bottom-sheet" id="trackSheet">
-    <div class="sheet-header">
-      <h3><i class="fas fa-truck"></i> Tracking Timeline</h3>
-      <button class="close-sheet" id="closeSheet"><i class="fas fa-times"></i></button>
+  <!-- DESKTOP FOOTER (hidden on mobile) -->
+  <footer class="hidden md:block bg-slate-900 text-slate-400 py-16 mt-20">
+    <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+      <div class="col-span-1 md:col-span-1">
+        <div class="flex items-center gap-2 text-white mb-6">
+          <div class="bg-indigo-600 p-2 rounded-xl text-white"><i class="fas fa-box"></i></div>
+          <span class="text-2xl font-black tracking-tighter">Merowish Int'l Logistic</span>
+        </div>
+        <p class="text-sm leading-relaxed mb-6">Importing your favorite products from India to Nepal has never been easier. We handle the shipping, customs, and delivery.</p>
+        <div class="flex gap-4">
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Global Stores</h4>
+        <ul class="space-y-4 text-sm">
+          <li><a href="#" class="hover:text-white transition-colors">Amazon.in</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Flipkart.com</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Myntra.com</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Zara.in</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Support</h4>
+        <ul class="space-y-4 text-sm">
+          <li><a href="#" class="hover:text-white transition-colors">Terms & Condition</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Return Policy</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">How it Works</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">FAQs</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Download App</h4>
+        <p class="text-sm mb-4">Get Special Discount on your first order on App.</p>
+        <div class="space-y-3">
+          <div class="bg-slate-800 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-700">
+            <i class="fab fa-apple text-2xl text-white"></i>
+            <div><p class="text-[10px]">Download on</p><p class="text-xs font-bold text-white">App Store</p></div>
+          </div>
+          <div class="bg-slate-800 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-700">
+            <i class="fab fa-google-play text-2xl text-white"></i>
+            <div><p class="text-[10px]">Get it on</p><p class="text-xs font-bold text-white">Google Play</p></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="trackSheetContent" class="track-sheet-content"></div>
-  </div>
-</div>
+    <div class="max-w-[1400px] mx-auto px-6 mt-16 pt-8 border-t border-slate-800 flex justify-between text-xs">
+      <p>&copy; 2026 Merowish Technologies. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
 
-<script>
-  (function() {
-    // ----- ALL POSSIBLE SHIPMENT STATUSES (with icons) -----
-    const statusList = [
-      { id: 'all', label: 'All', icon: 'fa-list' },
-      { id: 'orderCreated', label: 'Order Created', icon: 'fa-clipboard-list' },
-      { id: 'quotationReceived', label: 'Quotation Received', icon: 'fa-file-invoice' },
-      { id: 'orderApproved', label: 'Order Approved', icon: 'fa-check-circle' },
-      { id: 'orderCancelled', label: 'Order Cancelled', icon: 'fa-ban' },
-      { id: 'incomingShipment', label: 'Incoming Shipment', icon: 'fa-truck' },
-      { id: 'arrivedIndiaWarehouse', label: 'Arrived at India Warehouse', icon: 'fa-warehouse' },
-      { id: 'arrivedNepalWarehouse', label: 'Arrived at Nepal Warehouse', icon: 'fa-warehouse' },
-      { id: 'customClearance', label: 'Custom Clearance', icon: 'fa-passport' },
-      { id: 'shipped', label: 'Shipped', icon: 'fa-shipping-fast' },
-      { id: 'delivered', label: 'Delivered', icon: 'fa-box-open' },
-      { id: 'wrongProduct', label: 'Wrong Product Received', icon: 'fa-exclamation-triangle' },
-      { id: 'returnToSeller', label: 'Return to Seller', icon: 'fa-undo-alt' },
-      { id: 'deliveryDelayed', label: 'Delivery Delayed', icon: 'fa-clock' },
-      { id: 'deliveryFailed', label: 'Delivery Failed', icon: 'fa-times-circle' },
-      { id: 'undeliveredReturning', label: 'Undelivered Returning', icon: 'fa-rotate-left' },
-      { id: 'customHold', label: 'Custom Hold', icon: 'fa-pause-circle' },
-      { id: 'returnRequested', label: 'Return Requested', icon: 'fa-question-circle' },
-      { id: 'returnReceived', label: 'Return Received', icon: 'fa-check-double' }
-    ];
+  <!-- BOTTOM NAVIGATION (MOBILE ONLY) with active = Order -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-6 py-4 z-50 flex justify-between items-center">
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-home"></i></div>
+      <span class="text-[9px] font-bold">Home</span>
+    </div>
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-calculator"></i></div>
+      <span class="text-[9px] font-bold">Calculator</span>
+    </div>
+    <div class="relative -top-8">
+      <button class="fab-button w-16 h-16 rounded-full flex items-center justify-center border-4 border-white text-white">
+        <i class="fas fa-plus text-xl"></i>
+      </button>
+    </div>
+    <div class="nav-item active flex flex-col items-center gap-1" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-box"></i></div>
+      <span class="text-[9px] font-bold">Order</span>
+    </div>
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-user"></i></div>
+      <span class="text-[9px] font-bold">Profile</span>
+    </div>
+  </nav>
 
-    // main flow for timeline generation
-    const mainFlow = [
-      'orderCreated',
-      'quotationReceived',
-      'orderApproved',
-      'incomingShipment',
-      'arrivedIndiaWarehouse',
-      'arrivedNepalWarehouse',
-      'customClearance',
-      'shipped',
-      'delivered'
-    ];
-
-    // ----- ORDER DATA with item prices, single image -----
-    const ordersData = [
-      { id: 1, orderNo: 'ORD-1001', date: '2025-03-28', estArrival: '2025-04-05', statusId: 'orderCreated',
-        items: [
-          { name: 'Running Shoes', qty: 1, price: 1299, img: 'https://picsum.photos/id/100/80' },
-          { name: 'T-Shirt', qty: 2, price: 499, img: 'https://picsum.photos/id/1015/80' }
-        ] },
-      { id: 2, orderNo: 'ORD-1002', date: '2025-03-25', estArrival: '2025-04-02', statusId: 'shipped',
-        items: [
-          { name: 'Slim Jeans', qty: 1, price: 1599, img: 'https://picsum.photos/id/1043/80' },
-          { name: 'Wireless Earbuds', qty: 1, price: 2999, img: 'https://picsum.photos/id/106/80' }
-        ] },
-      { id: 3, orderNo: 'ORD-1003', date: '2025-03-20', estArrival: '2025-03-30', statusId: 'delivered',
-        items: [
-          { name: 'Leather Wallet', qty: 1, price: 799, img: 'https://picsum.photos/id/1/80' }
-        ] },
-      { id: 4, orderNo: 'ORD-1004', date: '2025-03-22', estArrival: '2025-04-07', statusId: 'customClearance',
-        items: [
-          { name: 'Smartwatch', qty: 1, price: 3499, img: 'https://picsum.photos/id/20/80' },
-          { name: 'Sunglasses', qty: 1, price: 1299, img: 'https://picsum.photos/id/26/80' }
-        ] },
-      { id: 5, orderNo: 'ORD-1005', date: '2025-03-18', estArrival: '2025-03-28', statusId: 'deliveryDelayed',
-        items: [
-          { name: 'Yoga Mat', qty: 1, price: 699, img: 'https://picsum.photos/id/30/80' }
-        ] },
-      { id: 6, orderNo: 'ORD-1006', date: '2025-03-15', estArrival: '2025-03-25', statusId: 'returnRequested',
-        items: [
-          { name: 'Bluetooth Speaker', qty: 1, price: 2299, img: 'https://picsum.photos/id/36/80' }
-        ] },
-      { id: 7, orderNo: 'ORD-1007', date: '2025-03-10', estArrival: '2025-03-19', statusId: 'orderApproved',
-        items: [
-          { name: 'Backpack', qty: 1, price: 1899, img: 'https://picsum.photos/id/40/80' }
-        ] }
-    ];
-
-    // active filter
-    let activeFilter = 'all';
-
-    // helper: get status object by id
-    function getStatusById(id) {
-      return statusList.find(s => s.id === id) || { label: id, icon: 'fa-question' };
-    }
-
-    // ----- calculate financials for an order (in NPR mock) -----
-    function calculateOrderTotals(order) {
-      // subtotal INR (we keep as base, but show in NPR with a conversion factor)
-      const subtotalINR = order.items.reduce((sum, i) => sum + (i.price * i.qty), 0);
-      // mock conversion rate 1.6, plus taxes & shipping -> final payable NPR
-      const conversion = 1.6;
-      const taxShippingFactor = 1.2; // 20% extra for fees, shipping
-      const finalPayableNPR = subtotalINR * conversion * taxShippingFactor;
-      const advance = finalPayableNPR * 0.25;
-      const due = finalPayableNPR * 0.75;
-      return {
-        final: finalPayableNPR.toFixed(0),
-        advance: advance.toFixed(0),
-        due: due.toFixed(0)
-      };
-    }
-
-    // format NPR
-    function formatNPR(amount) {
-      return 'रु ' + amount;
-    }
-
-    // ----- generate timeline for an order (returns steps with dates & day names) -----
-    function generateTimeline(order) {
-      const currentStatusId = order.statusId;
-      const baseDate = new Date(order.date);
-      let sequence = [];
-
-      if (mainFlow.includes(currentStatusId)) {
-        const idx = mainFlow.indexOf(currentStatusId);
-        sequence = mainFlow.slice(0, idx + 1);
-      } else {
-        sequence = ['orderCreated', currentStatusId];
-        if (currentStatusId === 'orderCreated') sequence = ['orderCreated'];
-      }
-
-      let timeline = [];
-      for (let i = 0; i < sequence.length; i++) {
-        const statusId = sequence[i];
-        const status = getStatusById(statusId);
-        let stepDate = new Date(baseDate);
-        stepDate.setDate(baseDate.getDate() + i);
-        const dayName = stepDate.toLocaleDateString('en-US', { weekday: 'long' });
-        const formattedDate = stepDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-
-        timeline.push({
-          statusId,
-          label: status.label,
-          icon: status.icon,
-          formattedDate,
-          dayName,
-          isCurrent: (statusId === currentStatusId)
-        });
-      }
-      return timeline;
-    }
-
-    // ----- render filter chips -----
-    function renderFilters() {
-      const container = document.getElementById('filterChips');
-      if (!container) return;
-      container.innerHTML = '';
-      statusList.forEach(s => {
-        const chip = document.createElement('div');
-        chip.className = `chip ${activeFilter === s.id ? 'active' : ''}`;
-        chip.setAttribute('data-status', s.id);
-        chip.innerHTML = `<i class="fas ${s.icon}"></i><span>${s.label}</span>`;
-        chip.addEventListener('click', () => {
-          activeFilter = s.id;
-          renderFilters();
-          renderOrders();
-        });
-        container.appendChild(chip);
+  <!-- Script for bottom nav active state and order page functionality -->
+  <script>
+    // Bottom navigation active state
+    function setActive(el) {
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        item.classList.add('text-slate-400');
       });
+      el.classList.add('active');
+      el.classList.remove('text-slate-400');
     }
 
-    // ----- render orders -----
-    function renderOrders() {
-      const listEl = document.getElementById('ordersList');
-      if (!listEl) return;
-      const filtered = activeFilter === 'all' 
-        ? ordersData 
-        : ordersData.filter(o => o.statusId === activeFilter);
+    // ----- Order page script (unchanged from original) -----
+    (function() {
+      const statusList = [
+        { id: 'all', label: 'All', icon: 'fa-list' },
+        { id: 'orderCreated', label: 'Order Created', icon: 'fa-clipboard-list' },
+        { id: 'quotationReceived', label: 'Quotation Received', icon: 'fa-file-invoice' },
+        { id: 'orderApproved', label: 'Order Approved', icon: 'fa-check-circle' },
+        { id: 'orderCancelled', label: 'Order Cancelled', icon: 'fa-ban' },
+        { id: 'incomingShipment', label: 'Incoming Shipment', icon: 'fa-truck' },
+        { id: 'arrivedIndiaWarehouse', label: 'Arrived at India Warehouse', icon: 'fa-warehouse' },
+        { id: 'arrivedNepalWarehouse', label: 'Arrived at Nepal Warehouse', icon: 'fa-warehouse' },
+        { id: 'customClearance', label: 'Custom Clearance', icon: 'fa-passport' },
+        { id: 'shipped', label: 'Shipped', icon: 'fa-shipping-fast' },
+        { id: 'delivered', label: 'Delivered', icon: 'fa-box-open' },
+        { id: 'wrongProduct', label: 'Wrong Product Received', icon: 'fa-exclamation-triangle' },
+        { id: 'returnToSeller', label: 'Return to Seller', icon: 'fa-undo-alt' },
+        { id: 'deliveryDelayed', label: 'Delivery Delayed', icon: 'fa-clock' },
+        { id: 'deliveryFailed', label: 'Delivery Failed', icon: 'fa-times-circle' },
+        { id: 'undeliveredReturning', label: 'Undelivered Returning', icon: 'fa-rotate-left' },
+        { id: 'customHold', label: 'Custom Hold', icon: 'fa-pause-circle' },
+        { id: 'returnRequested', label: 'Return Requested', icon: 'fa-question-circle' },
+        { id: 'returnReceived', label: 'Return Received', icon: 'fa-check-double' }
+      ];
 
-      if (filtered.length === 0) {
-        listEl.innerHTML = `<div class="empty-orders"><i class="fas fa-box-open"></i><br />No orders with this status</div>`;
-        return;
+      const mainFlow = [
+        'orderCreated',
+        'quotationReceived',
+        'orderApproved',
+        'incomingShipment',
+        'arrivedIndiaWarehouse',
+        'arrivedNepalWarehouse',
+        'customClearance',
+        'shipped',
+        'delivered'
+      ];
+
+      const ordersData = [
+        { id: 1, orderNo: 'ORD-1001', date: '2025-03-28', estArrival: '2025-04-05', statusId: 'orderCreated',
+          items: [
+            { name: 'Running Shoes', qty: 1, price: 1299, img: 'https://picsum.photos/id/100/80' },
+            { name: 'T-Shirt', qty: 2, price: 499, img: 'https://picsum.photos/id/1015/80' }
+          ] },
+        { id: 2, orderNo: 'ORD-1002', date: '2025-03-25', estArrival: '2025-04-02', statusId: 'shipped',
+          items: [
+            { name: 'Slim Jeans', qty: 1, price: 1599, img: 'https://picsum.photos/id/1043/80' },
+            { name: 'Wireless Earbuds', qty: 1, price: 2999, img: 'https://picsum.photos/id/106/80' }
+          ] },
+        { id: 3, orderNo: 'ORD-1003', date: '2025-03-20', estArrival: '2025-03-30', statusId: 'delivered',
+          items: [
+            { name: 'Leather Wallet', qty: 1, price: 799, img: 'https://picsum.photos/id/1/80' }
+          ] },
+        { id: 4, orderNo: 'ORD-1004', date: '2025-03-22', estArrival: '2025-04-07', statusId: 'customClearance',
+          items: [
+            { name: 'Smartwatch', qty: 1, price: 3499, img: 'https://picsum.photos/id/20/80' },
+            { name: 'Sunglasses', qty: 1, price: 1299, img: 'https://picsum.photos/id/26/80' }
+          ] },
+        { id: 5, orderNo: 'ORD-1005', date: '2025-03-18', estArrival: '2025-03-28', statusId: 'deliveryDelayed',
+          items: [
+            { name: 'Yoga Mat', qty: 1, price: 699, img: 'https://picsum.photos/id/30/80' }
+          ] },
+        { id: 6, orderNo: 'ORD-1006', date: '2025-03-15', estArrival: '2025-03-25', statusId: 'returnRequested',
+          items: [
+            { name: 'Bluetooth Speaker', qty: 1, price: 2299, img: 'https://picsum.photos/id/36/80' }
+          ] },
+        { id: 7, orderNo: 'ORD-1007', date: '2025-03-10', estArrival: '2025-03-19', statusId: 'orderApproved',
+          items: [
+            { name: 'Backpack', qty: 1, price: 1899, img: 'https://picsum.photos/id/40/80' }
+          ] }
+      ];
+
+      let activeFilter = 'all';
+
+      function getStatusById(id) {
+        return statusList.find(s => s.id === id) || { label: id, icon: 'fa-question' };
       }
 
-      let htmlStr = '';
-      filtered.forEach(order => {
+      function calculateOrderTotals(order) {
+        const subtotalINR = order.items.reduce((sum, i) => sum + (i.price * i.qty), 0);
+        const conversion = 1.6;
+        const taxShippingFactor = 1.2;
+        const finalPayableNPR = subtotalINR * conversion * taxShippingFactor;
+        const advance = finalPayableNPR * 0.25;
+        const due = finalPayableNPR * 0.75;
+        return {
+          final: finalPayableNPR.toFixed(0),
+          advance: advance.toFixed(0),
+          due: due.toFixed(0)
+        };
+      }
+
+      function formatNPR(amount) {
+        return 'रु ' + amount;
+      }
+
+      function generateTimeline(order) {
+        const currentStatusId = order.statusId;
+        const baseDate = new Date(order.date);
+        let sequence = [];
+
+        if (mainFlow.includes(currentStatusId)) {
+          const idx = mainFlow.indexOf(currentStatusId);
+          sequence = mainFlow.slice(0, idx + 1);
+        } else {
+          sequence = ['orderCreated', currentStatusId];
+          if (currentStatusId === 'orderCreated') sequence = ['orderCreated'];
+        }
+
+        let timeline = [];
+        for (let i = 0; i < sequence.length; i++) {
+          const statusId = sequence[i];
+          const status = getStatusById(statusId);
+          let stepDate = new Date(baseDate);
+          stepDate.setDate(baseDate.getDate() + i);
+          const dayName = stepDate.toLocaleDateString('en-US', { weekday: 'long' });
+          const formattedDate = stepDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+          timeline.push({
+            statusId,
+            label: status.label,
+            icon: status.icon,
+            formattedDate,
+            dayName,
+            isCurrent: (statusId === currentStatusId)
+          });
+        }
+        return timeline;
+      }
+
+      function renderFilters() {
+        const container = document.getElementById('filterChips');
+        if (!container) return;
+        container.innerHTML = '';
+        statusList.forEach(s => {
+          const chip = document.createElement('div');
+          chip.className = `chip ${activeFilter === s.id ? 'active' : ''}`;
+          chip.setAttribute('data-status', s.id);
+          chip.innerHTML = `<i class="fas ${s.icon}"></i><span>${s.label}</span>`;
+          chip.addEventListener('click', () => {
+            activeFilter = s.id;
+            renderFilters();
+            renderOrders();
+          });
+          container.appendChild(chip);
+        });
+      }
+
+      function renderOrders() {
+        const listEl = document.getElementById('ordersList');
+        if (!listEl) return;
+        const filtered = activeFilter === 'all' 
+          ? ordersData 
+          : ordersData.filter(o => o.statusId === activeFilter);
+
+        if (filtered.length === 0) {
+          listEl.innerHTML = `<div class="empty-orders"><i class="fas fa-box-open"></i><br />No orders with this status</div>`;
+          return;
+        }
+
+        let htmlStr = '';
+        filtered.forEach(order => {
+          const status = getStatusById(order.statusId);
+          const totals = calculateOrderTotals(order);
+          const firstImg = order.items[0]?.img || 'https://picsum.photos/id/0/80';
+          const itemNames = order.items.map(i => `${i.qty}× ${i.name}`).join(', ');
+          const totalItems = order.items.reduce((acc, i) => acc + i.qty, 0);
+
+          htmlStr += `
+            <div class="order-card" data-order-id="${order.id}">
+              <div class="order-row1">
+                <span class="order-no"><i class="fas fa-hashtag" style="opacity:0.6;"></i> ${order.orderNo}</span>
+                <span class="status-badge"><i class="fas ${status.icon}"></i> ${status.label}</span>
+              </div>
+              <div class="order-row2">
+                <div class="order-date"><i class="far fa-calendar-alt"></i> Order date: <span>${order.date}</span></div>
+                <div class="est-arrival"><i class="far fa-clock"></i> Est. arrival: <span>${order.estArrival}</span></div>
+              </div>
+
+              <div class="order-summary-row">
+                <img src="${firstImg}" class="order-main-image" alt="order image" loading="lazy">
+                <div class="order-brief">
+                  <div class="item-count">${totalItems} item(s)</div>
+                  <div class="item-names" title="${itemNames}">${itemNames.substring(0, 40)}${itemNames.length > 40 ? '…' : ''}</div>
+                </div>
+              </div>
+
+              <div class="financial-row">
+                <div class="finance-item">
+                  <span class="label">Total</span>
+                  <span class="value">${formatNPR(totals.final)}</span>
+                </div>
+                <div class="finance-item advance">
+                  <span class="label">Advance (25%)</span>
+                  <span class="value">${formatNPR(totals.advance)}</span>
+                </div>
+                <div class="finance-item due">
+                  <span class="label">Due COD (75%)</span>
+                  <span class="value">${formatNPR(totals.due)}</span>
+                </div>
+              </div>
+
+              <div class="order-actions">
+                <button class="action-btn track" data-order='${JSON.stringify(order).replace(/'/g, "&apos;")}'><i class="fas fa-map-marker-alt"></i> Track</button>
+                <button class="action-btn help" data-orderid="${order.id}"><i class="fas fa-life-ring"></i> Help</button>
+              </div>
+            </div>
+          `;
+        });
+        listEl.innerHTML = htmlStr;
+
+        document.querySelectorAll('.action-btn.track').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const orderData = JSON.parse(btn.dataset.order);
+            openTrackSheet(orderData);
+          });
+        });
+        document.querySelectorAll('.action-btn.help').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const orderId = btn.dataset.orderid;
+            alert(`Help & support for order #${orderId}\nYou can contact seller or raise a ticket.`);
+          });
+        });
+      }
+
+      function openTrackSheet(order) {
+        const sheet = document.getElementById('trackSheet');
+        const overlay = document.getElementById('overlay');
+        const contentDiv = document.getElementById('trackSheetContent');
+
+        const timeline = generateTimeline(order);
         const status = getStatusById(order.statusId);
         const totals = calculateOrderTotals(order);
-        // first item's image (single)
-        const firstImg = order.items[0]?.img || 'https://picsum.photos/id/0/80';
-        // list all item names for tooltip / brief
-        const itemNames = order.items.map(i => `${i.qty}× ${i.name}`).join(', ');
-        const totalItems = order.items.reduce((acc, i) => acc + i.qty, 0);
 
-        htmlStr += `
-          <div class="order-card" data-order-id="${order.id}">
-            <div class="order-row1">
-              <span class="order-no"><i class="fas fa-hashtag" style="opacity:0.6;"></i> ${order.orderNo}</span>
-              <span class="status-badge"><i class="fas ${status.icon}"></i> ${status.label}</span>
-            </div>
-            <div class="order-row2">
-              <div class="order-date"><i class="far fa-calendar-alt"></i> Order date: <span>${order.date}</span></div>
-              <div class="est-arrival"><i class="far fa-clock"></i> Est. arrival: <span>${order.estArrival}</span></div>
-            </div>
-
-            <!-- single image + summary -->
-            <div class="order-summary-row">
-              <img src="${firstImg}" class="order-main-image" alt="order image" loading="lazy">
-              <div class="order-brief">
-                <div class="item-count">${totalItems} item(s)</div>
-                <div class="item-names" title="${itemNames}">${itemNames.substring(0, 40)}${itemNames.length > 40 ? '…' : ''}</div>
+        let timelineHtml = '';
+        timeline.forEach(step => {
+          const currentBadge = step.isCurrent ? '<span class="current-indicator">current</span>' : '';
+          timelineHtml += `
+            <div class="timeline-item">
+              <div class="timeline-icon"><i class="fas ${step.icon}"></i></div>
+              <div class="timeline-content">
+                <div class="timeline-status">${step.label} ${currentBadge}</div>
+                <div class="timeline-date">
+                  <span>${step.formattedDate}</span>
+                  <span>${step.dayName}</span>
+                </div>
               </div>
             </div>
-
-            <!-- redesigned financial row: simple, clean, no heavy boxes -->
-            <div class="financial-row">
-              <div class="finance-item">
-                <span class="label">Total</span>
-                <span class="value">${formatNPR(totals.final)}</span>
-              </div>
-              <div class="finance-item advance">
-                <span class="label">Advance (25%)</span>
-                <span class="value">${formatNPR(totals.advance)}</span>
-              </div>
-              <div class="finance-item due">
-                <span class="label">Due COD (75%)</span>
-                <span class="value">${formatNPR(totals.due)}</span>
-              </div>
-            </div>
-
-            <div class="order-actions">
-              <button class="action-btn track" data-order='${JSON.stringify(order)}'><i class="fas fa-map-marker-alt"></i> Track</button>
-              <button class="action-btn help" data-orderid="${order.id}"><i class="fas fa-life-ring"></i> Help</button>
-            </div>
-          </div>
-        `;
-      });
-      listEl.innerHTML = htmlStr;
-
-      // attach track event
-      document.querySelectorAll('.action-btn.track').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const orderData = JSON.parse(btn.dataset.order);
-          openTrackSheet(orderData);
+          `;
         });
-      });
-      // help button
-      document.querySelectorAll('.action-btn.help').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const orderId = btn.dataset.orderid;
-          alert(`Help & support for order #${orderId}\nYou can contact seller or raise a ticket.`);
-        });
-      });
-    }
 
-    // ----- open bottom sheet with timeline -----
-    function openTrackSheet(order) {
-      const sheet = document.getElementById('trackSheet');
-      const overlay = document.getElementById('overlay');
-      const contentDiv = document.getElementById('trackSheetContent');
-
-      const timeline = generateTimeline(order);
-      const status = getStatusById(order.statusId);
-
-      let timelineHtml = '';
-      timeline.forEach(step => {
-        const currentBadge = step.isCurrent ? '<span class="current-indicator">current</span>' : '';
-        timelineHtml += `
-          <div class="timeline-item">
-            <div class="timeline-icon"><i class="fas ${step.icon}"></i></div>
-            <div class="timeline-content">
-              <div class="timeline-status">${step.label} ${currentBadge}</div>
-              <div class="timeline-date">
-                <span>${step.formattedDate}</span>
-                <span>${step.dayName}</span>
-              </div>
+        contentDiv.innerHTML = `
+          <div style="background:#f8fafc; border-radius:20px; padding:16px; margin-bottom:20px;">
+            <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px;">
+              <i class="fas ${status.icon}" style="font-size:1.4rem;"></i>
+              <span><strong>${order.orderNo}</strong> · ${status.label}</span>
             </div>
+            <div style="font-size:0.9rem; color:#334155; margin-bottom:6px;">Items: ${order.items.map(i=>`${i.qty}× ${i.name}`).join(', ')}</div>
+            <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; font-size:0.9rem;">
+              <span><span style="color:#2563eb;">Advance:</span> ${formatNPR(totals.advance)}</span>
+              <span><span style="color:#b45309;">Due COD:</span> ${formatNPR(totals.due)}</span>
+              <span><span style="font-weight:600;">Total:</span> ${formatNPR(totals.final)}</span>
+            </div>
+            <div style="font-size:0.85rem; margin-top:10px;">📅 Est. arrival: ${order.estArrival}</div>
           </div>
+          <h4 style="margin: 0 0 10px;"><i class="fas fa-history"></i> Shipment updates</h4>
+          ${timelineHtml}
         `;
-      });
 
-      // also show order summary with amounts
-      const totals = calculateOrderTotals(order);
-      contentDiv.innerHTML = `
-        <div style="background:#f8fafc; border-radius:20px; padding:16px; margin-bottom:20px;">
-          <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px;">
-            <i class="fas ${status.icon}" style="font-size:1.4rem;"></i>
-            <span><strong>${order.orderNo}</strong> · ${status.label}</span>
-          </div>
-          <div style="font-size:0.9rem; color:#334155; margin-bottom:6px;">Items: ${order.items.map(i=>`${i.qty}× ${i.name}`).join(', ')}</div>
-          <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:10px; font-size:0.9rem;">
-            <span><span style="color:#2563eb;">Advance:</span> ${formatNPR(totals.advance)}</span>
-            <span><span style="color:#b45309;">Due COD:</span> ${formatNPR(totals.due)}</span>
-            <span><span style="font-weight:600;">Total:</span> ${formatNPR(totals.final)}</span>
-          </div>
-          <div style="font-size:0.85rem; margin-top:10px;">📅 Est. arrival: ${order.estArrival}</div>
-        </div>
-        <h4 style="margin: 0 0 10px;"><i class="fas fa-history"></i> Shipment updates</h4>
-        ${timelineHtml}
-      `;
+        overlay.classList.add('active');
+        sheet.classList.add('active');
+      }
 
-      overlay.classList.add('active');
-      sheet.classList.add('active');
-    }
+      function closeSheet() {
+        document.getElementById('overlay').classList.remove('active');
+        document.getElementById('trackSheet').classList.remove('active');
+      }
 
-    // close sheet
-    function closeSheet() {
-      document.getElementById('overlay').classList.remove('active');
-      document.getElementById('trackSheet').classList.remove('active');
-    }
+      renderFilters();
+      renderOrders();
 
-    // initial render
-    renderFilters();
-    renderOrders();
-
-    // event listeners for sheet close
-    document.getElementById('overlay').addEventListener('click', closeSheet);
-    document.getElementById('closeSheet').addEventListener('click', closeSheet);
-  })();
-</script>
+      document.getElementById('overlay').addEventListener('click', closeSheet);
+      document.getElementById('closeSheet').addEventListener('click', closeSheet);
+    })();
+  </script>
 </body>
 </html>
