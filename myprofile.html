@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merowish | My Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
+        /* Light mode (default) */
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #f8fafc; 
+            color: #1e293b; 
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Glassmorphism */
+        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(226, 232, 240, 0.8); }
+
+        /* hover lift */
+        .hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -8px rgba(0,0,0,0.1); }
+
+        /* Bottom navigation active states */
+        .nav-item.active { color: #db2777; }
+        .nav-item.active .nav-icon-bg { background-color: #fce7f3; }
+
+        /* Floating action button gradient */
+        .fab-button { 
+            background: linear-gradient(135deg, #db2777 0%, #7c3aed 100%); 
+            box-shadow: 0 10px 25px rgba(219, 39, 119, 0.3); 
+        }
+
+        /* Ensure bottom content is not hidden behind fixed navbar on mobile */
+        @media (max-width: 1023px) {
+            body { padding-bottom: 80px; }
+        }
+
+        /* settings list item */
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        /* DARK MODE STYLES */
+        body.dark {
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+        body.dark .bg-white {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        body.dark .text-slate-900 {
+            color: #f1f5f9 !important;
+        }
+        body.dark .text-slate-800 {
+            color: #e2e8f0 !important;
+        }
+        body.dark .text-slate-700 {
+            color: #cbd5e1 !important;
+        }
+        body.dark .text-slate-600 {
+            color: #94a3b8 !important;
+        }
+        body.dark .text-slate-500 {
+            color: #64748b !important;
+        }
+        body.dark .text-slate-400 {
+            color: #475569 !important;
+        }
+        body.dark .bg-slate-50 {
+            background-color: #0f172a !important;
+        }
+        body.dark .bg-slate-100 {
+            background-color: #1e293b !important;
+        }
+        body.dark .border-slate-100 {
+            border-color: #334155 !important;
+        }
+        body.dark .border-slate-200 {
+            border-color: #334155 !important;
+        }
+        body.dark .bg-indigo-50 {
+            background-color: #1e1b4b !important;
+        }
+        body.dark .text-indigo-600 {
+            color: #818cf8 !important;
+        }
+        body.dark .bg-indigo-100 {
+            background-color: #312e81 !important;
+        }
+        body.dark .glass-nav {
+            background: rgba(30, 41, 59, 0.8);
+            border-bottom: 1px solid #334155;
+        }
+        body.dark footer {
+            background-color: #0f172a !important;
+            border-color: #1e293b !important;
+        }
+        body.dark .settings-item {
+            border-bottom-color: #334155;
+        }
+        body.dark .toggle-knob {
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20 md:pb-0">
+
+    <!-- desktop header (same as original) -->
+    <header class="hidden lg:block sticky top-0 z-[100] glass-nav">
+        <div class="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-10">
+                <div class="flex items-center gap-2">
+                    <div class="bg-indigo-600 p-2 rounded-xl text-white"><i class="fas fa-box"></i></div>
+                    <span class="text-2xl font-extrabold tracking-tighter">Merowish</span>
+                </div>
+                <nav class="flex items-center gap-6 text-sm font-bold text-slate-500">
+                    <a href="#" class="hover:text-indigo-600 transition-colors">Home</a>
+                    <a href="#" class="hover:text-indigo-600 transition-colors">Cost Calculator</a>
+                    <a href="#" class="hover:text-indigo-600 transition-colors">Self-Order</a>
+                </nav>
+            </div>
+
+            <div class="flex-1 max-w-xl mx-10">
+                <div class="relative group">
+                    <input type="text" placeholder="Search Amazon, Flipkart, or Myntra products..." 
+                           class="w-full bg-slate-100 border-2 border-transparent focus:border-indigo-500 focus:bg-white rounded-2xl py-2.5 pl-12 pr-4 text-sm transition-all outline-none">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500"></i>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-5">
+                <button class="text-slate-500 hover:text-indigo-600 transition-colors"><i class="far fa-heart text-xl"></i></button>
+                <div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+                    <div class="text-right">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase">Damodar Bhattarai</p>
+                        <p class="text-xs font-bold text-slate-800">Account & Orders</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border-2 border-white shadow-sm">DB</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- mobile header -->
+    <div class="lg:hidden relative bg-indigo-600 pt-6 pb-8 px-6 rounded-b-[1.5rem]">
+        <div class="flex justify-between items-center mb-2">
+            <h1 class="text-white font-black text-2xl italic tracking-tight">Merowish</h1>
+            <button class="w-10 h-10 bg-white/20 rounded-full text-white backdrop-blur-md relative">
+                <i class="far fa-bell"></i>
+                <span class="absolute top-2 right-2 w-2 h-2 bg-pink-500 rounded-full border-2 border-indigo-600"></span>
+            </button>
+        </div>
+        <p class="text-indigo-100 text-sm mb-2">Hello, <span class="text-white font-bold">Damodar</span> 👋</p>
+        <div class="absolute -bottom-6 left-6 right-6 shadow-xl">
+            <div class="bg-white rounded-2xl p-1.5 flex items-center">
+                <div class="bg-slate-100 p-2.5 rounded-xl"><i class="fas fa-search text-slate-400"></i></div>
+                <input type="text" placeholder="Search global products on Google..." class="flex-1 px-3 outline-none text-sm">
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN PROFILE CONTENT (mobile first, desktop enhanced) -->
+    <main class="max-w-[1400px] mx-auto px-4 sm:px-6 mt-8 md:mt-10 space-y-6 md:space-y-8">
+
+        <!-- Profile Header Card -->
+        <div class="bg-white rounded-3xl border border-slate-100 p-5 md:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+            <!-- Avatar with gradient (large) -->
+            <div class="relative">
+                <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white text-4xl md:text-5xl font-bold shadow-lg">
+                    DB
+                </div>
+                <span class="absolute bottom-1 right-1 w-5 h-5 bg-green-500 border-2 border-white rounded-full"></span>
+            </div>
+            <!-- Details + edit -->
+            <div class="flex-1 w-full">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-black text-slate-900">Damodar Bhattarai</h2>
+                        <p class="text-slate-400 flex items-center gap-2 mt-1 text-sm md:text-base">
+                            <i class="fas fa-map-pin text-indigo-400 text-xs"></i> Kathmandu, Nepal
+                        </p>
+                    </div>
+                    <button class="bg-indigo-50 text-indigo-600 px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 w-fit hover:bg-indigo-100 transition-colors">
+                        <i class="fas fa-pen"></i> Edit Profile
+                    </button>
+                </div>
+                <!-- quick stats row -->
+                <div class="grid grid-cols-3 gap-2 md:gap-4 mt-6">
+                    <div class="bg-slate-50 p-3 rounded-2xl text-center">
+                        <p class="text-xl md:text-2xl font-black text-indigo-600">18</p>
+                        <p class="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">Orders</p>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-2xl text-center">
+                        <p class="text-xl md:text-2xl font-black text-pink-600">6</p>
+                        <p class="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">Wishlist</p>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-2xl text-center">
+                        <p class="text-xl md:text-2xl font-black text-green-600">2</p>
+                        <p class="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider">Addresses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Personal Information Card -->
+        <div class="bg-white rounded-3xl border border-slate-100 p-6 md:p-8">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg md:text-xl font-black text-slate-900 flex items-center gap-2"><i class="fas fa-user-circle text-indigo-500"></i> Personal Information</h3>
+                <button class="text-indigo-600 text-sm font-bold flex items-center gap-1"><i class="fas fa-edit"></i> <span class="hidden sm:inline">Edit</span></button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600"><i class="fas fa-envelope"></i></div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase tracking-wide">Email</p>
+                        <p class="font-bold text-slate-800">damodar.b@gmail.com</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600"><i class="fas fa-phone-alt"></i></div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase tracking-wide">Phone</p>
+                        <p class="font-bold text-slate-800">+977 9841234567</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600"><i class="fas fa-calendar-alt"></i></div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase tracking-wide">Date of Birth</p>
+                        <p class="font-bold text-slate-800">15 May 1992</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600"><i class="fas fa-venus-mars"></i></div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase tracking-wide">Gender</p>
+                        <p class="font-bold text-slate-800">Male</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Book Card (Nepal addresses) -->
+        <div class="bg-white rounded-3xl border border-slate-100 p-6 md:p-8">
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-lg md:text-xl font-black text-slate-900 flex items-center gap-2"><i class="fas fa-map-marker-alt text-pink-500"></i> Address Book</h3>
+                <button class="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-indigo-100 transition-colors"><i class="fas fa-plus"></i> Add New</button>
+            </div>
+            <div class="space-y-4">
+                <!-- Default address -->
+                <div class="border border-indigo-200 bg-indigo-50/30 rounded-2xl p-5 relative">
+                    <span class="absolute top-4 right-4 bg-indigo-600 text-white text-[10px] px-2 py-1 rounded-full font-black">DEFAULT</span>
+                    <div class="flex gap-3 items-start">
+                        <div class="w-9 h-9 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 shrink-0"><i class="fas fa-home"></i></div>
+                        <div class="flex-1">
+                            <p class="font-black text-slate-900">Home<br><span class="text-xs font-normal text-slate-400">Damodar Bhattarai</span></p>
+                            <p class="text-sm text-slate-600 mt-1">Gairidhara, Kathmandu 44600, Nepal</p>
+                            <p class="text-xs text-slate-400 mt-1">Phone: +977 9841 234567</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 mt-3">
+                        <button class="text-indigo-600 text-xs font-bold flex items-center gap-1"><i class="fas fa-pen"></i> Edit</button>
+                        <button class="text-slate-400 text-xs font-bold flex items-center gap-1"><i class="fas fa-trash"></i> Remove</button>
+                    </div>
+                </div>
+                <!-- second address -->
+                <div class="border border-slate-200 rounded-2xl p-5">
+                    <div class="flex gap-3 items-start">
+                        <div class="w-9 h-9 bg-slate-100 rounded-xl flex items-center justify-center text-slate-500 shrink-0"><i class="fas fa-briefcase"></i></div>
+                        <div class="flex-1">
+                            <p class="font-black text-slate-900">Office<br><span class="text-xs font-normal text-slate-400">Damodar Bhattarai</span></p>
+                            <p class="text-sm text-slate-600 mt-1">Thapathali, Kathmandu 44700, Nepal</p>
+                            <p class="text-xs text-slate-400 mt-1">Phone: +977 9818 765432</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 mt-3">
+                        <button class="text-indigo-600 text-xs font-bold flex items-center gap-1"><i class="fas fa-pen"></i> Edit</button>
+                        <button class="text-slate-400 text-xs font-bold flex items-center gap-1"><i class="fas fa-trash"></i> Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Membership Plan -->
+        <div class="bg-white rounded-3xl border border-slate-100 p-6 md:p-8">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg md:text-xl font-black text-slate-900 flex items-center gap-2"><i class="fas fa-crown text-yellow-500"></i> Membership Plan</h3>
+                <span class="bg-yellow-100 text-yellow-700 text-xs font-black px-3 py-1 rounded-full">ACTIVE</span>
+            </div>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <p class="text-sm text-slate-400">Current Plan</p>
+                    <p class="text-xl font-black text-slate-900">Premium Annual</p>
+                    <p class="text-xs text-slate-400 mt-1">Expires: 31 December 2026</p>
+                </div>
+                <button class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-indigo-700 transition-colors w-fit">Upgrade Plan</button>
+            </div>
+        </div>
+
+        <!-- NEW: Warehouse India Address (with individual copy buttons) -->
+        <div class="bg-white rounded-3xl border border-slate-100 p-6 md:p-8">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg md:text-xl font-black text-slate-900 flex items-center gap-2"><i class="fas fa-warehouse text-blue-500"></i> Warehouse India Address</h3>
+            </div>
+            <div class="space-y-3" id="warehouseAddressContainer">
+                <!-- Name -->
+                <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl">
+                    <div>
+                        <span class="text-xs text-slate-400 font-bold">Name</span>
+                        <p class="font-bold text-slate-800">Damodar Bhattarai</p>
+                    </div>
+                    <button class="copy-btn text-indigo-600 hover:text-indigo-800" onclick="copyText('Damodar Bhattarai', this)"><i class="far fa-copy"></i></button>
+                </div>
+                <!-- Address Line -->
+                <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl">
+                    <div>
+                        <span class="text-xs text-slate-400 font-bold">Address</span>
+                        <p class="font-bold text-slate-800">D42301 - Merowish Intl. Logistic</p>
+                    </div>
+                    <button class="copy-btn text-indigo-600 hover:text-indigo-800" onclick="copyText('D42301 - Merowish Intl. Logistic', this)"><i class="far fa-copy"></i></button>
+                </div>
+                <!-- Landmark -->
+                <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl">
+                    <div>
+                        <span class="text-xs text-slate-400 font-bold">Landmark</span>
+                        <p class="font-bold text-slate-800">Near Railway Dhala, Indian Oil Depot - Custom Road</p>
+                    </div>
+                    <button class="copy-btn text-indigo-600 hover:text-indigo-800" onclick="copyText('Near Railway Dhala, Indian Oil Depot - Custom Road', this)"><i class="far fa-copy"></i></button>
+                </div>
+                <!-- City, State, Pincode combined -->
+                <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl">
+                    <div>
+                        <span class="text-xs text-slate-400 font-bold">City / State / Pincode</span>
+                        <p class="font-bold text-slate-800">Raxaul, Bihar - 845305</p>
+                    </div>
+                    <button class="copy-btn text-indigo-600 hover:text-indigo-800" onclick="copyText('Raxaul, Bihar - 845305', this)"><i class="far fa-copy"></i></button>
+                </div>
+                <!-- Mobile Number -->
+                <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl">
+                    <div>
+                        <span class="text-xs text-slate-400 font-bold">Mobile Number</span>
+                        <p class="font-bold text-slate-800">9341144648</p>
+                    </div>
+                    <button class="copy-btn text-indigo-600 hover:text-indigo-800" onclick="copyText('9341144648', this)"><i class="far fa-copy"></i></button>
+                </div>
+            </div>
+            <p class="text-xs text-slate-400 mt-4">Use this address when shopping from Indian stores</p>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="bg-white rounded-3xl border border-slate-100 p-6 md:p-8">
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-lg md:text-xl font-black text-slate-900 flex items-center gap-2"><i class="fas fa-shopping-bag text-pink-500"></i> Recent Orders</h3>
+                <a href="#" class="text-indigo-600 text-sm font-bold flex items-center gap-1">View All <i class="fas fa-arrow-right text-xs"></i></a>
+            </div>
+            <div class="space-y-4">
+                <!-- order item -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-50 rounded-2xl gap-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-indigo-600 border border-slate-200">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div>
+                            <p class="font-black text-slate-900 text-sm">Sony WH-1000XM5</p>
+                            <p class="text-xs text-slate-400">Order #MW7823 • 12 Mar 2026</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between sm:justify-end gap-4">
+                        <span class="text-sm font-black text-slate-900">रु. 348.00</span>
+                        <span class="bg-green-100 text-green-700 text-[10px] font-black px-2 py-1 rounded-full">Delivered</span>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-50 rounded-2xl gap-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-indigo-600 border border-slate-200">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <div>
+                            <p class="font-black text-slate-900 text-sm">Nike Air Max 270</p>
+                            <p class="text-xs text-slate-400">Order #MW5671 • 28 Feb 2026</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between sm:justify-end gap-4">
+                        <span class="text-sm font-black text-slate-900">रु. 129.00</span>
+                        <span class="bg-orange-100 text-orange-700 text-[10px] font-black px-2 py-1 rounded-full">In Transit</span>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-50 rounded-2xl gap-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-indigo-600 border border-slate-200">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div>
+                            <p class="font-black text-slate-900 text-sm">iPhone 15 Pro Case</p>
+                            <p class="text-xs text-slate-400">Order #MW3290 • 10 Feb 2026</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between sm:justify-end gap-4">
+                        <span class="text-sm font-black text-slate-900">रु. 29.00</span>
+                        <span class="bg-green-100 text-green-700 text-[10px] font-black px-2 py-1 rounded-full">Delivered</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings & Preferences (updated with Refer & Earn and working Dark Mode toggle) -->
+        <div class="bg-white rounded-3xl border border-slate-100 p-6 md:p-8">
+            <h3 class="text-lg md:text-xl font-black text-slate-900 mb-5 flex items-center gap-2"><i class="fas fa-cog text-slate-500"></i> Settings</h3>
+            <div class="divide-y divide-slate-100">
+                <!-- Notifications -->
+                <div class="settings-item">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600"><i class="fas fa-bell"></i></div>
+                        <span class="font-bold text-slate-700">Notifications</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-slate-300"></i>
+                </div>
+                <!-- Privacy & Security -->
+                <div class="settings-item">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600"><i class="fas fa-lock"></i></div>
+                        <span class="font-bold text-slate-700">Privacy & Security</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-slate-300"></i>
+                </div>
+                <!-- NEW: Refer & Earn -->
+                <div class="settings-item">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600"><i class="fas fa-gift"></i></div>
+                        <span class="font-bold text-slate-700">Refer & Earn</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-slate-300"></i>
+                </div>
+                <!-- NEW: Dark Mode with toggle button (functional) -->
+                <div class="settings-item">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600"><i class="fas fa-moon"></i></div>
+                        <span class="font-bold text-slate-700">Dark Mode</span>
+                    </div>
+                    <button id="darkModeToggle" class="w-12 h-6 rounded-full p-1 flex items-center transition-colors duration-300" onclick="toggleDarkMode(this)" style="background-color: #cbd5e1;">
+                        <div class="toggle-knob w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300"></div>
+                    </button>
+                </div>
+                <!-- Help & Support -->
+                <div class="settings-item">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600"><i class="fas fa-life-ring"></i></div>
+                        <span class="font-bold text-slate-700">Help & Support</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-slate-300"></i>
+                </div>
+                <!-- Logout -->
+                <div class="settings-item">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center text-red-500"><i class="fas fa-sign-out-alt"></i></div>
+                        <span class="font-bold text-red-500">Logout</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-slate-300"></i>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (same as original) -->
+    <footer class="hidden md:block bg-slate-900 text-slate-400 py-16 mt-20">
+        <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-1">
+                <div class="flex items-center gap-2 text-white mb-6">
+                    <div class="bg-indigo-600 p-2 rounded-xl text-white"><i class="fas fa-box"></i></div>
+                    <span class="text-2xl font-black tracking-tighter">Merowish Int'l Logistic</span>
+                </div>
+                <p class="text-sm leading-relaxed mb-6">Importing your favorite products from India to Nepal has never been easier. We handle the shipping, customs, and delivery.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Global Stores</h4>
+                <ul class="space-y-4 text-sm">
+                    <li><a href="#" class="hover:text-white transition-colors">Amazon.in</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Flipkart.com</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Myntra.com</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Zara.in</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Support</h4>
+                <ul class="space-y-4 text-sm">
+                    <li><a href="#" class="hover:text-white transition-colors">Terms & Condition</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Return Policy</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">How it Works</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">FAQs</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Download App</h4>
+                <p class="text-sm mb-4">Get Special Discount on your first order on App.</p>
+                <div class="space-y-3">
+                    <div class="bg-slate-800 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-700">
+                        <i class="fab fa-apple text-2xl text-white"></i>
+                        <div><p class="text-[10px]">Download on</p><p class="text-xs font-bold text-white">App Store</p></div>
+                    </div>
+                    <div class="bg-slate-800 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-700">
+                        <i class="fab fa-google-play text-2xl text-white"></i>
+                        <div><p class="text-[10px]">Get it on</p><p class="text-xs font-bold text-white">Google Play</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-[1400px] mx-auto px-6 mt-16 pt-8 border-t border-slate-800 flex justify-between text-xs">
+            <p>&copy; 2026 Merowish Technologies. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOTTOM NAVIGATION (MOBILE ONLY) with active = Profile -->
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-6 py-4 z-50 flex justify-between items-center">
+        <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+            <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-home"></i></div>
+            <span class="text-[9px] font-bold">Home</span>
+        </div>
+        <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+            <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-calculator"></i></div>
+            <span class="text-[9px] font-bold">Calculator</span>
+        </div>
+        <div class="relative -top-8">
+            <button class="fab-button w-16 h-16 rounded-full flex items-center justify-center border-4 border-white text-white">
+                <i class="fas fa-plus text-xl"></i>
+            </button>
+        </div>
+        <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+            <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-truck"></i></div>
+            <span class="text-[9px] font-bold">Track</span>
+        </div>
+        <div class="nav-item active flex flex-col items-center gap-1" onclick="setActive(this)">
+            <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-user"></i></div>
+            <span class="text-[9px] font-bold">Profile</span>
+        </div>
+    </nav>
+
+    <script>
+        // Bottom navigation active state
+        function setActive(el) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                item.classList.add('text-slate-400');
+            });
+            el.classList.add('active');
+            el.classList.remove('text-slate-400');
+        }
+
+        // Dark mode toggle (fully functional)
+        function toggleDarkMode(btn) {
+            const body = document.body;
+            const knob = btn.querySelector('.toggle-knob');
+            const isDark = body.classList.contains('dark');
+
+            if (isDark) {
+                body.classList.remove('dark');
+                btn.style.backgroundColor = '#cbd5e1'; // light mode color
+                knob.style.transform = 'translateX(0)';
+            } else {
+                body.classList.add('dark');
+                btn.style.backgroundColor = '#4f46e5'; // indigo-600
+                knob.style.transform = 'translateX(1.5rem)'; // 24px = w-6
+            }
+        }
+
+        // Initialize dark mode toggle based on current body class (default light)
+        window.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.getElementById('darkModeToggle');
+            if (document.body.classList.contains('dark')) {
+                toggleBtn.style.backgroundColor = '#4f46e5';
+                toggleBtn.querySelector('.toggle-knob').style.transform = 'translateX(1.5rem)';
+            } else {
+                toggleBtn.style.backgroundColor = '#cbd5e1';
+                toggleBtn.querySelector('.toggle-knob').style.transform = 'translateX(0)';
+            }
+        });
+
+        // Robust copy function with fallback
+        function copyText(text, btnElement) {
+            // Try modern clipboard API first
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopyFeedback(btnElement);
+                }).catch(err => {
+                    console.warn('Clipboard API failed, using fallback', err);
+                    fallbackCopy(text, btnElement);
+                });
+            } else {
+                fallbackCopy(text, btnElement);
+            }
+        }
+
+        function fallbackCopy(text, btnElement) {
+            // Create a temporary textarea element
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showCopyFeedback(btnElement);
+            } catch (err) {
+                alert('Unable to copy. Please copy manually:\n' + text);
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+
+        function showCopyFeedback(btnElement) {
+            const originalHTML = btnElement.innerHTML;
+            btnElement.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(() => {
+                btnElement.innerHTML = originalHTML;
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
