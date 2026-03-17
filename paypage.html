@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merowish · Secure Payment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(226, 232, 240, 0.8); }
+        .hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -8px rgba(0,0,0,0.1); }
+        .payment-card.selected { border-color: #7c3aed; background-color: #f5f3ff; }
+        .nav-item.active { color: #db2777; }
+        .nav-item.active .nav-icon-bg { background-color: #fce7f3; }
+        @media (max-width: 1023px) { body { padding-bottom: 80px; } }
+        .fab-button { background: linear-gradient(135deg, #db2777 0%, #7c3aed 100%); box-shadow: 0 10px 25px rgba(219, 39, 119, 0.3); }
+        /* Center the grid container on desktop, but keep cards readable */
+        @media (min-width: 1024px) {
+            .payment-grid-container {
+                display: flex;
+                justify-content: center;
+            }
+            .payment-grid {
+                max-width: 900px;  /* prevents cards from stretching too wide */
+                flex: 0 1 auto;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20 md:pb-0">
+
+    <!-- ===== DESKTOP HEADER (same as homepage, links updated) ===== -->
+    <header class="hidden lg:block sticky top-0 z-[100] glass-nav">
+        <div class="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-10">
+                <a href="https://drimam.github.io/dnep/homedemo.html" class="flex items-center gap-2">
+                    <div class="bg-indigo-600 p-2 rounded-xl text-white"><i class="fas fa-box"></i></div>
+                    <span class="text-2xl font-extrabold tracking-tighter">Merowish</span>
+                </a>
+                <nav class="flex items-center gap-6 text-sm font-bold text-slate-500">
+                    <a href="https://drimam.github.io/dnep/homedemo.html" class="hover:text-indigo-600 transition-colors">Home</a>
+                    <a href="https://drimam.github.io/dnep/caldesign.html" class="hover:text-indigo-600 transition-colors">Cost Calculator</a>
+                    <a href="https://drimam.github.io/dnep/BUY.html" class="hover:text-indigo-600 transition-colors">Self-Order</a>
+                </nav>
+            </div>
+            <div class="flex-1 max-w-xl mx-10">
+                <div class="relative group">
+                    <input type="text" placeholder="Search Amazon, Flipkart, or Myntra products..." 
+                           class="w-full bg-slate-100 border-2 border-transparent focus:border-indigo-500 focus:bg-white rounded-2xl py-2.5 pl-12 pr-4 text-sm transition-all outline-none">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500"></i>
+                </div>
+            </div>
+            <div class="flex items-center gap-5">
+                <button class="text-slate-500 hover:text-indigo-600 transition-colors"><i class="far fa-heart text-xl"></i></button>
+                <a href="https://drimam.github.io/dnep/cartdesign.html" class="text-slate-500 hover:text-indigo-600 transition-colors"><i class="fas fa-shopping-cart text-xl"></i></a>
+                <div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+                    <div class="text-right">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase">Damodar Bhattarai</p>
+                        <p class="text-xs font-bold text-slate-800">Account & Orders</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border-2 border-white shadow-sm">DB</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MOBILE HEADER (same as homepage) ===== -->
+    <div class="lg:hidden relative bg-indigo-600 pt-6 pb-8 px-6 rounded-b-[1.5rem]">
+        <div class="flex justify-between items-center mb-2">
+            <a href="https://drimam.github.io/dnep/homedemo.html" class="text-white font-black text-2xl italic tracking-tight">Merowish</a>
+            <div class="flex gap-2">
+                <a href="https://drimam.github.io/dnep/cartdesign.html" class="w-10 h-10 bg-white/20 rounded-full text-white backdrop-blur-md relative flex items-center justify-center">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+                <button class="w-10 h-10 bg-white/20 rounded-full text-white backdrop-blur-md relative">
+                    <i class="far fa-bell"></i>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-pink-500 rounded-full border-2 border-indigo-600"></span>
+                </button>
+            </div>
+        </div>
+        <p class="text-indigo-100 text-sm mb-2">Hello, <span class="text-white font-bold">Damodar</span> 👋</p>
+        <div class="absolute -bottom-6 left-6 right-6 shadow-xl">
+            <div class="bg-white rounded-2xl p-1.5 flex items-center">
+                <div class="bg-slate-100 p-2.5 rounded-xl"><i class="fas fa-search text-slate-400"></i></div>
+                <input type="text" placeholder="Search global products on Google..." class="flex-1 px-3 outline-none text-sm">
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN PAYMENT SECTION ===== -->
+    <main class="max-w-[1200px] mx-auto px-6 py-12 md:py-16">
+        <!-- Page heading -->
+        <div class="mb-10 text-center md:text-left">
+            <h1 class="text-3xl md:text-4xl font-black text-slate-900">Complete your payment</h1>
+            <p class="text-slate-500 mt-2">Choose one of the following payment methods</p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- LEFT / TOP: order summary (spans 1 column) -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm hover-lift">
+                    <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2"><i class="fas fa-receipt text-indigo-500"></i> Order summary</h2>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Items total</span>
+                            <span class="font-semibold">NPR 5,000</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Home Delivery</span>
+                            <span class="line-through text-gray-400">NPR 250</span>FREE
+                        </div>
+                        <div class="border-t border-slate-200 my-3 pt-3 flex justify-between font-black text-base">
+                            <span>Total</span>
+                            <span class="text-indigo-600">NPR 5,000</span>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-4 border-t pt-4 italic">All prices include customs & duties</p>
+                </div>
+                <!-- small trust badge (optional) -->
+                <div class="mt-6 bg-indigo-50 rounded-2xl p-4 text-indigo-800 text-xs flex items-center gap-3">
+                    <i class="fas fa-lock text-indigo-600 text-base"></i>
+                    <span>Your payment data is encrypted and secure.</span>
+                </div>
+            </div>
+
+            <!-- RIGHT: payment methods (spans 2 columns) -->
+            <div class="lg:col-span-2">
+                <h2 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-2"><i class="fas fa-wallet"></i> Select payment method</h2>
+                
+                <!-- Centered payment grid on desktop with flex wrapper -->
+                <div class="payment-grid-container">
+                    <div class="payment-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full" id="paymentMethodsContainer">
+                        <!-- eSewa card (updated logo) -->
+                        <div class="payment-card relative bg-white border-2 border-transparent rounded-3xl p-5 cursor-pointer transition-all hover:border-indigo-200 hover:shadow-md" data-method="esewa" onclick="selectMethod('esewa')">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="h-16 mb-3 flex items-center justify-center">
+                                    <img src="https://www.cogenthealth.com.np/images/esewa.png" alt="eSewa" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src='https://logo.clearbit.com/esewa.com.np';">
+                                </div>
+                                <h3 class="font-bold text-slate-800">eSewa</h3>
+                                <p class="text-[10px] text-slate-400 mt-1">Pay via wallet / internet banking</p>
+                            </div>
+                        </div>
+
+                        <!-- Khalti card (updated logo) -->
+                        <div class="payment-card relative bg-white border-2 border-transparent rounded-3xl p-5 cursor-pointer transition-all hover:border-indigo-200 hover:shadow-md" data-method="khalti" onclick="selectMethod('khalti')">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="h-16 mb-3 flex items-center justify-center">
+                                    <img src="https://khaltibyime.khalti.com/wp-content/uploads/2025/07/cropped-Logo-for-Blog-1024x522.png" alt="Khalti" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src='https://logo.clearbit.com/khalti.com';">
+                                </div>
+                                <h3 class="font-bold text-slate-800">Khalti</h3>
+                                <p class="text-[10px] text-slate-400 mt-1">Digital wallet & payment gateway</p>
+                            </div>
+                        </div>
+
+                        <!-- Fonepay card (updated logo) – this card will appear in the center column on desktop -->
+                        <div class="payment-card relative bg-white border-2 border-transparent rounded-3xl p-5 cursor-pointer transition-all hover:border-indigo-200 hover:shadow-md" data-method="fonepay" onclick="selectMethod('fonepay')">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="h-16 mb-3 flex items-center justify-center">
+                                    <img src="https://login.fonepay.com/assets/img/fonepay_payments_fatafat.png" alt="Fonepay" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src='https://logo.clearbit.com/fonepay.com';">
+                                </div>
+                                <h3 class="font-bold text-slate-800">Fonepay</h3>
+                                <p class="text-[10px] text-slate-400 mt-1">QR scan & pay / bank transfer</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- hidden input to store selected method -->
+                <input type="hidden" id="selectedMethod" value="">
+
+                <!-- Pay button (disabled until selection) -->
+                <div class="mt-10 text-center md:text-right">
+                    <button id="payButton" disabled class="bg-slate-300 text-white font-black py-4 px-12 rounded-2xl cursor-not-allowed transition-all md:text-lg disabled:opacity-50" onclick="handlePayment()">
+                        Proceed to Pay
+                    </button>
+                    <p class="text-xs text-slate-400 mt-3">You will be redirected to the respective payment page.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- extra spacing -->
+        <div class="h-10"></div>
+    </main>
+
+    <!-- ===== FOOTER (exactly as homepage, only brand info) ===== -->
+    <footer class="hidden md:block bg-slate-900 text-slate-400 py-16 mt-10">
+        <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-1">
+                <div class="flex items-center gap-2 text-white mb-6">
+                    <div class="bg-indigo-600 p-2 rounded-xl text-white"><i class="fas fa-box"></i></div>
+                    <span class="text-2xl font-black tracking-tighter">Merowish Int'l Logistic</span>
+                </div>
+                <p class="text-sm leading-relaxed mb-6">Importing your favorite products from India to Nepal has never been easier. We handle the shipping, customs, and delivery.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Global Stores</h4>
+                <ul class="space-y-4 text-sm">
+                    <li><a href="#" class="hover:text-white transition-colors">Amazon.in</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Flipkart.com</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Myntra.com</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Zara.in</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Support</h4>
+                <ul class="space-y-4 text-sm">
+                    <li><a href="#" class="hover:text-white transition-colors">Terms & Condition</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Return Policy</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">How it Works</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">FAQs</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Download App</h4>
+                <p class="text-sm mb-4">Get Special Discount on your first order on App.</p>
+                <div class="space-y-3">
+                    <div class="bg-slate-800 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-700">
+                        <i class="fab fa-apple text-2xl text-white"></i>
+                        <div><p class="text-[10px]">Download on</p><p class="text-xs font-bold text-white">App Store</p></div>
+                    </div>
+                    <div class="bg-slate-800 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-700">
+                        <i class="fab fa-google-play text-2xl text-white"></i>
+                        <div><p class="text-[10px]">Get it on</p><p class="text-xs font-bold text-white">Google Play</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-[1400px] mx-auto px-6 mt-16 pt-8 border-t border-slate-800 flex justify-between text-xs">
+            <p>&copy; 2026 Merowish Technologies. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== BOTTOM NAVIGATION (mobile only, same as homepage with links) ===== -->
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-6 py-4 z-50 flex justify-between items-center">
+        <!-- Home -->
+        <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActiveAndNavigate(this, 'https://drimam.github.io/dnep/homedemo.html')">
+            <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-home"></i></div>
+            <span class="text-[9px] font-bold">Home</span>
+        </div>
+        <!-- Calculator -->
+        <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActiveAndNavigate(this, 'https://drimam.github.io/dnep/caldesign.html')">
+            <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-calculator"></i></div>
+            <span class="text-[9px] font-bold">Calculator</span>
+        </div>
+        <!-- FAB (BUY) -->
+        <div class="relative -top-8">
+            <a href="https://drimam.github.io/dnep/BUY.html" class="fab-button w-16 h-16 rounded-full flex items-center justify-center border-4 border-white text-white">
+                <i class="fas fa-plus text-xl"></i>
+            </a>
+        </div>
+        <!-- Order -->
+        <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActiveAndNavigate(this, 'https://drimam.github.io/dnep/orderpage.html')">
+            <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-box"></i></div>
+            <span class="text-[9px] font-bold">Order</span>
+        </div>
+        <!-- Profile -->
+        <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActiveAndNavigate(this, 'https://drimam.github.io/dnep/myprofile.html')">
+            <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-user"></i></div>
+            <span class="text-[9px] font-bold">Profile</span>
+        </div>
+    </nav>
+
+    <script>
+        // ----- PAYMENT PAGE SPECIFIC SCRIPT -----
+        let currentlySelected = null;
+        const payButton = document.getElementById('payButton');
+        const hiddenInput = document.getElementById('selectedMethod');
+
+        // Make payment cards selectable
+        window.selectMethod = function(methodId) {
+            // Remove 'selected' class from all cards
+            document.querySelectorAll('.payment-card').forEach(card => {
+                card.classList.remove('selected', 'border-indigo-600', 'bg-indigo-50/30');
+            });
+            // Add class to the clicked card
+            const selectedCard = document.querySelector(`.payment-card[data-method="${methodId}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected', 'border-indigo-600', 'bg-indigo-50/30');
+            }
+            // Update hidden input and enable button
+            hiddenInput.value = methodId;
+            currentlySelected = methodId;
+            payButton.disabled = false;
+            payButton.classList.remove('bg-slate-300', 'cursor-not-allowed');
+            payButton.classList.add('bg-indigo-600', 'hover:bg-indigo-700', 'cursor-pointer');
+        };
+
+        // Handle payment redirection (mock)
+        window.handlePayment = function() {
+            if (!currentlySelected) {
+                alert('Please select a payment method.');
+                return;
+            }
+            // In a real integration you'd redirect to respective payment gateway.
+            // For demo we show a message and simulate redirect.
+            const methodNames = {
+                esewa: 'eSewa',
+                khalti: 'Khalti',
+                fonepay: 'Fonepay'
+            };
+            alert(`Redirecting to ${methodNames[currentlySelected]} payment page... (demo)`);
+            // optionally redirect to a dummy page – but we just stay here.
+            // window.location.href = `https://drimam.github.io/dnep/pay-${currentlySelected}.html`;
+        };
+
+        // ----- BOTTOM NAVIGATION (reused from homepage) -----
+        function setActive(el) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                item.classList.add('text-slate-400');
+            });
+            el.classList.add('active');
+            el.classList.remove('text-slate-400');
+        }
+
+        function setActiveAndNavigate(el, url) {
+            setActive(el);
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>
