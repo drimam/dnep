@@ -17,22 +17,96 @@
         .nav-item.active .nav-icon-bg { background-color: #fce7f3; }
         @media (max-width: 1023px) { body { padding-bottom: 80px; } }
         .fab-button { background: linear-gradient(135deg, #db2777 0%, #7c3aed 100%); box-shadow: 0 10px 25px rgba(219, 39, 119, 0.3); }
-        /* Center the grid container on desktop, but keep cards readable */
+        /* Center the grid container on desktop */
         @media (min-width: 1024px) {
-            .payment-grid-container {
-                display: flex;
-                justify-content: center;
-            }
-            .payment-grid {
-                max-width: 900px;  /* prevents cards from stretching too wide */
-                flex: 0 1 auto;
-            }
+            .payment-grid-container { display: flex; justify-content: center; }
+            .payment-grid { max-width: 900px; flex: 0 1 auto; }
+        }
+
+        /* QR Modal Styles */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        .qr-modal.active { display: flex; }
+        .modal-content {
+            max-width: 450px;
+            width: 90%;
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            animation: modalPop 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Timer animations */
+        .timer-green {
+            color: #10b981; /* emerald-500 */
+            animation: pulse 1.5s infinite;
+        }
+        .timer-urgent {
+            color: #f97316; /* orange-500 */
+            animation: shake 0.5s infinite;
+        }
+        .timer-expired {
+            color: #ef4444; /* red-500 */
+            font-weight: bold;
+            animation: none;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(4px); }
+            50% { transform: translateX(-4px); }
+            75% { transform: translateX(2px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Regenerate button – initially hidden */
+        #regenerateQrBtn { display: none; }
+
+        /* Custom confirmation overlay inside modal */
+        .confirmation-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(4px);
+            border-radius: 2rem;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            flex-direction: column;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .confirmation-overlay.active {
+            display: flex;
         }
     </style>
 </head>
 <body class="min-h-screen pb-20 md:pb-0">
 
-    <!-- ===== DESKTOP HEADER (same as homepage, links updated) ===== -->
+    <!-- ===== DESKTOP HEADER ===== -->
     <header class="hidden lg:block sticky top-0 z-[100] glass-nav">
         <div class="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between">
             <div class="flex items-center gap-10">
@@ -67,7 +141,7 @@
         </div>
     </header>
 
-    <!-- ===== MOBILE HEADER (same as homepage) ===== -->
+    <!-- ===== MOBILE HEADER ===== -->
     <div class="lg:hidden relative bg-indigo-600 pt-6 pb-8 px-6 rounded-b-[1.5rem]">
         <div class="flex justify-between items-center mb-2">
             <a href="https://drimam.github.io/dnep/homedemo.html" class="text-white font-black text-2xl italic tracking-tight">Merowish</a>
@@ -92,14 +166,13 @@
 
     <!-- ===== MAIN PAYMENT SECTION ===== -->
     <main class="max-w-[1200px] mx-auto px-6 py-12 md:py-16">
-        <!-- Page heading -->
         <div class="mb-10 text-center md:text-left">
-            <h1 class="text-3xl md:text-4xl font-black text-slate-900">Complete your payment</h1>
+            <h1 class="text-3xl md:text-2xl font-black text-slate-900">Complete your payment</h1>
             <p class="text-slate-500 mt-2">Choose one of the following payment methods</p>
         </div>
 
         <div class="grid lg:grid-cols-3 gap-8">
-            <!-- LEFT / TOP: order summary (spans 1 column) -->
+            <!-- LEFT: order summary -->
             <div class="lg:col-span-1">
                 <div class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm hover-lift">
                     <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2"><i class="fas fa-receipt text-indigo-500"></i> Order summary</h2>
@@ -119,21 +192,19 @@
                     </div>
                     <p class="text-[10px] text-slate-400 mt-4 border-t pt-4 italic">All prices include customs & duties</p>
                 </div>
-                <!-- small trust badge (optional) -->
                 <div class="mt-6 bg-indigo-50 rounded-2xl p-4 text-indigo-800 text-xs flex items-center gap-3">
                     <i class="fas fa-lock text-indigo-600 text-base"></i>
                     <span>Your payment data is encrypted and secure.</span>
                 </div>
             </div>
 
-            <!-- RIGHT: payment methods (spans 2 columns) -->
+            <!-- RIGHT: payment methods -->
             <div class="lg:col-span-2">
                 <h2 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-2"><i class="fas fa-wallet"></i> Select payment method</h2>
                 
-                <!-- Centered payment grid on desktop with flex wrapper -->
                 <div class="payment-grid-container">
-                    <div class="payment-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full" id="paymentMethodsContainer">
-                        <!-- eSewa card (updated logo) -->
+                    <div class="payment-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
+                        <!-- eSewa -->
                         <div class="payment-card relative bg-white border-2 border-transparent rounded-3xl p-5 cursor-pointer transition-all hover:border-indigo-200 hover:shadow-md" data-method="esewa" onclick="selectMethod('esewa')">
                             <div class="flex flex-col items-center text-center">
                                 <div class="h-16 mb-3 flex items-center justify-center">
@@ -143,8 +214,7 @@
                                 <p class="text-[10px] text-slate-400 mt-1">Pay via wallet / internet banking</p>
                             </div>
                         </div>
-
-                        <!-- Khalti card (updated logo) -->
+                        <!-- Khalti -->
                         <div class="payment-card relative bg-white border-2 border-transparent rounded-3xl p-5 cursor-pointer transition-all hover:border-indigo-200 hover:shadow-md" data-method="khalti" onclick="selectMethod('khalti')">
                             <div class="flex flex-col items-center text-center">
                                 <div class="h-16 mb-3 flex items-center justify-center">
@@ -154,8 +224,7 @@
                                 <p class="text-[10px] text-slate-400 mt-1">Digital wallet & payment gateway</p>
                             </div>
                         </div>
-
-                        <!-- Fonepay card (updated logo) – this card will appear in the center column on desktop -->
+                        <!-- Fonepay -->
                         <div class="payment-card relative bg-white border-2 border-transparent rounded-3xl p-5 cursor-pointer transition-all hover:border-indigo-200 hover:shadow-md" data-method="fonepay" onclick="selectMethod('fonepay')">
                             <div class="flex flex-col items-center text-center">
                                 <div class="h-16 mb-3 flex items-center justify-center">
@@ -168,10 +237,8 @@
                     </div>
                 </div>
 
-                <!-- hidden input to store selected method -->
                 <input type="hidden" id="selectedMethod" value="">
 
-                <!-- Pay button (disabled until selection) -->
                 <div class="mt-10 text-center md:text-right">
                     <button id="payButton" disabled class="bg-slate-300 text-white font-black py-4 px-12 rounded-2xl cursor-not-allowed transition-all md:text-lg disabled:opacity-50" onclick="handlePayment()">
                         Proceed to Pay
@@ -180,12 +247,10 @@
                 </div>
             </div>
         </div>
-
-        <!-- extra spacing -->
         <div class="h-10"></div>
     </main>
 
-    <!-- ===== FOOTER (exactly as homepage, only brand info) ===== -->
+    <!-- ===== FOOTER ===== -->
     <footer class="hidden md:block bg-slate-900 text-slate-400 py-16 mt-10">
         <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
             <div class="col-span-1 md:col-span-1">
@@ -243,54 +308,105 @@
         </div>
     </footer>
 
-    <!-- ===== BOTTOM NAVIGATION (mobile only, same as homepage with links) ===== -->
+    <!-- ===== BOTTOM NAVIGATION (mobile only) ===== -->
     <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-6 py-4 z-50 flex justify-between items-center">
-        <!-- Home -->
         <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActiveAndNavigate(this, 'https://drimam.github.io/dnep/homedemo.html')">
             <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-home"></i></div>
             <span class="text-[9px] font-bold">Home</span>
         </div>
-        <!-- Calculator -->
         <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActiveAndNavigate(this, 'https://drimam.github.io/dnep/caldesign.html')">
             <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-calculator"></i></div>
             <span class="text-[9px] font-bold">Calculator</span>
         </div>
-        <!-- FAB (BUY) -->
         <div class="relative -top-8">
             <a href="https://drimam.github.io/dnep/BUY.html" class="fab-button w-16 h-16 rounded-full flex items-center justify-center border-4 border-white text-white">
                 <i class="fas fa-plus text-xl"></i>
             </a>
         </div>
-        <!-- Order -->
         <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActiveAndNavigate(this, 'https://drimam.github.io/dnep/orderpage.html')">
             <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-box"></i></div>
             <span class="text-[9px] font-bold">Order</span>
         </div>
-        <!-- Profile -->
         <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActiveAndNavigate(this, 'https://drimam.github.io/dnep/myprofile.html')">
             <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-user"></i></div>
             <span class="text-[9px] font-bold">Profile</span>
         </div>
     </nav>
 
+    <!-- ===== FONEPAY QR MODAL ===== -->
+    <div id="qrModal" class="qr-modal">
+        <div class="modal-content">
+            <!-- Close icon (triggers confirmation overlay) -->
+            <button onclick="showConfirmation()" class="absolute top-4 right-4 w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center hover:bg-slate-200 transition-colors z-10">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <!-- Custom confirmation overlay inside modal -->
+            <div id="confirmationOverlay" class="confirmation-overlay">
+                <div class="bg-white rounded-2xl p-6 text-center max-w-xs mx-auto shadow-xl">
+                    <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-exclamation-triangle text-2xl text-red-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Cancel Payment?</h3>
+                    <p class="text-sm text-slate-500 mb-6">Are you sure you want to cancel this payment? The QR code will expire.</p>
+                    <div class="flex gap-3">
+                        <button onclick="closeModal()" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-xl transition-colors">
+                            Yes, Cancel
+                        </button>
+                        <button onclick="hideConfirmation()" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 px-4 rounded-xl transition-colors">
+                            No, Go Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main QR content -->
+            <div id="qrMainContent">
+                <div class="text-center">
+                    <h3 class="text-xl font-medium mb-2">We Accept</h3>
+                    <img src="https://login.fonepay.com/assets/img/fonepay_payments_fatafat.png" alt="Fonepay" class="mx-auto mb-2 h-10 object-contain">
+                    <p class="text-sm text-gray-600 mb-4">नेपाल राष्ट्र बैंकबाट अनुमति प्राप्त</p>
+
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=MEROWISH%20COM" alt="Fonepay QR" class="mx-auto mb-5 w-56 h-56 md:w-64 md:h-64 border border-slate-200 p-2 rounded-2xl">
+
+                    <h4 class="text-xl font-bold mb-1">MEROWISH COM</h4>
+                    <p class="text-sm text-gray-600 mb-2">Terminal: 2222500004693104</p>
+
+                    <div class="mb-4 text-lg font-mono font-bold timer-green" id="timerDisplay">05:00</div>
+                    <p class="text-xs text-slate-500 mb-4">Payment QR will expire in 5 minutes</p>
+
+                    <button id="downloadQrBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition-colors w-full flex items-center justify-center gap-2 mb-3">
+                        <i class="fas fa-download"></i> Download QR to Gallery
+                    </button>
+
+                    <button id="regenerateQrBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl transition-colors w-full flex items-center justify-center gap-2" onclick="regenerateQR()">
+                        <i class="fas fa-sync-alt"></i> Regenerate QR
+                    </button>
+
+                    <p class="text-[10px] text-slate-400 mt-4">Download & Scan with any Fonepay App or Mobile Banking</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // ----- PAYMENT PAGE SPECIFIC SCRIPT -----
+        // ----- PAYMENT PAGE SCRIPT -----
         let currentlySelected = null;
         const payButton = document.getElementById('payButton');
         const hiddenInput = document.getElementById('selectedMethod');
+        const modal = document.getElementById('qrModal');
+        const confirmationOverlay = document.getElementById('confirmationOverlay');
+        let timerInterval = null;
 
-        // Make payment cards selectable
+        // Select payment method
         window.selectMethod = function(methodId) {
-            // Remove 'selected' class from all cards
             document.querySelectorAll('.payment-card').forEach(card => {
                 card.classList.remove('selected', 'border-indigo-600', 'bg-indigo-50/30');
             });
-            // Add class to the clicked card
             const selectedCard = document.querySelector(`.payment-card[data-method="${methodId}"]`);
             if (selectedCard) {
                 selectedCard.classList.add('selected', 'border-indigo-600', 'bg-indigo-50/30');
             }
-            // Update hidden input and enable button
             hiddenInput.value = methodId;
             currentlySelected = methodId;
             payButton.disabled = false;
@@ -298,25 +414,137 @@
             payButton.classList.add('bg-indigo-600', 'hover:bg-indigo-700', 'cursor-pointer');
         };
 
-        // Handle payment redirection (mock)
+        // Handle pay button
         window.handlePayment = function() {
             if (!currentlySelected) {
                 alert('Please select a payment method.');
                 return;
             }
-            // In a real integration you'd redirect to respective payment gateway.
-            // For demo we show a message and simulate redirect.
-            const methodNames = {
-                esewa: 'eSewa',
-                khalti: 'Khalti',
-                fonepay: 'Fonepay'
-            };
-            alert(`Redirecting to ${methodNames[currentlySelected]} payment page... (demo)`);
-            // optionally redirect to a dummy page – but we just stay here.
-            // window.location.href = `https://drimam.github.io/dnep/pay-${currentlySelected}.html`;
+            if (currentlySelected === 'fonepay') {
+                openModal();
+            } else if (currentlySelected === 'esewa') {
+                alert('Redirecting to eSewa payment page... (demo)');
+            } else if (currentlySelected === 'khalti') {
+                alert('Redirecting to Khalti payment page... (demo)');
+            }
         };
 
-        // ----- BOTTOM NAVIGATION (reused from homepage) -----
+        // ----- MODAL FUNCTIONS -----
+        window.openModal = function() {
+            modal.classList.add('active');
+            resetTimer(300); // 5 minutes
+            hideConfirmation(); // ensure confirmation is hidden
+        };
+
+        window.closeModal = function() {
+            modal.classList.remove('active');
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            // Reset UI for next time
+            const timerDisplay = document.getElementById('timerDisplay');
+            timerDisplay.className = 'mb-4 text-lg font-mono font-bold timer-green';
+            timerDisplay.textContent = '05:00';
+            document.getElementById('downloadQrBtn').disabled = false;
+            document.getElementById('downloadQrBtn').classList.remove('bg-slate-400', 'cursor-not-allowed');
+            document.getElementById('downloadQrBtn').classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+            document.getElementById('regenerateQrBtn').style.display = 'none';
+            hideConfirmation();
+        };
+
+        // Confirmation overlay control
+        window.showConfirmation = function() {
+            confirmationOverlay.classList.add('active');
+        };
+        window.hideConfirmation = function() {
+            confirmationOverlay.classList.remove('active');
+        };
+
+        // Timer control
+        function resetTimer(durationSeconds) {
+            if (timerInterval) clearInterval(timerInterval);
+            startTimer(durationSeconds);
+        }
+
+        function startTimer(durationSeconds) {
+            const timerDisplay = document.getElementById('timerDisplay');
+            const downloadBtn = document.getElementById('downloadQrBtn');
+            const regenerateBtn = document.getElementById('regenerateQrBtn');
+            let remaining = durationSeconds;
+
+            regenerateBtn.style.display = 'none';
+            downloadBtn.disabled = false;
+            downloadBtn.classList.remove('bg-slate-400', 'cursor-not-allowed');
+            downloadBtn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+
+            function updateDisplay() {
+                const mins = Math.floor(remaining / 60);
+                const secs = remaining % 60;
+                timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+                if (remaining <= 0) {
+                    timerDisplay.textContent = 'EXPIRED';
+                    timerDisplay.className = 'mb-4 text-lg font-mono font-bold timer-expired';
+                    downloadBtn.disabled = true;
+                    downloadBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                    downloadBtn.classList.add('bg-slate-400', 'cursor-not-allowed');
+                    regenerateBtn.style.display = 'flex';
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                } else if (remaining <= 60) {
+                    timerDisplay.className = 'mb-4 text-lg font-mono font-bold timer-urgent';
+                } else {
+                    timerDisplay.className = 'mb-4 text-lg font-mono font-bold timer-green';
+                }
+            }
+
+            updateDisplay();
+            timerInterval = setInterval(() => {
+                remaining -= 1;
+                updateDisplay();
+                if (remaining < 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                }
+            }, 1000);
+        }
+
+        window.regenerateQR = function() {
+            resetTimer(300);
+        };
+
+        // Download QR code
+        document.getElementById('downloadQrBtn').addEventListener('click', function() {
+            if (this.disabled) return;
+            
+            const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=MEROWISH%20COM';
+            fetch(qrUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'fonepay_qr.png';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(err => {
+                    console.error('Download failed:', err);
+                    alert('Could not download QR. Please try again.');
+                });
+        });
+
+        // Close modal if clicked outside (shows confirmation)
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                showConfirmation();
+            }
+        });
+
+        // ----- BOTTOM NAVIGATION -----
         function setActive(el) {
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
@@ -330,6 +558,8 @@
             setActive(el);
             window.location.href = url;
         }
+
+        window.setActiveAndNavigate = setActiveAndNavigate;
     </script>
 </body>
 </html>
