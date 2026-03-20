@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Merowish | Help Center</title>
+  <!-- Tailwind + Font Awesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      padding-bottom: 80px;
+    }
+
+    @media (min-width: 1024px) {
+      body { padding-bottom: 0; }
+    }
+
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .nav-item.active { color: #db2777; }
+    .nav-item.active .nav-icon-bg { background-color: #fce7f3; }
+
+    .fab-button {
+      background: linear-gradient(135deg, #db2777 0%, #7c3aed 100%);
+      box-shadow: 0 10px 25px rgba(219, 39, 119, 0.3);
+    }
+
+    .help-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .help-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.1);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      transition: all 0.2s;
+    }
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+    .faq-question {
+      cursor: pointer;
+      padding: 1rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      color: #475569;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 200px;
+      padding-bottom: 1rem;
+    }
+    .faq-item.open .faq-question i {
+      transform: rotate(180deg);
+    }
+
+    .ticket-form input,
+    .ticket-form textarea {
+      transition: all 0.2s;
+    }
+    .ticket-form input:focus,
+    .ticket-form textarea:focus {
+      border-color: #4f46e5;
+      outline: none;
+      background-color: #fff;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    @media (max-width: 640px) {
+      .help-card {
+        padding: 1rem !important;
+      }
+      .help-card .w-16 {
+        width: 3rem !important;
+        height: 3rem !important;
+      }
+      .help-card h3 {
+        font-size: 1rem !important;
+      }
+      .help-card p {
+        font-size: 0.75rem !important;
+      }
+      .help-card .text-indigo-600 {
+        font-size: 0.7rem !important;
+      }
+      .grid {
+        gap: 0.75rem !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DESKTOP HEADER -->
+  <header class="hidden lg:block sticky top-0 z-[100] glass-nav">
+    <div class="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-10">
+        <div class="flex items-center gap-2">
+          <div class="bg-indigo-600 p-2 rounded-xl text-white"><i class="fas fa-box"></i></div>
+          <span class="text-2xl font-extrabold tracking-tighter">Merowish</span>
+        </div>
+        <nav class="flex items-center gap-6 text-sm font-bold text-slate-500">
+          <a href="#" class="hover:text-indigo-600 transition-colors">Home</a>
+          <a href="#" class="hover:text-indigo-600 transition-colors">Cost Calculator</a>
+          <a href="#" class="hover:text-indigo-600 transition-colors">Self-Order</a>
+        </nav>
+      </div>
+
+      <div class="flex-1 max-w-xl mx-10">
+        <div class="relative group">
+          <input type="text" placeholder="Search Amazon, Flipkart, or Myntra products..." 
+                 class="w-full bg-slate-100 border-2 border-transparent focus:border-indigo-500 focus:bg-white rounded-2xl py-2.5 pl-12 pr-4 text-sm transition-all outline-none">
+          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500"></i>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-5">
+        <button class="text-slate-500 hover:text-indigo-600 transition-colors"><i class="far fa-heart text-xl"></i></button>
+        <button class="text-slate-500 hover:text-indigo-600 transition-colors"><i class="fas fa-shopping-cart text-xl"></i></button>
+        <div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+          <div class="text-right">
+            <p class="text-[10px] font-bold text-slate-400 uppercase">Damodar Bhattarai</p>
+            <p class="text-xs font-bold text-slate-800">Account & Orders</p>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border-2 border-white shadow-sm">DB</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE HEADER -->
+  <div class="lg:hidden relative bg-indigo-600 pt-6 pb-8 px-6 rounded-b-[1.5rem]">
+    <div class="flex justify-between items-center mb-2">
+      <h1 class="text-white font-black text-2xl italic tracking-tight">Merowish</h1>
+      <div class="flex gap-2">
+        <button class="w-10 h-10 bg-white/20 rounded-full text-white backdrop-blur-md relative">
+          <i class="fas fa-shopping-cart"></i>
+        </button>
+        <button class="w-10 h-10 bg-white/20 rounded-full text-white backdrop-blur-md relative">
+          <i class="far fa-bell"></i>
+          <span class="absolute top-2 right-2 w-2 h-2 bg-pink-500 rounded-full border-2 border-indigo-600"></span>
+        </button>
+      </div>
+    </div>
+    <p class="text-indigo-100 text-sm mb-2">Hello, <span class="text-white font-bold">Damodar</span> 👋</p>
+    <div class="absolute -bottom-6 left-6 right-6 shadow-xl"></div>
+  </div>
+
+  <!-- MAIN CONTENT: Help Center -->
+  <main class="max-w-[1400px] mx-auto px-4 sm:px-6 mt-8 md:mt-10">
+    
+    <!-- Hero Section -->
+    <div class="text-center mb-8 md:mb-12">
+      <h1 class="text-xl md:text-4xl font-black text-slate-900 mb-2">How can we help you?</h1>
+      <p class="text-slate-500 text-sm md:text-base">Find answers, contact support, or chat with our team — we're here for you.</p>
+    </div>
+
+    <!-- Support Options Grid (stacked on mobile, grid on desktop) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12 md:mb-16">
+      
+      <!-- Call Support with hours -->
+      <a href="tel:+9779845925880" class="help-card bg-white rounded-2xl md:rounded-3xl border border-slate-100 p-4 md:p-6 text-center hover:border-indigo-200 transition-all block no-underline">
+        <div class="w-12 h-12 md:w-16 md:h-16 bg-indigo-50 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-2 md:mb-4 text-indigo-600 text-xl md:text-2xl">
+          <i class="fas fa-phone-alt"></i>
+        </div>
+        <h3 class="font-bold text-base md:text-lg text-slate-800 mb-1">Call Support</h3>
+        <p class="text-slate-400 text-xs md:text-sm">Speak directly with our team</p>
+        <p class="text-indigo-600 font-bold text-xs md:text-sm mt-2 md:mt-3">+977 9845925880</p>
+        <p class="text-slate-500 text-[10px] md:text-xs mt-1">📞 Sun–Fri, 10 AM – 6 PM</p>
+      </a>
+
+      <!-- Contact Us (Ticket System) -->
+      <div class="help-card bg-white rounded-2xl md:rounded-3xl border border-slate-100 p-4 md:p-6 text-center hover:border-indigo-200 transition-all cursor-pointer" onclick="openTicketModal()">
+        <div class="w-12 h-12 md:w-16 md:h-16 bg-indigo-50 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-2 md:mb-4 text-indigo-600 text-xl md:text-2xl">
+          <i class="fas fa-ticket-alt"></i>
+        </div>
+        <h3 class="font-bold text-base md:text-lg text-slate-800 mb-1">Contact Us</h3>
+        <p class="text-slate-400 text-xs md:text-sm">Submit a support ticket</p>
+        <p class="text-indigo-600 font-bold text-xs md:text-sm mt-2 md:mt-3">We'll respond within 24h</p>
+      </div>
+
+      <!-- Live Chat Support with hours -->
+      <a href="https://drimam.github.io/dnep/meroai-chatbot.html" target="_blank" rel="noopener noreferrer" class="help-card bg-white rounded-2xl md:rounded-3xl border border-slate-100 p-4 md:p-6 text-center hover:border-indigo-200 transition-all block no-underline">
+        <div class="w-12 h-12 md:w-16 md:h-16 bg-indigo-50 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-2 md:mb-4 text-indigo-600 text-xl md:text-2xl">
+          <i class="fas fa-comment-dots"></i>
+        </div>
+        <h3 class="font-bold text-base md:text-lg text-slate-800 mb-1">Live Chat</h3>
+        <p class="text-slate-400 text-xs md:text-sm">Chat with our AI assistant</p>
+        <p class="text-indigo-600 font-bold text-xs md:text-sm mt-2 md:mt-3">We're Available</p>
+        <p class="text-slate-500 text-[10px] md:text-xs mt-1">💬 Human Support: Sun–Fri, 10 AM – 6 PM</p>
+      </a>
+
+      <!-- Email Support -->
+      <a href="mailto:support@merowish.com" class="help-card bg-white rounded-2xl md:rounded-3xl border border-slate-100 p-4 md:p-6 text-center hover:border-indigo-200 transition-all block no-underline">
+        <div class="w-12 h-12 md:w-16 md:h-16 bg-indigo-50 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-2 md:mb-4 text-indigo-600 text-xl md:text-2xl">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <h3 class="font-bold text-base md:text-lg text-slate-800 mb-1">Email Support</h3>
+        <p class="text-slate-400 text-xs md:text-sm">Send us an email</p>
+        <p class="text-indigo-600 font-bold text-xs md:text-sm mt-2 md:mt-3">support@merowish.com</p>
+      </a>
+    </div>
+
+    <!-- Frequent Questions Section with Search -->
+    <div class="bg-white rounded-2xl md:rounded-3xl border border-slate-100 p-5 md:p-8 mb-12 md:mb-16">
+      <div class="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+        <i class="fas fa-question-circle text-indigo-500 text-xl md:text-2xl"></i>
+        <h2 class="text-xl md:text-2xl font-black text-slate-900">Frequent Questions</h2>
+      </div>
+      <p class="text-slate-500 text-sm md:text-base mb-6 md:mb-8">We get asked these questions a lot, so we made this small section to help you out identifying what you need faster.</p>
+      
+      <!-- Search Input -->
+      <div class="mb-6 relative">
+        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+        <input type="text" id="faqSearchInput" placeholder="Search for answers..." class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-sm focus:border-indigo-500 focus:bg-white transition outline-none">
+      </div>
+
+      <!-- FAQ List Container -->
+      <div id="faqContainer" class="space-y-1 md:space-y-2"></div>
+      
+      <!-- No Results Message (hidden by default) -->
+      <div id="noResultsMessage" class="text-center py-8 text-slate-500 hidden">
+        <i class="fas fa-search text-3xl mb-2 text-slate-300"></i>
+        <p>No matching questions found. Try different keywords or <button onclick="openTicketModal()" class="text-indigo-600 font-bold hover:underline">contact support</button>.</p>
+      </div>
+    </div>
+
+    <!-- Still Need Help? -->
+    <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl md:rounded-3xl p-6 md:p-8 text-center mb-12">
+      <h3 class="text-lg md:text-xl font-black text-slate-900 mb-2">Still need help?</h3>
+      <p class="text-slate-600 text-sm md:text-base mb-4 md:mb-6">Our support team is ready to assist you with any questions.</p>
+      <button onclick="openTicketModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-6 md:py-3 md:px-8 rounded-xl transition-colors inline-flex items-center gap-2 text-sm md:text-base">
+        <i class="fas fa-headset"></i> Create a Ticket
+      </button>
+    </div>
+  </main>
+
+  <!-- Ticket Modal (Contact Us form) -->
+  <div id="ticketModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4 hidden transition-all" onclick="closeTicketModal(event)">
+    <div class="bg-white rounded-2xl md:rounded-3xl max-w-lg w-full p-5 md:p-8 relative" onclick="event.stopPropagation()">
+      <button onclick="closeTicketModal()" class="absolute top-3 right-3 md:top-4 md:right-4 w-7 h-7 md:w-8 md:h-8 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-200 transition-colors">
+        <i class="fas fa-times text-sm"></i>
+      </button>
+      <div class="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+        <i class="fas fa-ticket-alt text-indigo-500 text-xl md:text-2xl"></i>
+        <h3 class="text-lg md:text-xl font-black text-slate-900">Submit a Ticket</h3>
+      </div>
+      <p class="text-slate-500 text-xs md:text-sm mb-4 md:mb-6">Fill out the form below and we'll get back to you via email within 24 hours.</p>
+      
+      <form id="ticketForm" class="ticket-form space-y-3 md:space-y-4">
+        <input type="hidden" name="_subject" value="New Support Ticket from Merowish Help Center">
+        <div>
+          <label class="block text-xs md:text-sm font-bold text-slate-700 mb-1">Your Name</label>
+          <input type="text" name="name" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl py-2 px-3 md:py-2.5 md:px-4 text-slate-900 focus:border-indigo-500 transition text-sm">
+        </div>
+        <div>
+          <label class="block text-xs md:text-sm font-bold text-slate-700 mb-1">Email Address</label>
+          <input type="email" name="email" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl py-2 px-3 md:py-2.5 md:px-4 text-slate-900 focus:border-indigo-500 transition text-sm">
+        </div>
+        <div>
+          <label class="block text-xs md:text-sm font-bold text-slate-700 mb-1">Order Number (optional)</label>
+          <input type="text" name="order" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl py-2 px-3 md:py-2.5 md:px-4 text-slate-900 focus:border-indigo-500 transition text-sm">
+        </div>
+        <div>
+          <label class="block text-xs md:text-sm font-bold text-slate-700 mb-1">Your Question / Issue</label>
+          <textarea name="message" rows="4" required class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl py-2 px-3 md:py-2.5 md:px-4 text-slate-900 focus:border-indigo-500 transition text-sm"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 md:py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm md:text-base">
+          <i class="fas fa-paper-plane"></i> Send Ticket
+        </button>
+        <p class="text-[10px] md:text-xs text-center text-slate-400 mt-2 md:mt-3">We'll respond to your email address within 24 hours.</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- DESKTOP FOOTER -->
+  <footer class="hidden md:block bg-slate-900 text-slate-400 py-16 mt-20">
+    <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+      <div class="col-span-1 md:col-span-1">
+        <div class="flex items-center gap-2 text-white mb-6">
+          <div class="bg-indigo-600 p-2 rounded-xl text-white"><i class="fas fa-box"></i></div>
+          <span class="text-2xl font-black tracking-tighter">Merowish Int'l Logistic</span>
+        </div>
+        <p class="text-sm leading-relaxed mb-6">Importing your favorite products from India to Nepal has never been easier. We handle the shipping, customs, and delivery.</p>
+        <div class="flex gap-4">
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Global Stores</h4>
+        <ul class="space-y-4 text-sm">
+          <li><a href="#" class="hover:text-white transition-colors">Amazon.in</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Flipkart.com</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Myntra.com</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Zara.in</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Support</h4>
+        <ul class="space-y-4 text-sm">
+          <li><a href="#" class="hover:text-white transition-colors">Terms & Condition</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Return Policy</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">How it Works</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">FAQs</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Download App</h4>
+        <p class="text-sm mb-4">Get Special Discount on your first order on App.</p>
+        <div class="space-y-3">
+          <div class="bg-slate-800 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-700">
+            <i class="fab fa-apple text-2xl text-white"></i>
+            <div><p class="text-[10px]">Download on</p><p class="text-xs font-bold text-white">App Store</p></div>
+          </div>
+          <div class="bg-slate-800 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-700">
+            <i class="fab fa-google-play text-2xl text-white"></i>
+            <div><p class="text-[10px]">Get it on</p><p class="text-xs font-bold text-white">Google Play</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-[1400px] mx-auto px-6 mt-16 pt-8 border-t border-slate-800 flex justify-between text-xs">
+      <p>&copy; 2026 Merowish Technologies. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BOTTOM NAVIGATION (MOBILE ONLY) -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-6 py-4 z-50 flex justify-between items-center">
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-home"></i></div>
+      <span class="text-[9px] font-bold">Home</span>
+    </div>
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-calculator"></i></div>
+      <span class="text-[9px] font-bold">Calculator</span>
+    </div>
+    <div class="relative -top-8">
+      <button class="fab-button w-16 h-16 rounded-full flex items-center justify-center border-4 border-white text-white">
+        <i class="fas fa-plus text-xl"></i>
+      </button>
+    </div>
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-box"></i></div>
+      <span class="text-[9px] font-bold">Order</span>
+    </div>
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-user"></i></div>
+      <span class="text-[9px] font-bold">Profile</span>
+    </div>
+  </nav>
+
+  <script>
+    // Bottom navigation active state
+    function setActive(el) {
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        item.classList.add('text-slate-400');
+      });
+      el.classList.add('active');
+      el.classList.remove('text-slate-400');
+    }
+
+    // FAQ data
+    const faqs = [
+      { question: "How do I track my order?", answer: "You can track your order from the 'My Orders' section in your profile. Once your order is shipped, you'll receive a tracking number via email and SMS." },
+      { question: "What are the shipping charges?", answer: "Shipping charges depend on the weight and dimensions of your package. Use our Cost Calculator for an accurate estimate. Home delivery within Nepal is free for all orders." },
+      { question: "How long does delivery take?", answer: "Typically 7-10 business days from India to Nepal. Customs clearance may add 1-2 days. You'll get real-time updates via email and SMS." },
+      { question: "Can I return a product?", answer: "Yes, we accept returns within 7 days of delivery for defective or wrong products. Please contact our support team to initiate a return." },
+      { question: "Do I have to pay customs duty?", answer: "Import duties (approx. 10%) and VAT (13%) are included in the final price you see at checkout. No hidden charges." },
+      { question: "How do I use the Cost Calculator?", answer: "Simply enter product price, weight, and dimensions to get an estimate including shipping, duties, and taxes. It's a great tool to plan your purchase." }
+    ];
+
+    // Function to render FAQs based on search query
+    function renderFAQs(searchQuery = "") {
+      const container = document.getElementById("faqContainer");
+      const noResultsMsg = document.getElementById("noResultsMessage");
+      if (!container) return;
+
+      // Filter FAQs
+      const filtered = faqs.filter(faq => 
+        faq.question.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      // Clear container
+      container.innerHTML = "";
+
+      if (filtered.length === 0) {
+        noResultsMsg.classList.remove("hidden");
+        return;
+      }
+
+      noResultsMsg.classList.add("hidden");
+      filtered.forEach(faq => {
+        const faqDiv = document.createElement("div");
+        faqDiv.className = "faq-item";
+        faqDiv.innerHTML = `
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>${faq.question}</span>
+            <i class="fas fa-chevron-down text-slate-400 transition-transform"></i>
+          </div>
+          <div class="faq-answer">
+            <p>${faq.answer}</p>
+          </div>
+        `;
+        container.appendChild(faqDiv);
+      });
+    }
+
+    // Toggle FAQ accordion
+    function toggleFaq(questionElement) {
+      const item = questionElement.closest(".faq-item");
+      item.classList.toggle("open");
+    }
+
+    // Initial render
+    renderFAQs();
+
+    // Search input handler
+    const searchInput = document.getElementById("faqSearchInput");
+    if (searchInput) {
+      searchInput.addEventListener("input", (e) => {
+        renderFAQs(e.target.value);
+      });
+    }
+
+    // Ticket modal logic
+    const modal = document.getElementById('ticketModal');
+    function openTicketModal() {
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeTicketModal(event) {
+      if (event && event.target !== modal && event.target !== document.getElementById('ticketModal')) return;
+      modal.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Form submission (mailto)
+    const form = document.getElementById('ticketForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = form.querySelector('[name="name"]').value;
+      const email = form.querySelector('[name="email"]').value;
+      const order = form.querySelector('[name="order"]').value;
+      const message = form.querySelector('[name="message"]').value;
+      const subject = encodeURIComponent(`Support Ticket from ${name} (Order: ${order || 'N/A'})`);
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nOrder Number: ${order || 'Not provided'}\n\nMessage:\n${message}`);
+      window.location.href = `mailto:support@merowish.com?subject=${subject}&body=${body}`;
+      form.reset();
+      closeTicketModal();
+      alert('Thank you! Your email client will open. Please send the pre-filled email to reach our support team.');
+    });
+
+    // Close modal on escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeTicketModal();
+      }
+    });
+  </script>
+</body>
+</html>
