@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Merowish | Login</title>
+  <!-- Tailwind + Font Awesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: linear-gradient(135deg, #f5f7fc 0%, #eef2f9 100%);
+      color: #1e293b;
+      padding-bottom: 80px;
+    }
+
+    @media (min-width: 1024px) {
+      body { padding-bottom: 0; background: #f8fafc; }
+    }
+
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .nav-item.active { color: #db2777; }
+    .nav-item.active .nav-icon-bg { background-color: #fce7f3; }
+
+    .fab-button {
+      background: linear-gradient(135deg, #db2777 0%, #7c3aed 100%);
+      box-shadow: 0 10px 25px rgba(219, 39, 119, 0.3);
+    }
+
+    .input-field:focus {
+      border-color: #4f46e5;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    .social-btn:active {
+      transform: scale(0.97);
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 1.5rem !important;
+      }
+      .social-btn {
+        padding: 0.7rem !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DESKTOP HEADER -->
+  <header class="hidden lg:block sticky top-0 z-[100] glass-nav">
+    <div class="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-10">
+        <div class="flex items-center gap-2">
+          <div class="bg-indigo-600 p-2 rounded-xl text-white"><i class="fas fa-box"></i></div>
+          <span class="text-2xl font-extrabold tracking-tighter">Merowish</span>
+        </div>
+        <nav class="flex items-center gap-6 text-sm font-bold text-slate-500">
+          <a href="#" class="hover:text-indigo-600 transition-colors">Home</a>
+          <a href="#" class="hover:text-indigo-600 transition-colors">Cost Calculator</a>
+          <a href="#" class="hover:text-indigo-600 transition-colors">Self-Order</a>
+        </nav>
+      </div>
+
+      <div class="flex-1 max-w-xl mx-10">
+        <div class="relative group">
+          <input type="text" placeholder="Search Amazon, Flipkart, or Myntra products..." 
+                 class="w-full bg-slate-100 border-2 border-transparent focus:border-indigo-500 focus:bg-white rounded-2xl py-2.5 pl-12 pr-4 text-sm transition-all outline-none">
+          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500"></i>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-5">
+        <button class="text-slate-500 hover:text-indigo-600 transition-colors"><i class="far fa-heart text-xl"></i></button>
+        <button class="text-slate-500 hover:text-indigo-600 transition-colors"><i class="fas fa-shopping-cart text-xl"></i></button>
+        <div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+          <div class="text-right">
+            <p class="text-[10px] font-bold text-slate-400 uppercase">Damodar Bhattarai</p>
+            <p class="text-xs font-bold text-slate-800">Account & Orders</p>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border-2 border-white shadow-sm">DB</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE HEADER -->
+  <div class="lg:hidden relative bg-indigo-600 pt-6 pb-8 px-6 rounded-b-[1.5rem]">
+    <div class="flex justify-between items-center mb-2">
+      <h1 class="text-white font-black text-2xl italic tracking-tight">Merowish</h1>
+      <div class="flex gap-2">
+        <button class="w-10 h-10 bg-white/20 rounded-full text-white backdrop-blur-md relative">
+          <i class="fas fa-shopping-cart"></i>
+        </button>
+        <button class="w-10 h-10 bg-white/20 rounded-full text-white backdrop-blur-md relative">
+          <i class="far fa-bell"></i>
+          <span class="absolute top-2 right-2 w-2 h-2 bg-pink-500 rounded-full border-2 border-indigo-600"></span>
+        </button>
+      </div>
+    </div>
+    <p class="text-indigo-100 text-sm mb-2">Hello, <span class="text-white font-bold">Damodar</span> 👋</p>
+    <div class="absolute -bottom-6 left-6 right-6 shadow-xl"></div>
+  </div>
+
+  <!-- MAIN CONTENT: Login Card (centered with flex) -->
+  <main class="min-h-[calc(100vh-200px)] flex items-center justify-center py-10">
+    <div class="w-full max-w-md px-5">
+      <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden login-card p-6 md:p-8">
+        
+        <!-- Logo / Brand -->
+        <div class="text-center mb-6">
+          <div class="inline-flex items-center justify-center bg-indigo-600 p-3 rounded-2xl text-white shadow-lg mb-3">
+            <i class="fas fa-box text-2xl"></i>
+          </div>
+          <h1 class="text-2xl font-black text-slate-900">Welcome Back</h1>
+          <p class="text-slate-500 text-sm mt-1">Sign in to your Merowish account</p>
+        </div>
+
+        <!-- Email / Password Form -->
+        <form id="loginForm" class="space-y-4">
+          <div>
+            <label class="block text-sm font-bold text-slate-700 mb-1">Email Address</label>
+            <input type="email" id="email" required class="input-field w-full bg-slate-50 border-2 border-slate-200 rounded-xl py-3 px-4 text-slate-900 transition focus:border-indigo-500" placeholder="you@example.com">
+          </div>
+          <div>
+            <label class="block text-sm font-bold text-slate-700 mb-1">Password</label>
+            <div class="relative">
+              <input type="password" id="password" required class="input-field w-full bg-slate-50 border-2 border-slate-200 rounded-xl py-3 px-4 text-slate-900 transition focus:border-indigo-500 pr-12" placeholder="••••••••">
+              <button type="button" id="togglePassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-600 transition">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="flex justify-between items-center text-sm">
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+              <span class="text-slate-600">Remember me</span>
+            </label>
+            <button type="button" id="forgotPasswordBtn" class="text-indigo-600 hover:text-indigo-800 font-medium">Forgot password?</button>
+          </div>
+          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition shadow-md flex items-center justify-center gap-2">
+            <i class="fas fa-sign-in-alt"></i> Sign In
+          </button>
+        </form>
+
+        <!-- Divider -->
+        <div class="relative my-6">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-slate-200"></div>
+          </div>
+          <div class="relative flex justify-center text-xs uppercase">
+            <span class="bg-white px-3 text-slate-400">Or continue with</span>
+          </div>
+        </div>
+
+        <!-- Social Login Buttons -->
+        <div class="space-y-3">
+          <button id="googleLogin" class="social-btn w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold py-3 rounded-xl transition flex items-center justify-center gap-3 shadow-sm">
+            <i class="fab fa-google text-xl text-red-500"></i>
+            <span>Continue with Google</span>
+          </button>
+          <button id="facebookLogin" class="social-btn w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition flex items-center justify-center gap-3 shadow-md">
+            <i class="fab fa-facebook-f text-xl"></i>
+            <span>Continue with Facebook</span>
+          </button>
+          <button id="truecallerLogin" class="social-btn w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 rounded-xl transition flex items-center justify-center gap-3 shadow-md">
+            <i class="fas fa-phone-alt text-xl"></i>
+            <span>Continue with Truecaller</span>
+          </button>
+        </div>
+
+        <!-- Sign up link -->
+        <p class="text-center text-sm text-slate-500 mt-6">
+          Don't have an account?
+          <a href="#" class="text-indigo-600 font-bold hover:text-indigo-800">Sign up</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- DESKTOP FOOTER -->
+  <footer class="hidden md:block bg-slate-900 text-slate-400 py-16 mt-20">
+    <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+      <div class="col-span-1 md:col-span-1">
+        <div class="flex items-center gap-2 text-white mb-6">
+          <div class="bg-indigo-600 p-2 rounded-xl text-white"><i class="fas fa-box"></i></div>
+          <span class="text-2xl font-black tracking-tighter">Merowish Int'l Logistic</span>
+        </div>
+        <p class="text-sm leading-relaxed mb-6">Importing your favorite products from India to Nepal has never been easier. We handle the shipping, customs, and delivery.</p>
+        <div class="flex gap-4">
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Global Stores</h4>
+        <ul class="space-y-4 text-sm">
+          <li><a href="#" class="hover:text-white transition-colors">Amazon.in</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Flipkart.com</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Myntra.com</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Zara.in</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Support</h4>
+        <ul class="space-y-4 text-sm">
+          <li><a href="#" class="hover:text-white transition-colors">Terms & Condition</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Return Policy</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">How it Works</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">FAQs</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Download App</h4>
+        <p class="text-sm mb-4">Get Special Discount on your first order on App.</p>
+        <div class="space-y-3">
+          <div class="bg-slate-800 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-700">
+            <i class="fab fa-apple text-2xl text-white"></i>
+            <div><p class="text-[10px]">Download on</p><p class="text-xs font-bold text-white">App Store</p></div>
+          </div>
+          <div class="bg-slate-800 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-700">
+            <i class="fab fa-google-play text-2xl text-white"></i>
+            <div><p class="text-[10px]">Get it on</p><p class="text-xs font-bold text-white">Google Play</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-[1400px] mx-auto px-6 mt-16 pt-8 border-t border-slate-800 flex justify-between text-xs">
+      <p>&copy; 2026 Merowish Technologies. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BOTTOM NAVIGATION (MOBILE ONLY) -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-slate-100 px-6 py-3 z-50 flex justify-between items-center shadow-lg">
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-home"></i></div>
+      <span class="text-[9px] font-bold">Home</span>
+    </div>
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-calculator"></i></div>
+      <span class="text-[9px] font-bold">Calculator</span>
+    </div>
+    <div class="relative -top-8">
+      <button class="fab-button w-14 h-14 rounded-full flex items-center justify-center border-4 border-white text-white shadow-lg">
+        <i class="fas fa-plus text-lg"></i>
+      </button>
+    </div>
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-box"></i></div>
+      <span class="text-[9px] font-bold">Order</span>
+    </div>
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-user"></i></div>
+      <span class="text-[9px] font-bold">Profile</span>
+    </div>
+  </nav>
+
+  <!-- Forgot Password Modal -->
+  <div id="forgotModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[200] flex items-center justify-center p-4 hidden transition-all">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 relative shadow-2xl">
+      <button onclick="closeForgotModal()" class="absolute top-4 right-4 w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-200 transition">
+        <i class="fas fa-times text-sm"></i>
+      </button>
+      <div class="text-center mb-5">
+        <i class="fas fa-key text-indigo-500 text-3xl mb-2"></i>
+        <h3 class="text-xl font-black text-slate-900">Reset Password</h3>
+        <p class="text-slate-500 text-sm mt-1">Enter your email address and we'll send you a link to reset your password.</p>
+      </div>
+      <form id="resetForm">
+        <div>
+          <label class="block text-sm font-bold text-slate-700 mb-1">Email Address</label>
+          <input type="email" id="resetEmail" required class="input-field w-full bg-slate-50 border-2 border-slate-200 rounded-xl py-3 px-4 text-slate-900 transition focus:border-indigo-500" placeholder="you@example.com">
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl mt-5 transition flex items-center justify-center gap-2">
+          <i class="fas fa-paper-plane"></i> Send Reset Link
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Bottom navigation active state
+    function setActive(el) {
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        item.classList.add('text-slate-400');
+      });
+      el.classList.add('active');
+      el.classList.remove('text-slate-400');
+    }
+
+    // Password visibility toggle
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    togglePassword.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      togglePassword.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    });
+
+    // Forgot password modal handling
+    const modal = document.getElementById('forgotModal');
+    const forgotBtn = document.getElementById('forgotPasswordBtn');
+    function openForgotModal() {
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeForgotModal() {
+      modal.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+    forgotBtn.addEventListener('click', openForgotModal);
+    // Close modal on overlay click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeForgotModal();
+    });
+
+    // Handle reset password form submission
+    const resetForm = document.getElementById('resetForm');
+    resetForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('resetEmail').value;
+      if (!email) {
+        alert('Please enter your email address.');
+        return;
+      }
+      // Simulate sending reset email
+      alert(`Password reset link sent to ${email} (demo). Check your inbox.`);
+      closeForgotModal();
+      resetForm.reset();
+    });
+
+    // Login form submission
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      if (!email || !password) {
+        alert('Please fill in both fields.');
+        return;
+      }
+      alert(`Logged in as ${email} (demo). Redirecting to dashboard...`);
+      // window.location.href = '/dashboard';
+    });
+
+    // Social login demos
+    document.getElementById('googleLogin').addEventListener('click', () => {
+      alert('Google login integration (demo). In production, this would redirect to Google OAuth.');
+    });
+    document.getElementById('facebookLogin').addEventListener('click', () => {
+      alert('Facebook login integration (demo). In production, this would redirect to Facebook OAuth.');
+    });
+    document.getElementById('truecallerLogin').addEventListener('click', () => {
+      alert('Truecaller login integration (demo). In production, this would open Truecaller SDK.');
+    });
+
+    // Close modal on escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeForgotModal();
+      }
+    });
+  </script>
+</body>
+</html>
