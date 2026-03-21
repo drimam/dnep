@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Merowish | Refer & Earn Free Membership</title>
+  <!-- Tailwind + Font Awesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: linear-gradient(135deg, #f5f7fc 0%, #eef2f9 100%);
+      color: #1e293b;
+      padding-bottom: 80px;
+    }
+
+    @media (min-width: 1024px) {
+      body { padding-bottom: 0; background: #f8fafc; }
+    }
+
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .nav-item.active { color: #db2777; }
+    .nav-item.active .nav-icon-bg { background-color: #fce7f3; }
+
+    .fab-button {
+      background: linear-gradient(135deg, #db2777 0%, #7c3aed 100%);
+      box-shadow: 0 10px 25px rgba(219, 39, 119, 0.3);
+    }
+
+    .progress-bar {
+      transition: width 0.4s ease;
+    }
+
+    .copy-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Social icon buttons */
+    .social-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .social-icon:hover {
+      transform: translateY(-2px);
+      filter: brightness(0.95);
+    }
+
+    /* Mobile responsive for referral code container */
+    @media (max-width: 640px) {
+      .referral-code-container {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .referral-code-box {
+        width: 100%;
+        text-align: center;
+        padding: 0.75rem 1rem;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      .referral-code-box span {
+        font-size: 1.1rem;
+      }
+      .copy-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @keyframes confetti {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 20px;
+      background: #f59e0b;
+      z-index: 1000;
+      pointer-events: none;
+      animation: confetti 3s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DESKTOP HEADER -->
+  <header class="hidden lg:block sticky top-0 z-[100] glass-nav">
+    <div class="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-10">
+        <div class="flex items-center gap-2">
+          <div class="bg-indigo-600 p-2 rounded-xl text-white"><i class="fas fa-box"></i></div>
+          <span class="text-2xl font-extrabold tracking-tighter">Merowish</span>
+        </div>
+        <nav class="flex items-center gap-6 text-sm font-bold text-slate-500">
+          <a href="#" class="hover:text-indigo-600 transition-colors">Home</a>
+          <a href="#" class="hover:text-indigo-600 transition-colors">Cost Calculator</a>
+          <a href="#" class="hover:text-indigo-600 transition-colors">Self-Order</a>
+        </nav>
+      </div>
+
+      <div class="flex-1 max-w-xl mx-10">
+        <div class="relative group">
+          <input type="text" placeholder="Search Amazon, Flipkart, or Myntra products..." 
+                 class="w-full bg-slate-100 border-2 border-transparent focus:border-indigo-500 focus:bg-white rounded-2xl py-2.5 pl-12 pr-4 text-sm transition-all outline-none">
+          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500"></i>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-5">
+        <button class="text-slate-500 hover:text-indigo-600 transition-colors"><i class="far fa-heart text-xl"></i></button>
+        <button class="text-slate-500 hover:text-indigo-600 transition-colors"><i class="fas fa-shopping-cart text-xl"></i></button>
+        <div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+          <div class="text-right">
+            <p class="text-[10px] font-bold text-slate-400 uppercase">Damodar Bhattarai</p>
+            <p class="text-xs font-bold text-slate-800">Account & Orders</p>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border-2 border-white shadow-sm">DB</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE HEADER -->
+  <div class="lg:hidden relative bg-indigo-600 pt-6 pb-8 px-6 rounded-b-[1.5rem]">
+    <div class="flex justify-between items-center mb-2">
+      <h1 class="text-white font-black text-2xl italic tracking-tight">Merowish</h1>
+      <div class="flex gap-2">
+        <button class="w-10 h-10 bg-white/20 rounded-full text-white backdrop-blur-md relative">
+          <i class="fas fa-shopping-cart"></i>
+        </button>
+        <button class="w-10 h-10 bg-white/20 rounded-full text-white backdrop-blur-md relative">
+          <i class="far fa-bell"></i>
+          <span class="absolute top-2 right-2 w-2 h-2 bg-pink-500 rounded-full border-2 border-indigo-600"></span>
+        </button>
+      </div>
+    </div>
+    <p class="text-indigo-100 text-sm mb-2">Hello, <span class="text-white font-bold">Damodar</span> 👋</p>
+    <div class="absolute -bottom-6 left-6 right-6 shadow-xl"></div>
+  </div>
+
+  <!-- MAIN CONTENT: Referral Dashboard -->
+  <main class="max-w-[1200px] mx-auto px-5 sm:px-6 mt-6 md:mt-10">
+    
+    <!-- Hero Section -->
+    <div class="text-center mb-8 md:mb-12">
+      <div class="inline-flex items-center gap-2 bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full text-sm font-semibold mb-3">
+        <i class="fas fa-gift"></i> Refer & Earn
+      </div>
+      <h1 class="text-xl md:text-4xl font-black text-slate-900 mb-3">Invite Friends, Get Free Membership!</h1>
+      <p class="text-slate-500 text-sm md:text-base max-w-2xl mx-auto">Share your unique code. When they make their first order, you move closer to a FREE Silver Membership (3 months).</p>
+    </div>
+
+    <!-- Referral Code & Share Section -->
+    <div class="bg-white rounded-3xl border border-slate-100 p-6 md:p-8 mb-8 shadow-sm">
+      <div class="text-center mb-6">
+        <h2 class="text-lg md:text-xl font-black text-slate-800">Your Referral Code</h2>
+        <div class="referral-code-container flex flex-col sm:flex-row items-center justify-center gap-4 mt-4">
+          <div class="referral-code-box bg-indigo-50 px-6 py-3 rounded-2xl border-2 border-indigo-200 w-full sm:w-auto">
+            <span id="referralCode" class="text-xl sm:text-2xl font-black text-indigo-600 tracking-wider">MEROWISH_DB</span>
+          </div>
+          <button id="copyCodeBtn" class="copy-btn bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-bold px-5 py-3 rounded-xl transition flex items-center gap-2 w-full sm:w-auto justify-center">
+            <i class="fas fa-copy"></i> Copy
+          </button>
+        </div>
+      </div>
+
+      <!-- Social Share – Icons Only (removed X, Discord, Reddit) -->
+      <div class="text-center">
+        <p class="text-slate-500 mb-4 text-sm">Share this link with friends:</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a id="shareInstagram" href="#" target="_blank" class="social-icon bg-gradient-to-br from-purple-600 to-pink-600 text-white shadow-md"><i class="fab fa-instagram text-xl"></i></a>
+          <a id="shareTiktok" href="#" target="_blank" class="social-icon bg-black text-white shadow-md"><i class="fab fa-tiktok text-xl"></i></a>
+          <a id="shareFacebook" href="#" target="_blank" class="social-icon bg-blue-700 text-white shadow-md"><i class="fab fa-facebook-f text-xl"></i></a>
+          <a id="shareMessenger" href="#" target="_blank" class="social-icon bg-blue-500 text-white shadow-md"><i class="fab fa-facebook-messenger text-xl"></i></a>
+          <a id="shareSnapchat" href="#" target="_blank" class="social-icon bg-yellow-500 text-black shadow-md"><i class="fab fa-snapchat-ghost text-xl"></i></a>
+          <a id="shareEmail" href="#" class="social-icon bg-slate-500 text-white shadow-md"><i class="fas fa-envelope text-xl"></i></a>
+          <button id="copyLinkBtn" class="social-icon bg-indigo-600 text-white shadow-md"><i class="fas fa-link text-xl"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats & Progress -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+      <div class="bg-white rounded-2xl border border-slate-100 p-5 text-center shadow-sm">
+        <i class="fas fa-users text-indigo-500 text-3xl mb-2"></i>
+        <p class="text-slate-500 text-sm">Total Referrals</p>
+        <p id="totalReferrals" class="text-3xl font-black text-slate-800">0</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-100 p-5 text-center shadow-sm">
+        <i class="fas fa-check-circle text-green-500 text-3xl mb-2"></i>
+        <p class="text-slate-500 text-sm">Successful (First Order)</p>
+        <p id="successfulReferrals" class="text-3xl font-black text-green-600">0</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-100 p-5 text-center shadow-sm">
+        <i class="fas fa-hourglass-half text-amber-500 text-3xl mb-2"></i>
+        <p class="text-slate-500 text-sm">Pending</p>
+        <p id="pendingReferrals" class="text-3xl font-black text-amber-600">0</p>
+      </div>
+    </div>
+
+    <!-- Progress to Free Silver Membership -->
+    <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-3xl p-6 mb-8">
+      <div class="flex justify-between items-center mb-2">
+        <h3 class="font-black text-slate-800">🎁 Free Silver Membership (3 months)</h3>
+        <span id="progressText" class="text-sm font-bold text-indigo-600">0/10</span>
+      </div>
+      <div class="w-full bg-white rounded-full h-4 overflow-hidden">
+        <div id="progressFill" class="progress-bar bg-gradient-to-r from-indigo-500 to-purple-600 h-full rounded-full" style="width: 0%"></div>
+      </div>
+      <p class="text-sm text-slate-600 mt-3">Refer 10 friends who place their first order to unlock FREE Silver Membership!</p>
+      <div id="milestoneMessage" class="mt-3 text-xs text-amber-600"></div>
+    </div>
+
+    <!-- Silver Plan Benefits -->
+    <div class="bg-white rounded-3xl border border-slate-100 p-6 mb-8">
+      <div class="flex items-center gap-3 mb-4">
+        <i class="fas fa-crown text-amber-500 text-2xl"></i>
+        <h3 class="text-xl font-black text-slate-800">3-Month Silver Membership – What's Included</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> <span>🚚 Express & Priority Delivery</span></li>
+          <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> <span>⚙️ Access to Self Order System</span></li>
+          <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> <span>🏢 Get Warehouse Address for India Imports</span></li>
+        </ul>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> <span>🎁 Special Offer Benefits & Discounts</span></li>
+          <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> <span>💬 24/7 Customer Support</span></li>
+          <li class="flex items-center gap-3"><i class="fas fa-check-circle text-green-500"></i> <span>📦 Free Home Delivery on all orders</span></li>
+        </ul>
+      </div>
+      <p class="text-sm text-slate-500 mt-4 border-t pt-3">Valid for 3 months from activation. Upgrade anytime to Gold/Diamond for even more savings!</p>
+    </div>
+
+    <!-- Reward Claim Card (hidden until 10 referrals) -->
+    <div id="rewardCard" class="bg-gradient-to-r from-amber-400 to-pink-500 rounded-3xl p-6 mb-8 text-white text-center hidden">
+      <i class="fas fa-crown text-4xl mb-3"></i>
+      <h3 class="text-2xl font-black">🎉 You've earned 3 months FREE Silver Membership!</h3>
+      <p class="mt-2">Enjoy Express Delivery, Self-Order Access, and more. Claim now to activate.</p>
+      <button id="claimRewardBtn" class="mt-4 bg-white text-indigo-700 font-bold px-8 py-3 rounded-xl hover:shadow-lg transition">
+        Claim My Membership
+      </button>
+    </div>
+
+    <!-- Referral List (no action buttons) -->
+    <div class="bg-white rounded-3xl border border-slate-100 p-6 mb-8">
+      <h3 class="text-xl font-black text-slate-800 mb-5">📋 Your Referrals</h3>
+      <div id="referralsList" class="space-y-3 max-h-96 overflow-y-auto">
+        <!-- Dynamically populated -->
+      </div>
+      <p class="text-xs text-slate-400 mt-4 text-center">* When a referred friend places their first order, it will automatically count toward your progress.</p>
+    </div>
+
+    <!-- How It Works -->
+    <div class="bg-white rounded-3xl border border-slate-100 p-6 text-center">
+      <h3 class="font-black text-slate-800 mb-4">How It Works</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+        <div><i class="fas fa-share-alt text-indigo-500 text-2xl mb-2 block"></i> 1. Share your code</div>
+        <div><i class="fas fa-user-plus text-indigo-500 text-2xl mb-2 block"></i> 2. Friend signs up & orders</div>
+        <div><i class="fas fa-gift text-indigo-500 text-2xl mb-2 block"></i> 3. You earn progress → Free Membership</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- DESKTOP FOOTER -->
+  <footer class="hidden md:block bg-slate-900 text-slate-400 py-16 mt-20">
+    <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+      <div class="col-span-1 md:col-span-1">
+        <div class="flex items-center gap-2 text-white mb-6">
+          <div class="bg-indigo-600 p-2 rounded-xl text-white"><i class="fas fa-box"></i></div>
+          <span class="text-2xl font-black tracking-tighter">Merowish Int'l Logistic</span>
+        </div>
+        <p class="text-sm leading-relaxed mb-6">Importing your favorite products from India to Nepal has never been easier. We handle the shipping, customs, and delivery.</p>
+        <div class="flex gap-4">
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-indigo-600 transition-colors"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Global Stores</h4>
+        <ul class="space-y-4 text-sm">
+          <li><a href="#" class="hover:text-white transition-colors">Amazon.in</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Flipkart.com</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Myntra.com</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Zara.in</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Support</h4>
+        <ul class="space-y-4 text-sm">
+          <li><a href="#" class="hover:text-white transition-colors">Terms & Condition</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Return Policy</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">How it Works</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">FAQs</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Download App</h4>
+        <p class="text-sm mb-4">Get Special Discount on your first order on App.</p>
+        <div class="space-y-3">
+          <div class="bg-slate-800 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-700">
+            <i class="fab fa-apple text-2xl text-white"></i>
+            <div><p class="text-[10px]">Download on</p><p class="text-xs font-bold text-white">App Store</p></div>
+          </div>
+          <div class="bg-slate-800 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-slate-700">
+            <i class="fab fa-google-play text-2xl text-white"></i>
+            <div><p class="text-[10px]">Get it on</p><p class="text-xs font-bold text-white">Google Play</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-[1400px] mx-auto px-6 mt-16 pt-8 border-t border-slate-800 flex justify-between text-xs">
+      <p>&copy; 2026 Merowish Technologies. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BOTTOM NAVIGATION (MOBILE ONLY) -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-slate-100 px-6 py-3 z-50 flex justify-between items-center shadow-lg">
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-home"></i></div>
+      <span class="text-[9px] font-bold">Home</span>
+    </div>
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-calculator"></i></div>
+      <span class="text-[9px] font-bold">Calculator</span>
+    </div>
+    <div class="relative -top-8">
+      <button class="fab-button w-14 h-14 rounded-full flex items-center justify-center border-4 border-white text-white shadow-lg">
+        <i class="fas fa-plus text-lg"></i>
+      </button>
+    </div>
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-box"></i></div>
+      <span class="text-[9px] font-bold">Order</span>
+    </div>
+    <div class="nav-item flex flex-col items-center gap-1 text-slate-400" onclick="setActive(this)">
+      <div class="nav-icon-bg p-1.5 rounded-xl"><i class="fas fa-user"></i></div>
+      <span class="text-[9px] font-bold">Profile</span>
+    </div>
+  </nav>
+
+  <script>
+    // ---------- Referral Data (sample only; no manual actions) ----------
+    const currentUser = {
+      name: "Damodar",
+      code: "MEROWISH_DB",
+      referralLink: "https://merowish.com/?ref=MEROWISH_DB"
+    };
+
+    // Sample referrals (static, no simulate/confirm)
+    let referrals = [
+      { id: "ref1", name: "Sujan Shrestha", email: "sujan@example.com", date: "2025-03-18", status: "pending" },
+      { id: "ref2", name: "Rita Adhikari", email: "rita@example.com", date: "2025-03-20", status: "pending" },
+      { id: "ref3", name: "Bikram Thapa", email: "bikram@example.com", date: "2025-03-15", status: "successful" }
+    ];
+
+    // Helper functions
+    function updateStats() {
+      const total = referrals.length;
+      const successful = referrals.filter(r => r.status === "successful").length;
+      const pending = total - successful;
+      document.getElementById('totalReferrals').innerText = total;
+      document.getElementById('successfulReferrals').innerText = successful;
+      document.getElementById('pendingReferrals').innerText = pending;
+      document.getElementById('progressText').innerText = `${successful}/10`;
+      const percent = (successful / 10) * 100;
+      document.getElementById('progressFill').style.width = `${Math.min(percent, 100)}%`;
+      if (successful >= 10) {
+        document.getElementById('rewardCard').classList.remove('hidden');
+        document.getElementById('milestoneMessage').innerHTML = "🎉 You've reached the goal! Claim your FREE Silver Membership above.";
+      } else {
+        document.getElementById('rewardCard').classList.add('hidden');
+        document.getElementById('milestoneMessage').innerHTML = `${10 - successful} more successful referral(s) needed to unlock FREE membership.`;
+      }
+    }
+
+    function renderReferralsList() {
+      const container = document.getElementById('referralsList');
+      if (!container) return;
+      if (referrals.length === 0) {
+        container.innerHTML = '<div class="text-center py-8 text-slate-400"><i class="fas fa-users-slash text-2xl mb-2"></i><br>No referrals yet. Share your code!</div>';
+        return;
+      }
+      container.innerHTML = referrals.map(ref => `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-50 rounded-2xl gap-3">
+          <div class="flex-1">
+            <p class="font-bold text-slate-800">${escapeHtml(ref.name)}</p>
+            <p class="text-xs text-slate-400">${ref.email}</p>
+            <p class="text-xs text-slate-400">Referred: ${ref.date}</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-full text-xs font-bold ${ref.status === 'successful' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}">
+              ${ref.status === 'successful' ? '✓ Order Confirmed' : '⏳ Awaiting Order'}
+            </span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+
+    // Share functions
+    function copyToClipboard(text, successMsg) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert(successMsg);
+      }).catch(() => {
+        alert("Copy manually: " + text);
+      });
+    }
+
+    function init() {
+      updateStats();
+      renderReferralsList();
+
+      // Copy code & link
+      document.getElementById('copyCodeBtn').addEventListener('click', () => {
+        copyToClipboard(currentUser.code, "Referral code copied!");
+      });
+      document.getElementById('copyLinkBtn').addEventListener('click', () => {
+        copyToClipboard(currentUser.referralLink, "Referral link copied!");
+      });
+
+      // Social share links (using the same referral link)
+      const encodedLink = encodeURIComponent(currentUser.referralLink);
+      const shareText = encodeURIComponent("Join Merowish and get amazing deals! Use my referral code: " + currentUser.code);
+      
+      // Instagram – can't directly share via web, so we open the Instagram app (or just copy link)
+      document.getElementById('shareInstagram').addEventListener('click', (e) => {
+        e.preventDefault();
+        alert("Share your referral link on Instagram: " + currentUser.referralLink);
+      });
+      document.getElementById('shareTiktok').addEventListener('click', (e) => {
+        e.preventDefault();
+        alert("Share your referral link on TikTok: " + currentUser.referralLink);
+      });
+      document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodedLink}`;
+      document.getElementById('shareMessenger').href = `https://www.facebook.com/dialog/send?link=${encodedLink}&app_id=123456789&redirect_uri=${encodedLink}`;
+      document.getElementById('shareSnapchat').addEventListener('click', (e) => {
+        e.preventDefault();
+        alert("Snapchat share: Copy this link and share: " + currentUser.referralLink);
+      });
+      document.getElementById('shareEmail').href = `mailto:?subject=${shareText}&body=${encodedLink}`;
+
+      // Claim reward
+      document.getElementById('claimRewardBtn').addEventListener('click', () => {
+        alert("🎉 Congratulations! Your 3-month Silver Membership has been activated. Check your email for details.");
+        // In a real app, you'd call an API to grant membership.
+      });
+    }
+
+    function setActive(el) {
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        item.classList.add('text-slate-400');
+      });
+      el.classList.add('active');
+      el.classList.remove('text-slate-400');
+    }
+
+    init();
+  </script>
+</body>
+</html>
