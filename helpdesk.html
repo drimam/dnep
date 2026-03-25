@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MeroWish Support · Quick Answers & FAQ</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .header p {
+            color: #334155;
+            margin-top: 0.5rem;
+        }
+
+        .search-wrapper {
+            max-width: 550px;
+            margin: 1.8rem auto 0 auto;
+            position: relative;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .search-wrapper input {
+            width: 100%;
+            padding: 0.9rem 1rem 0.9rem 2.8rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 60px;
+            font-size: 1rem;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .search-wrapper input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 8px 20px rgba(59,130,246,0.12);
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin: 2rem 0 1.2rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 5px solid #3b82f6;
+            padding-left: 1rem;
+        }
+
+        .section-title i {
+            color: #3b82f6;
+            font-size: 1.4rem;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1.25rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            border: 1px solid #eef2f6;
+            overflow: hidden;
+        }
+
+        .quick-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.1rem 1.3rem;
+            background: #ffffff;
+            border-bottom: 1px solid #f0f2f5;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .card-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0c4e6e;
+            letter-spacing: -0.2px;
+        }
+
+        .toggle-icon {
+            color: #5b6e8c;
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .answer-area {
+            padding: 0 1.3rem 1.3rem 1.3rem;
+            display: none;
+            border-top: 1px solid #f1f5f9;
+            background: #fefefe;
+        }
+
+        .answer-area.show {
+            display: block;
+        }
+
+        .answer-text {
+            font-size: 0.9rem;
+            line-height: 1.55;
+            color: #1e293b;
+            white-space: pre-wrap;
+            word-break: break-word;
+            background: #f9fafc;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 0.75rem 0 1rem 0;
+            border: 1px solid #ecf3fa;
+        }
+
+        .answer-text a {
+            color: #2563eb;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .answer-text a:hover {
+            text-decoration: underline;
+        }
+
+        .copy-btn {
+            background: #eff3f8;
+            border: none;
+            padding: 0.45rem 0.9rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1e3a5f;
+        }
+
+        .copy-btn i {
+            font-size: 0.8rem;
+        }
+
+        .copy-btn:hover {
+            background: #e2e8f0;
+            transform: scale(0.97);
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .faq-card {
+            background: white;
+            border-radius: 1.2rem;
+            border: 1px solid #eef2f6;
+            transition: 0.1s;
+        }
+
+        .faq-question {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: white;
+            border-radius: 1.2rem;
+        }
+
+        .faq-question span {
+            color: #0f172a;
+        }
+
+        .faq-answer {
+            padding: 0rem 1.5rem 1.2rem 1.5rem;
+            display: none;
+            border-top: 1px solid #f0f2f8;
+        }
+
+        .faq-answer.show {
+            display: block;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            background: #f1f5f9;
+            border-radius: 2rem;
+            color: #475569;
+            margin-top: 1rem;
+        }
+
+        .faq-section {
+            margin-bottom: 2rem;
+        }
+
+        .faq-section.hide-section {
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #6c86a3;
+            margin-top: 3rem;
+            border-top: 1px solid #e2edf2;
+            padding-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>✨ MeroWish Helpdesk</h1>
+        <p>Quick Replies, Instant Answers & Smart Search</p>
+        <div class="search-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchFAQ" placeholder="Search FAQ (questions, keywords...)">
+        </div>
+    </div>
+
+    <!-- Quick Replies Section (will be filtered dynamically) -->
+    <div id="quickSection">
+        <div class="section-title">
+            <i class="fas fa-bolt"></i> 
+            <span>⚡ Quick replies — ready to use</span>
+        </div>
+        <div id="quickGrid" class="quick-grid"></div>
+    </div>
+
+    <!-- FAQ sections: General & On Call Only -->
+    <div id="generalFaqSection" class="faq-section">
+        <div class="section-title">
+            <i class="fas fa-circle-question"></i> 
+            <span>📘 General FAQ</span>
+        </div>
+        <div id="generalFaqContainer" class="faq-list"></div>
+    </div>
+
+    <div id="onCallFaqSection" class="faq-section">
+        <div class="section-title">
+            <i class="fas fa-phone-alt"></i> 
+            <span>📞 On Call Only Support</span>
+        </div>
+        <div id="onCallFaqContainer" class="faq-list"></div>
+    </div>
+
+    <div id="globalNoResult" class="no-results" style="display: none;">🔍 No matching results found. Try different keywords.</div>
+</div>
+<div id="toastMsg" class="toast-msg">📋 Copied to clipboard!</div>
+
+<script>
+    // ----------------------------- QUICK CONTAINERS (8 items) ---------------------------------
+    const quickQuestions = [
+        {
+            title: "Quote Sent",
+            answer: `Dear customer,
+📝Quotation has been sent.
+
+Please login to your account at MeroWish to check and proceed with payment 💳.
+
+📦 So we could proceed with order confirmation. 
+
+Regards
+MeroWish Int'l Logistic
+You Wish it, We Deliver It! ✨🎊🛒🎁🛍`
+        },
+        {
+            title: "Please Share Link",
+            answer: `Dear customer,
+Please do share product link of your product which you wish to get delivered in Nepal. So we could check and share the total cost amount here on chat.
+
+Waiting for your response 😇🙏🏻
+
+Regards
+MeroWish Int'l Logistic
+You Wish it, We Deliver It! ✨🎊🛒🎁🛍`
+        },
+        {
+            title: "Jyoti Bikash Bank",
+            answer: `Dear customer,
+
+You can pay 50% as advance payment for order confirmation.
+
+💵 Rest of the 50% will be collected as cash on delivery.
+
+Bank Name :
+JYOTI BIKASH BANK LTD.
+
+A/c Name :
+MEROWISH DOT COM
+
+A/c Number :
+01200100800590000001
+
+Note : Please share payment screenshot along with your delivery address 🚚📦
+
+Thank You 😇
+MeroWish Int'l Logistic
+You Wish it, We Deliver It! ✨🎊🛒🎁🛍`
+        },
+        {
+            title: "Arrival Date",
+            answer: `Dear customer,
+
+Your Order ID 61413 was confirmed on 9th January 2026
+
+📌 Please Note : It takes 10 to 12 working days depending on seller, from the date of Booking except public holidays.
+
+📦 You can contact us on 9th day from the Booking Date to know the actual status of the shipment.
+
+🌐 Tracking Information will be updated once it arrives at our warehouse from the seller.
+
+Regards
+MeroWish Int'l Logistic
+You Wish it, We Deliver It! ✨🎊🛒🎁🛍`
+        },
+        {
+            title: "Delivery Time",
+            answer: `Dear customer,
+
+📦 It takes 10 to 12 working days depending on seller, from the date of Booking except public holidays.
+
+🌐 Tracking Information will be updated once it arrives at our warehouse from the seller.
+
+Regards
+MeroWish Int'l Logistic
+You Wish it, We Deliver It! ✨🎊🛒🎁🛍`
+        },
+        {
+            title: "Track My Order",
+            answer: `Dear customer,
+
+📦 Please share your order number so we could check the details for your order.
+
+Note : It takes 10 to 12 working days depending on seller, from the date of Booking except public holidays.
+
+🌐 Tracking Information will be updated once it arrives at our warehouse from the seller.
+
+Regards
+MeroWish Int'l Logistic
+You Wish it, We Deliver It! ✨🎊🛒🎁🛍`
+        },
+        {
+            title: "Return Policy",
+            answer: `Dear customer,
+Please refer to return policy page for all information regarding after purchase.
+
+https://merowish.com/returns-and-refund-policy
+
+Regards
+MeroWish Int'l Logistic
+You Wish it, We Deliver It! ✨🎊🛒🎁🛍`
+        },
+        {
+            title: "Third Party / 3rd Party",
+            answer: `Dear customer,
+
+We don’t operate third-party websites. Most Indian third-party sites take advance payments but fail to deliver/refund.  
+
+🔍 Safer Option: Please Prefer To Use
+Amazon.in,
+Flipkart.com,
+Myntra.com,
+Ajio.com,
+Nykaa.com, etc.  
+
+⚠️ If you  still want to proceed with a untrusted third-party link, we’ll book your order but can’t guarantee delivery/refunds.  
+
+📑 Review our policy before confirming:  
+🔗https://merowish.com/returns-and-refund-policy 
+
+Thanks! 😊  
+MeroWish Int'l Logistic
+You Wish it, We Deliver It! ✨🎊🛒🎁🛍`
+        }
+    ];
+
+    // ----------------------------- FAQ DATA (split into two categories) ---------------------------------
+    const allFaqs = [
+        {
+            question: "Combined Shipping",
+            answer: `Dear customer,
+It depends on several factors. Combined shipping is possible in these 3 scenarios.
+
+✅ Same Seller & Location
+✅ Same Delivery Date
+✅ Single Product Weight Doesn't Exceed 0.5 kgs
+
+If these factors meets on your order then please let us know we will check and share combined shipping discount cost. 📦
+
+Regards 
+Merowish Int'l Logistic 
+You Wish It, We Deliver It 📦 🥳 🎉`,
+            category: "general"
+        },
+        {
+            question: "Office Location",
+            answer: `Dear customer,
+We're an Online Tech Based Registered Company in Nepal. Our office is located at Buddhanagar, Kathmandu. 
+
+We request you to drop your any queries via email at support@merowish.com
+
+Note : Visitors were not allowed, All Order and Delivery Process were available online at Website. Please follow the process to get your order delivered 📦😇🙏🏻
+
+Regards
+Merowish Int'l Logistic 
+Buddhanagar, Kathmandu 
+
+You Wish it, We Deliver It! ✨🎊🛒🎁🛍`,
+            category: "general"
+        },
+        {
+            question: "Platforms Hidden Charges",
+            answer: `Platforms Hidden Charges Per Order
+
+Important: Hidden Charges on Online Shopping Platforms 💸
+
+- Amazon: ₹10 COD 🛍️
+- Flipkart: ₹14 COD 🛍️
+- Myntra: ₹33 COD 🛍️
+- Ajio: ₹99 🛍️
+- Zara : ₹290 for Order Value Below INR 2990 🛍️ 
+
+This fees will be included in Item Price INR purchase cost 📦
+
+Thank you for your understanding! 😇🙏🏻`,
+            category: "general"
+        },
+        {
+            question: "How To Buy / Order Kasari Garne - On Call Only",
+            answer: `Namaste, Merowish.
+Sir / Ma'am. Hajurle hamro website Merowish.com ma gayera order create garna saknu hunexa. Or Hajur le hamro yehi number ko WhatsApp Chat support ma link share garera Quotation lina saknu hunexa. K kati kharcha lagxa vanera.`,
+            category: "oncall"
+        },
+        {
+            question: "Delivery Kati Din Ma Hunxa. - On Call Only",
+            answer: `Sir / Ma'am hamro delivery Time hajur le order confirm garnu vako din dekhi Generally 8-10 din ma Nepal aai pugxa. hamro logistic bta call aauxa hajur lae ani Home Delivery Garai dinxau hami`,
+            category: "oncall"
+        },
+        {
+            question: "Dherai Saman Magauda = On Call Only",
+            answer: `Sir / Ma'am, Hamro Merowish ko thor`,
+            category: "oncall"
+        }
+    ];
+
+    // Helper functions
+    function showToast(message = "📋 Copied to clipboard!") {
+        const toast = document.getElementById('toastMsg');
+        toast.textContent = message;
+        toast.style.opacity = '1';
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => {
+                if (toast.textContent !== "📋 Copied to clipboard!") {
+                    toast.textContent = "📋 Copied to clipboard!";
+                }
+            }, 300);
+        }, 1800);
+    }
+
+    // Robust copy with fallback
+    function copyToClipboard(text, event) {
+        event?.stopPropagation();
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("✅ Copied!");
+            }).catch(() => {
+                fallbackCopyText(text);
+            });
+        } else {
+            fallbackCopyText(text);
+        }
+    }
+
+    function fallbackCopyText(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.top = '-1000px';
+        textarea.style.left = '-1000px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        textarea.setSelectionRange(0, text.length);
+        let success = false;
+        try {
+            success = document.execCommand('copy');
+        } catch (err) {
+            success = false;
+        }
+        document.body.removeChild(textarea);
+        if (success) {
+            showToast("📋 Copied!");
+        } else {
+            alert("Unable to copy automatically. Please select the text and press Ctrl+C / Cmd+C.");
+        }
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function formatAnswerWithLinks(text) {
+        let escaped = escapeHtml(text);
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        escaped = escaped.replace(urlRegex, function(url) {
+            return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+        });
+        escaped = escaped.replace(/\n/g, '<br>');
+        return escaped;
+    }
+
+    // Render quick containers with filtering and auto-expand
+    function renderQuickGrid(filteredItems, expandAll = false) {
+        const grid = document.getElementById('quickGrid');
+        grid.innerHTML = '';
+        if (filteredItems.length === 0) return;
+        
+        filteredItems.forEach((item) => {
+            const card = document.createElement('div');
+            card.className = 'card quick-card';
+            
+            const header = document.createElement('div');
+            header.className = 'card-header';
+            const titleSpan = document.createElement('h3');
+            titleSpan.innerHTML = `<i class="fas fa-reply-all" style="font-size:0.9rem; margin-right:8px; color:#3b82f6;"></i> ${escapeHtml(item.title)}`;
+            const toggleIcon = document.createElement('i');
+            toggleIcon.className = 'fas fa-chevron-down toggle-icon';
+            header.appendChild(titleSpan);
+            header.appendChild(toggleIcon);
+            
+            const answerDiv = document.createElement('div');
+            answerDiv.className = 'answer-area';
+            const answerTextDiv = document.createElement('div');
+            answerTextDiv.className = 'answer-text';
+            answerTextDiv.innerHTML = formatAnswerWithLinks(item.answer);
+            
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = '<i class="far fa-copy"></i> Copy answer';
+            copyBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                copyToClipboard(item.answer, e);
+            });
+            
+            answerDiv.appendChild(answerTextDiv);
+            answerDiv.appendChild(copyBtn);
+            card.appendChild(header);
+            card.appendChild(answerDiv);
+            
+            // Auto-expand if needed
+            let isOpen = expandAll;
+            if (isOpen) {
+                answerDiv.classList.add('show');
+                toggleIcon.classList.remove('fa-chevron-down');
+                toggleIcon.classList.add('fa-chevron-up');
+            }
+            
+            // Toggle on header click
+            header.addEventListener('click', () => {
+                const currentlyOpen = answerDiv.classList.contains('show');
+                if (currentlyOpen) {
+                    answerDiv.classList.remove('show');
+                    toggleIcon.classList.remove('fa-chevron-up');
+                    toggleIcon.classList.add('fa-chevron-down');
+                } else {
+                    answerDiv.classList.add('show');
+                    toggleIcon.classList.remove('fa-chevron-down');
+                    toggleIcon.classList.add('fa-chevron-up');
+                }
+                isOpen = !currentlyOpen;
+            });
+            grid.appendChild(card);
+        });
+    }
+
+    // Render FAQ list
+    function renderFaqList(containerId, faqArray, expandAll = false) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        if (!faqArray.length) return;
+        
+        faqArray.forEach((faq) => {
+            const faqCard = document.createElement('div');
+            faqCard.className = 'faq-card';
+            
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'faq-question';
+            const questionText = document.createElement('span');
+            questionText.innerHTML = `<i class="fas fa-question-circle" style="color:#2563eb; margin-right:12px;"></i> ${escapeHtml(faq.question)}`;
+            const faqToggleIcon = document.createElement('i');
+            faqToggleIcon.className = 'fas fa-chevron-down toggle-icon';
+            questionDiv.appendChild(questionText);
+            questionDiv.appendChild(faqToggleIcon);
+            
+            const answerWrapper = document.createElement('div');
+            answerWrapper.className = 'faq-answer';
+            const answerTextDiv = document.createElement('div');
+            answerTextDiv.className = 'answer-text';
+            answerTextDiv.innerHTML = formatAnswerWithLinks(faq.answer);
+            const copyFaqBtn = document.createElement('button');
+            copyFaqBtn.className = 'copy-btn';
+            copyFaqBtn.innerHTML = '<i class="far fa-copy"></i> Copy answer';
+            copyFaqBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                copyToClipboard(faq.answer, e);
+            });
+            answerWrapper.appendChild(answerTextDiv);
+            answerWrapper.appendChild(copyFaqBtn);
+            
+            faqCard.appendChild(questionDiv);
+            faqCard.appendChild(answerWrapper);
+            
+            let isOpen = expandAll;
+            if (isOpen) {
+                answerWrapper.classList.add('show');
+                faqToggleIcon.classList.remove('fa-chevron-down');
+                faqToggleIcon.classList.add('fa-chevron-up');
+            }
+            
+            questionDiv.addEventListener('click', () => {
+                if (!isOpen) {
+                    answerWrapper.classList.add('show');
+                    faqToggleIcon.classList.remove('fa-chevron-down');
+                    faqToggleIcon.classList.add('fa-chevron-up');
+                } else {
+                    answerWrapper.classList.remove('show');
+                    faqToggleIcon.classList.remove('fa-chevron-up');
+                    faqToggleIcon.classList.add('fa-chevron-down');
+                }
+                isOpen = !isOpen;
+            });
+            container.appendChild(faqCard);
+        });
+    }
+
+    // Main search handler: filters all sections
+    function handleSearch(keyword) {
+        const lowerKw = keyword.trim().toLowerCase();
+        const isSearchActive = lowerKw !== '';
+        
+        // Filter quick replies
+        let filteredQuick = quickQuestions;
+        if (isSearchActive) {
+            filteredQuick = quickQuestions.filter(item => 
+                item.title.toLowerCase().includes(lowerKw) || 
+                item.answer.toLowerCase().includes(lowerKw)
+            );
+        }
+        
+        // Filter FAQs
+        let generalMatches = [];
+        let onCallMatches = [];
+        if (isSearchActive) {
+            generalMatches = allFaqs.filter(f => 
+                f.category === 'general' && 
+                (f.question.toLowerCase().includes(lowerKw) || f.answer.toLowerCase().includes(lowerKw))
+            );
+            onCallMatches = allFaqs.filter(f => 
+                f.category === 'oncall' && 
+                (f.question.toLowerCase().includes(lowerKw) || f.answer.toLowerCase().includes(lowerKw))
+            );
+        } else {
+            generalMatches = allFaqs.filter(f => f.category === 'general');
+            onCallMatches = allFaqs.filter(f => f.category === 'oncall');
+        }
+        
+        // Render sections with expandAll = true when search active
+        renderQuickGrid(filteredQuick, isSearchActive);
+        renderFaqList('generalFaqContainer', generalMatches, isSearchActive);
+        renderFaqList('onCallFaqContainer', onCallMatches, isSearchActive);
+        
+        // Show/hide FAQ section containers based on content
+        const generalSection = document.getElementById('generalFaqSection');
+        const onCallSection = document.getElementById('onCallFaqSection');
+        const globalNoResult = document.getElementById('globalNoResult');
+        
+        const hasGeneral = generalMatches.length > 0;
+        const hasOnCall = onCallMatches.length > 0;
+        const hasQuick = filteredQuick.length > 0;
+        
+        if (!hasGeneral) generalSection.classList.add('hide-section');
+        else generalSection.classList.remove('hide-section');
+        
+        if (!hasOnCall) onCallSection.classList.add('hide-section');
+        else onCallSection.classList.remove('hide-section');
+        
+        // Show global no-result if no content at all and search is active
+        if (isSearchActive && !hasQuick && !hasGeneral && !hasOnCall) {
+            globalNoResult.style.display = 'block';
+        } else {
+            globalNoResult.style.display = 'none';
+        }
+    }
+
+    // Initialize search input listener
+    function initSearch() {
+        const searchInput = document.getElementById('searchFAQ');
+        searchInput.addEventListener('input', (e) => {
+            handleSearch(e.target.value);
+        });
+    }
+
+    // Initial render (show all, collapsed)
+    window.addEventListener('DOMContentLoaded', () => {
+        handleSearch(''); // shows all quick and FAQs, collapsed
+        initSearch();
+    });
+</script>
+</body>
+</html>
