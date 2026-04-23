@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeroAi Chatbot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sys-purple': '#9333ea',
+                        'sys-pink': '#db2777',
+                        'sys-blue': '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Modern 3-line menu animation */
+        .menu-icon {
+            width: 28px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .menu-icon span {
+            display: block;
+            position: absolute;
+            height: 2.5px;
+            width: 100%;
+            background: white;
+            border-radius: 9px;
+            transition: 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        .menu-icon span:nth-child(1) { top: 0px; }
+        .menu-icon span:nth-child(2) { top: 8px; }
+        .menu-icon span:nth-child(3) { top: 16px; }
+        .menu-icon.open span:nth-child(1) { top: 8px; transform: rotate(135deg); }
+        .menu-icon.open span:nth-child(2) { opacity: 0; left: -20px; }
+        .menu-icon.open span:nth-child(3) { top: 8px; transform: rotate(-135deg); }
+
+        /* Slide-up Container */
+        #contact-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+            max-height: 85%;
+            overflow-y: auto;
+        }
+        #contact-container.show { transform: translateY(0); }
+
+        /* Backdrop */
+        #backdrop {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(15, 23, 42, 0.3);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 999;
+        }
+        #backdrop.show { opacity: 1; pointer-events: auto; }
+
+        /* Light Modern Card Animations */
+        .modern-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease-in-out;
+        }
+        .modern-card:hover, .modern-card:active {
+            transform: scale(0.98);
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border-color: rgba(147, 51, 234, 0.2);
+        }
+
+        /* Soft Glow Effect */
+        .ambient-glow {
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(40px);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 text-slate-800 font-sans relative selection:bg-purple-100 selection:text-purple-900">
+
+    <div class="ambient-glow"></div>
+
+    <div class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-purple-600 to-pink-500 text-white p-4 flex justify-between items-center shadow-lg">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md">
+                <i class="fas fa-robot text-white text-sm"></i>
+            </div>
+            <h2 class="text-lg font-bold tracking-wide">MeroAi <span class="text-[10px] font-bold bg-white/20 px-1.5 py-0.5 rounded uppercase ml-1">Beta</span></h2>
+        </div>
+        <div class="menu-icon" id="menuIcon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <div id="backdrop"></div>
+    <div id="contact-container" class="bg-white w-full rounded-t-[2.5rem] shadow-[0_-15px_40px_rgba(0,0,0,0.1)] border-t border-slate-100 pb-8 pt-2">
+        <div class="w-16 h-1.5 bg-slate-200 rounded-full mx-auto my-3"></div>
+        <p class="text-center text-slate-500 font-medium text-sm mb-4 px-6">Select a channel to connect</p>
+        
+        <div class="px-4 space-y-2">
+            <a href="https://m.me/209855716168742" class="flex items-center px-5 py-4 bg-slate-50 hover:bg-blue-50 rounded-2xl transition-colors group" target="_blank">
+                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4 group-hover:bg-blue-500 group-hover:text-white transition-all">
+                    <i class="fab fa-facebook-messenger text-blue-600 group-hover:text-white text-lg"></i>
+                </div>
+                <span class="text-slate-700 font-semibold text-base">Messenger</span>
+            </a>
+            <a href="https://instagram.com/merowish" class="flex items-center px-5 py-4 bg-slate-50 hover:bg-pink-50 rounded-2xl transition-colors group" target="_blank">
+                <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mr-4 group-hover:bg-pink-500 group-hover:text-white transition-all">
+                    <i class="fab fa-instagram text-pink-500 group-hover:text-white text-lg"></i>
+                </div>
+                <span class="text-slate-700 font-semibold text-base">Instagram</span>
+            </a>
+            <a href="https://wa.me/9779845925880" class="flex items-center px-5 py-4 bg-slate-50 hover:bg-green-50 rounded-2xl transition-colors group" target="_blank">
+                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-4 group-hover:bg-green-500 group-hover:text-white transition-all">
+                    <i class="fab fa-whatsapp text-green-600 group-hover:text-white text-lg"></i>
+                </div>
+                <span class="text-slate-700 font-semibold text-base">WhatsApp</span>
+            </a>
+        </div>
+        <div class="px-6 mt-6">
+            <button onclick="toggleContactContainer()" class="w-full bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold hover:bg-slate-200 transition-colors">Close</button>
+        </div>
+    </div>
+
+    <main class="pt-28 pb-12 px-5 max-w-md mx-auto relative z-10">
+        <div class="text-left mb-8 px-2">
+            <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight mb-2 leading-tight">How can we<br>help you today?</h1>
+            <p class="text-slate-500 text-sm font-medium">Choose an option below to get started.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            
+            <div onclick="openZapierChat()" class="modern-card col-span-2 rounded-[1.8rem] p-6 cursor-pointer flex items-center relative overflow-hidden group">
+                <div class="absolute right-0 top-0 w-32 h-32 bg-green-500/5 rounded-full blur-2xl group-hover:bg-green-500/10 transition-all"></div>
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-200 mr-5 shrink-0">
+                    <i class="fas fa-comments text-white text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg text-slate-800 mb-0.5">Chat with MeroAi</h3>
+                    <p class="text-[11px] text-green-600 font-bold uppercase tracking-widest flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Online Now
+                    </p>
+                </div>
+                <i class="fas fa-chevron-right absolute right-6 text-slate-300 group-hover:text-green-500 transition-colors text-sm"></i>
+            </div>
+
+            <a href="tel:9779845925880" class="modern-card rounded-[1.8rem] p-5 flex flex-col justify-between aspect-square">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg shadow-pink-100">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 text-base">Call Support</h3>
+                    <p class="text-[11px] text-slate-400 mt-1 font-medium">Sun–Fri, 10–6 PM</p>
+                </div>
+            </a>
+
+            <div onclick="toggleContactContainer()" class="modern-card rounded-[1.8rem] p-5 flex flex-col justify-between aspect-square cursor-pointer">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-blue-100">
+                    <i class="fas fa-hashtag"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 text-base">Social Media</h3>
+                    <p class="text-[11px] text-slate-400 mt-1 font-medium">Connect instantly</p>
+                </div>
+            </div>
+
+            <a href="mailto:info@merowish.com?subject=Merowish%20Support" class="modern-card col-span-2 rounded-[1.8rem] p-5 flex items-center group">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-orange-100 mr-5">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 text-sm">Email Us</h3>
+                    <p class="text-xs text-slate-500 font-medium group-hover:text-orange-600 transition-colors">info@merowish.com</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="mt-12 text-center">
+            <p class="text-slate-400 text-[10px] uppercase tracking-[0.25em] font-bold">Merowish Intl. Logistics</p>
+        </div>
+    </main>
+
+    <script async type="module" src="https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js"></script>
+    <zapier-interfaces-chatbot-embed is-popup="true" chatbot-id="cmobp3lw4005tkc136fel23m1"></zapier-interfaces-chatbot-embed>
+
+    <script>
+        const menuIcon = document.getElementById('menuIcon');
+        const backdrop = document.getElementById('backdrop');
+        const contactContainer = document.getElementById('contact-container');
+
+        function toggleContactContainer() {
+            contactContainer.classList.toggle('show');
+            backdrop.classList.toggle('show');
+            menuIcon.classList.toggle('open');
+        }
+
+        function openZapierChat() {
+            const chatbot = document.querySelector('zapier-interfaces-chatbot-embed');
+            if (chatbot && chatbot.shadowRoot) {
+                const button = chatbot.shadowRoot.querySelector('button');
+                if (button) {
+                    button.click();
+                    return;
+                }
+            }
+            console.log('Zapier chatbot is loading...');
+        }
+
+        menuIcon.addEventListener('click', toggleContactContainer);
+        backdrop.addEventListener('click', toggleContactContainer);
+    </script>
+</body>
+</html>
