@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daraz SKU Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 15px; max-width: 500px; margin: 0 auto; }
+    h1 { color: #ff6600; margin-bottom: 15px; }
+    #search { width: 100%; padding: 12px 15px; border-radius: 20px; border: 2px solid #ddd; font-size: 16px; margin-bottom: 15px; }
+    #count { color: #666; font-weight: bold; margin-bottom: 15px; font-size: 14px; }
+    .card { background: white; padding: 18px; margin-bottom: 12px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .card-top { display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px; }
+    .name { font-weight: bold; font-size: 16px; flex: 1; margin-right: 10px; word-break: break-word; cursor: pointer; }
+    .name:hover { color: #ff6600; }
+    .price { color: #ff6600; font-weight: bold; font-size: 18px; white-space: nowrap; }
+    .sku { color: #888; font-size: 11px; background: #eee; padding: 3px 10px; border-radius: 12px; display: inline-block; margin: 5px 0; }
+    .date { color: #aaa; font-size: 11px; margin: 8px 0; }
+    .actions { margin-top: 10px; display: flex; gap: 8px; }
+    .btn { padding: 10px 16px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; font-size: 13px; text-decoration: none; display: inline-block; color: white; }
+    .btn-link { background: #3498db; }
+    .btn-link:hover { background: #2980b9; }
+    .btn-share { background: #25D366; }
+    .btn-share:hover { background: #1da851; }
+    .btn-disabled { background: #ccc; cursor: not-allowed; color: #888; }
+    .loading { text-align: center; padding: 40px; color: #999; }
+    .refresh-btn { position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px; background: #ff6600; color: white; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 22px; border: none; cursor: pointer; box-shadow: 0 8px 20px rgba(255,102,0,0.3); }
+    .refresh-btn:hover { background: #e55d00; }
+  </style>
+</head>
+<body>
+  <h1>📦 Daraz SKU Dashboard</h1>
+  <input id="search" type="text" placeholder="🔍 Search products, SKU, or link..." oninput="filterProducts()">
+  <div id="count">📋 Loading...</div>
+  <div id="list"><div class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Loading products...</div></div>
+
+  <button class="refresh-btn" onclick="loadData()" title="Refresh">🔄</button>
+
+  <script>
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSC-f6nqGXinher3ehSynlWxVDC9IwM_9hgGkktg6RiyTSjoYKUKb0GWIp4x22NhXaEbL8hfksgKMOw/pub?gid=0&single=true&output=csv';
+    let products = [];
+
+    function parseCSV(text) {
+      const rows = [];
+      let currentRow = [];
+      let currentField = '';
+      let inQuotes = false;
+      
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        
+        if (inQuotes) {
+          if (char === '"') {
+            if (text[i + 1] === '"') {
+              currentField += '"';
+              i++;
+            } else {
+              inQuotes = false;
+            }
+          } else {
+            currentField += char;
+          }
+        } else {
+          if (char === '"') {
+            inQuotes = true;
+          } else if (char === ',') {
+            currentRow.push(currentField);
+            currentField = '';
+          } else if (char === '\n') {
+            currentRow.push(currentField);
+            rows.push(currentRow);
+            currentRow = [];
+            currentField = '';
+          } else if (char !== '\r') {
+            currentField += char;
+          }
+        }
+      }
+      
+      if (currentField || currentRow.length > 0) {
+        currentRow.push(currentField);
+        rows.push(currentRow);
+      }
+      
+      return rows;
+    }
+
+    async function loadData() {
+      document.getElementById('list').innerHTML = '<div class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Loading products...</div>';
+      
+      try {
+        const response = await fetch(CSV_URL);
+        const csvText = await response.text();
+        
+        // Parse CSV properly (handles commas in URLs)
+        const rows = parseCSV(csvText);
+        
+        products = [];
+        
+        // Skip header row (index 0)
+        for (let i = 1; i < rows.length; i++) {
+          const cols = rows[i];
+          
+          // Check if row has enough columns and at least name or SKU
+          if (cols.length >= 4) {
+            const name = (cols[1] || '').replace(/^"|"$/g, '');
+            const sku = (cols[3] || '').replace(/^"|"$/g, '');
+            
+            if (name || sku) {
+              products.push({
+                time: (cols[0] || '').replace(/^"|"$/g, ''),
+                name: name,
+                url: (cols[2] || '').replace(/^"|"$/g, ''),
+                sku: sku,
+                price: (cols[4] || '').replace(/^"|"$/g, '')
+              });
+            }
+          }
+        }
+        
+        document.getElementById('count').textContent = '📋 ' + products.length + ' products';
+        renderProducts(products);
+      } catch(e) {
+        console.error('Error:', e);
+        document.getElementById('list').innerHTML = '<div class="loading" style="color:red;">❌ Error loading data. Please try again.</div>';
+      }
+    }
+
+    function renderProducts(list) {
+      const div = document.getElementById('list');
+      div.innerHTML = '';
+      
+      if (list.length === 0) {
+        div.innerHTML = '<div class="loading">No products found</div>';
+        return;
+      }
+      
+      list.forEach(p => {
+        // Format date
+        let displayDate = 'N/A';
+        try {
+          const d = new Date(p.time);
+          if (!isNaN(d)) {
+            displayDate = d.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+          } else {
+            displayDate = p.time;
+          }
+        } catch(e) {
+          displayDate = p.time;
+        }
+        
+        const card = document.createElement('div');
+        card.className = 'card';
+        
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="name" onclick="window.open('${escapeHTML(p.url)}', '_blank')" title="Click to open link">${escapeHTML(p.name)}</div>
+            <div class="price">${escapeHTML(p.price)}</div>
+          </div>
+          <div class="sku"><i class="fa-solid fa-barcode"></i> SKU: ${escapeHTML(p.sku)}</div>
+          <div class="date">📅 ${escapeHTML(displayDate)}</div>
+          <div class="actions">
+            ${p.url ? 
+              `<a href="${escapeHTML(p.url)}" target="_blank" class="btn btn-link"><i class="fa-solid fa-link"></i> Open Link</a>` : 
+              `<button class="btn btn-disabled" disabled><i class="fa-solid fa-link-slash"></i> No Link</button>`
+            }
+            <button class="btn btn-share" onclick="shareWhatsApp('${escapeJS(p.name)}', '${escapeJS(p.sku)}', '${escapeJS(p.price)}', '${escapeJS(p.url)}')">
+              <i class="fa-brands fa-whatsapp"></i> Share
+            </button>
+          </div>
+        `;
+        
+        div.appendChild(card);
+      });
+    }
+
+    function filterProducts() {
+      const q = document.getElementById('search').value.toLowerCase();
+      const filtered = products.filter(p => 
+        p.name.toLowerCase().includes(q) || 
+        p.sku.toLowerCase().includes(q) ||
+        p.url.toLowerCase().includes(q)
+      );
+      renderProducts(filtered);
+    }
+
+    function shareWhatsApp(name, sku, price, url) {
+      const message = `🛍️ *${name}*\n📦 SKU: ${sku}\n💰 ${price}${url ? `\n🔗 ${url}` : ''}`;
+      window.open('https://wa.me/?text=' + encodeURIComponent(message), '_blank');
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function escapeJS(str) {
+      if (!str) return '';
+      return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+    }
+
+    window.onload = loadData;
+  </script>
+</body>
+</html>
