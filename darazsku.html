@@ -18,12 +18,14 @@
     .price { color: #ff6600; font-weight: bold; font-size: 18px; white-space: nowrap; }
     .sku { color: #888; font-size: 11px; background: #eee; padding: 3px 10px; border-radius: 12px; display: inline-block; margin: 5px 0; }
     .date { color: #aaa; font-size: 11px; margin: 8px 0; }
-    .actions { margin-top: 10px; display: flex; gap: 8px; }
-    .btn { padding: 10px 16px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; font-size: 13px; text-decoration: none; display: inline-block; color: white; }
+    .actions { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn { padding: 10px 16px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; font-size: 13px; text-decoration: none; display: inline-block; color: white; white-space: nowrap; }
     .btn-link { background: #3498db; }
     .btn-link:hover { background: #2980b9; }
     .btn-share { background: #25D366; }
     .btn-share:hover { background: #1da851; }
+    .btn-buyhatke { background: #7b2cbf; }
+    .btn-buyhatke:hover { background: #5a189a; }
     .btn-disabled { background: #ccc; cursor: not-allowed; color: #888; }
     .loading { text-align: center; padding: 40px; color: #999; }
     .refresh-btn { position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px; background: #ff6600; color: white; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 22px; border: none; cursor: pointer; box-shadow: 0 8px 20px rgba(255,102,0,0.3); }
@@ -94,16 +96,13 @@
         const response = await fetch(CSV_URL);
         const csvText = await response.text();
         
-        // Parse CSV properly (handles commas in URLs)
         const rows = parseCSV(csvText);
         
         products = [];
         
-        // Skip header row (index 0)
         for (let i = 1; i < rows.length; i++) {
           const cols = rows[i];
           
-          // Check if row has enough columns and at least name or SKU
           if (cols.length >= 4) {
             const name = (cols[1] || '').replace(/^"|"$/g, '');
             const sku = (cols[3] || '').replace(/^"|"$/g, '');
@@ -138,7 +137,6 @@
       }
       
       list.forEach(p => {
-        // Format date
         let displayDate = 'N/A';
         try {
           const d = new Date(p.time);
@@ -169,6 +167,10 @@
             <button class="btn btn-share" onclick="shareWhatsApp('${escapeJS(p.name)}', '${escapeJS(p.sku)}', '${escapeJS(p.price)}', '${escapeJS(p.url)}')">
               <i class="fa-brands fa-whatsapp"></i> Share
             </button>
+            ${p.url ? 
+              `<a href="https://buyhatke.com/${escapeHTML(p.url)}" target="_blank" class="btn btn-buyhatke"><i class="fa-solid fa-chart-line"></i> BuyHatke</a>` : 
+              `<button class="btn btn-disabled" disabled><i class="fa-solid fa-chart-line"></i> BuyHatke</button>`
+            }
           </div>
         `;
         
